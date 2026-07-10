@@ -1,0 +1,76 @@
+import PageShell from '../components/PageShell'
+import Reveal from '../components/Reveal'
+import ResourceLiveChat from '../components/ResourceLiveChat'
+import NotFound from './NotFound'
+import { getBlogPostBySlug } from '../constants/blogPosts'
+
+const THEME_CLASS = {
+  zoho: 'resource-detail-zoho',
+  mobile: 'resource-detail-mobile',
+  ai: 'resource-detail-ai',
+  web: 'resource-detail-web',
+  company: 'resource-detail-company',
+}
+
+export default function BlogPost() {
+  const slug = window.location.pathname.replace(/\/$/, '').split('/').pop()
+  const post = getBlogPostBySlug(slug)
+
+  if (!post) {
+    return <NotFound />
+  }
+
+  return (
+    <PageShell
+      heroVariant="blog"
+      badge={post.categoryLabel}
+      title={post.title}
+      description={post.excerpt}
+    >
+      <section className={`page-section relative overflow-hidden section-light-theme section-edge-glow resource-article ${THEME_CLASS[post.theme]}`}>
+        <div className="section-light-mesh" aria-hidden="true" />
+        <div className="relative max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+          <Reveal>
+            <div className="resource-meta resource-meta-lg">
+              <span>{post.publishedAt}</span>
+              <span aria-hidden="true">·</span>
+              <span>{post.readTime}</span>
+            </div>
+            <p className="resource-article-intro">{post.intro}</p>
+          </Reveal>
+
+          <Reveal delay={80}>
+            <article className="resource-article-body">
+              {post.sections.map((section) => (
+                <section key={section.heading}>
+                  <h2>{section.heading}</h2>
+                  <p>{section.body}</p>
+                </section>
+              ))}
+
+              {post.takeaways?.length > 0 && (
+                <aside className="resource-takeaways">
+                  <p className="resource-takeaways-label">Key Takeaways</p>
+                  <ul>
+                    {post.takeaways.map((item) => (
+                      <li key={item}>{item}</li>
+                    ))}
+                  </ul>
+                </aside>
+              )}
+            </article>
+          </Reveal>
+
+          <Reveal delay={120} className="mt-10">
+            <ResourceLiveChat variant="blog" />
+          </Reveal>
+
+          <Reveal delay={140} className="mt-8 flex flex-col sm:flex-row gap-3 justify-between items-center">
+            <a href="/blog" className="phase-link-btn phase-link-btn-outline">← All Articles</a>
+            <a href="/#contact" className="phase-link-btn">Get Free Consultation</a>
+          </Reveal>
+        </div>
+      </section>
+    </PageShell>
+  )
+}

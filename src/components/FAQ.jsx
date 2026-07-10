@@ -20,7 +20,7 @@ const faqs = [
   },
   {
     q: 'Do you build mobile apps?',
-    a: 'Yes. We build cross-platform Android and iOS apps using Flutter and React Native, with API integration, Firebase, push notifications, and performance optimization.',
+    a: 'Yes. We build cross-platform apps with Flutter and React Native, plus native Android with Kotlin and Java. All projects include API integration, Firebase, push notifications, and performance optimization.',
   },
   {
     q: 'Do you offer AI solutions?',
@@ -32,38 +32,48 @@ export default function FAQ() {
   const [open, setOpen] = useState(0)
 
   return (
-    <section id="faq" className="py-20 lg:py-28 bg-background">
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-        <Reveal className="text-center mb-12">
+    <section id="faq" className="page-section relative overflow-hidden section-light-theme section-edge-glow">
+      <div className="section-light-mesh" aria-hidden="true" />
+
+      <div className="relative max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+        <Reveal className="text-center section-header">
           <span className="section-label">FAQs</span>
-          <h2 className="mt-5 text-3xl sm:text-4xl font-bold text-text">Frequently Asked Questions</h2>
+          <h2 className="mt-5 text-3xl sm:text-4xl lg:text-[2.75rem] font-bold text-text tracking-tight font-display">
+            Frequently Asked Questions
+          </h2>
+          <p className="mt-5 text-text-muted text-lg leading-relaxed">
+            Everything you need to know about working with us.
+          </p>
         </Reveal>
 
-        <div className="space-y-4">
-          {faqs.map((faq, i) => (
-            <Reveal key={faq.q} delay={i * 60}>
-              <div className="border border-primary/10 rounded-2xl overflow-hidden bg-white">
-                <button
-                  type="button"
-                  onClick={() => setOpen(open === i ? -1 : i)}
-                  className="w-full flex items-center justify-between gap-4 px-6 py-5 text-left hover:bg-section/50 transition-colors"
-                >
-                  <span className="font-semibold text-text">{faq.q}</span>
-                  <svg
-                    className={`w-5 h-5 text-accent shrink-0 transition-transform ${open === i ? 'rotate-180' : ''}`}
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
+        <div className="space-y-3">
+          {faqs.map((faq, i) => {
+            const isOpen = open === i
+            return (
+              <Reveal key={faq.q} delay={i * 50}>
+                <article className={`faq-card ${isOpen ? 'faq-card-open' : ''}`}>
+                  <button
+                    type="button"
+                    onClick={() => setOpen(isOpen ? -1 : i)}
+                    className="faq-trigger"
+                    aria-expanded={isOpen}
                   >
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                  </svg>
-                </button>
-                <div className={`overflow-hidden transition-all duration-300 ${open === i ? 'max-h-48' : 'max-h-0'}`}>
-                  <p className="px-6 pb-5 text-text-muted text-sm leading-relaxed">{faq.a}</p>
-                </div>
-              </div>
-            </Reveal>
-          ))}
+                    <span className="faq-question">{faq.q}</span>
+                    <span className={`faq-chevron ${isOpen ? 'faq-chevron-open' : ''}`}>
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </span>
+                  </button>
+                  <div className={`faq-panel ${isOpen ? 'faq-panel-open' : ''}`}>
+                    <div className="faq-panel-inner">
+                      <p className="faq-answer">{faq.a}</p>
+                    </div>
+                  </div>
+                </article>
+              </Reveal>
+            )
+          })}
         </div>
       </div>
     </section>

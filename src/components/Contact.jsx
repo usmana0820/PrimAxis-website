@@ -1,5 +1,11 @@
 import { useState } from 'react'
 import Reveal from './Reveal'
+import {
+  OFFICE_ADDRESS,
+  OFFICE_ADDRESS_SHORT,
+  OFFICE_MAP_EMBED,
+  OFFICE_MAP_URL,
+} from '../constants/contact'
 
 const serviceOptions = [
   'Zoho ERP & CRM', 'Website Development', 'Mobile App Development',
@@ -7,6 +13,64 @@ const serviceOptions = [
 ]
 
 const budgetOptions = ['Under $1,000', '$1,000 – $5,000', '$5,000 – $10,000', '$10,000+', 'Not sure yet']
+
+const contactLinks = [
+  {
+    label: 'Phone',
+    value: '+92 371 7461694',
+    href: 'tel:+923717461694',
+    icon: (
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+    ),
+    gradient: 'from-[#355C7D] to-[#4F46E5]',
+  },
+  {
+    label: 'Email',
+    value: 'primeaxis.technologies19@gmail.com',
+    href: 'mailto:primeaxis.technologies19@gmail.com',
+    icon: (
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+    ),
+    gradient: 'from-[#4F46E5] to-[#06B6D4]',
+  },
+  {
+    label: 'WhatsApp',
+    value: '+92 371 7461694',
+    href: 'https://wa.me/923717461694',
+    icon: (
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+    ),
+    gradient: 'from-emerald-500 to-teal-600',
+  },
+  {
+    label: 'LinkedIn',
+    value: 'PrimeAxis Technologies',
+    href: 'https://linkedin.com',
+    icon: (
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2V9zm2-6a2 2 0 110 4 2 2 0 010-4z" />
+    ),
+    gradient: 'from-sky-500 to-[#355C7D]',
+  },
+  {
+    label: 'GitHub',
+    value: 'primeaxis-technologies',
+    href: 'https://github.com',
+    icon: (
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+    ),
+    gradient: 'from-slate-600 to-slate-800',
+  },
+  {
+    label: 'Office',
+    value: OFFICE_ADDRESS,
+    sub: 'Remote & on-site services available',
+    href: OFFICE_MAP_URL,
+    icon: (
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+    ),
+    gradient: 'from-[#06B6D4] to-[#4F46E5]',
+  },
+]
 
 export default function Contact() {
   const [form, setForm] = useState({
@@ -25,103 +89,107 @@ export default function Contact() {
   const update = (field) => (e) => setForm({ ...form, [field]: e.target.value })
 
   return (
-    <section id="contact" className="py-20 lg:py-28 bg-contact relative">
-      <div className="wave-divider absolute top-0 left-0 right-0" />
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
-        <Reveal className="text-center max-w-3xl mx-auto mb-16">
+    <section id="contact" className="page-section relative overflow-hidden section-light-theme section-edge-glow">
+      <div className="section-light-mesh" aria-hidden="true" />
+
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <Reveal className="text-center max-w-3xl mx-auto section-header">
           <span className="section-label">Contact Us</span>
-          <h2 className="mt-5 text-3xl sm:text-4xl lg:text-5xl font-bold text-text tracking-tight">
+          <h2 className="mt-5 text-3xl sm:text-4xl lg:text-[2.75rem] font-bold text-text tracking-tight font-display">
             Let&apos;s Build Something Great Together
           </h2>
-          <p className="mt-4 text-text-muted text-lg">
+          <p className="mt-5 text-text-muted text-lg leading-relaxed">
             We&apos;d love to hear about your project and discuss how our technology solutions can
             support your business goals.
           </p>
         </Reveal>
 
-        <div className="grid lg:grid-cols-5 gap-8 lg:gap-10">
-          <Reveal delay={100} variant="slide-right" className="lg:col-span-2">
-            <div className="h-full bg-gradient-to-br from-primary via-secondary to-accent rounded-3xl p-8 lg:p-10 text-white relative overflow-hidden">
-              <div className="absolute -right-10 -bottom-10 w-48 h-48 bg-warm/20 rounded-full blur-2xl animate-float" />
-              <h3 className="text-2xl font-bold mb-8 relative">Contact Information</h3>
-              <div className="space-y-7 relative">
-                <a href="tel:+923717461694" className="flex items-start gap-4 group">
-                  <div className="w-11 h-11 rounded-xl bg-white/15 flex items-center justify-center shrink-0 group-hover:bg-warm/30 transition-colors">
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+        <div className="grid lg:grid-cols-2 gap-10 lg:gap-14">
+          <Reveal delay={80} variant="slide-right">
+            <div className="space-y-4">
+              <h3 className="text-lg font-bold text-text font-display mb-6">Get in Touch</h3>
+              {contactLinks.map((item) => (
+                <a
+                  key={item.label}
+                  href={item.href}
+                  target={item.href.startsWith('http') ? '_blank' : undefined}
+                  rel={item.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                  className="contact-info-card group"
+                >
+                  <div className={`contact-info-icon bg-gradient-to-br ${item.gradient}`}>
+                    <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      {item.icon}
                     </svg>
                   </div>
-                  <div>
-                    <p className="text-sm text-white/60 font-medium">Phone</p>
-                    <p className="group-hover:text-warm transition-colors">+92 371 7461694</p>
+                  <div className="min-w-0">
+                    <p className="text-xs font-semibold uppercase tracking-wider text-text-muted">{item.label}</p>
+                    <p className="text-sm font-semibold text-text group-hover:text-[#355C7D] transition-colors truncate">
+                      {item.value}
+                    </p>
+                    {item.sub && <p className="text-xs text-text-muted mt-0.5">{item.sub}</p>}
                   </div>
                 </a>
-                <a href="mailto:primeaxis.technologies19@gmail.com" className="flex items-start gap-4 group">
-                  <div className="w-11 h-11 rounded-xl bg-white/15 flex items-center justify-center shrink-0 group-hover:bg-warm/30 transition-colors">
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                    </svg>
-                  </div>
-                  <div>
-                    <p className="text-sm text-white/60 font-medium">Email</p>
-                    <p className="group-hover:text-warm transition-colors break-all">primeaxis.technologies19@gmail.com</p>
-                  </div>
-                </a>
-                <div className="flex items-start gap-4">
-                  <div className="w-11 h-11 rounded-xl bg-white/15 flex items-center justify-center shrink-0">
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                  </div>
-                  <div>
-                    <p className="text-sm text-white/60 font-medium">Business Hours</p>
-                    <p>Monday – Friday</p>
-                    <p className="text-white/80">9:00 AM – 6:00 PM (PKT)</p>
-                  </div>
+              ))}
+
+              <div className="contact-map-preview mt-8">
+                <iframe
+                  title="Office location map"
+                  src={OFFICE_MAP_EMBED}
+                  className="contact-map-iframe"
+                  loading="lazy"
+                />
+                <div className="contact-map-overlay">
+                  <span className="contact-map-badge">{OFFICE_ADDRESS_SHORT}</span>
                 </div>
               </div>
             </div>
           </Reveal>
 
-          <Reveal delay={200} variant="slide-left" className="lg:col-span-3">
-            <form onSubmit={handleSubmit} className="gradient-border bg-white rounded-3xl p-8 lg:p-10 shadow-xl shadow-primary/5 space-y-5">
-              <div className="grid sm:grid-cols-2 gap-5">
+          <Reveal delay={160} variant="slide-left">
+            <form onSubmit={handleSubmit} className="contact-form-glass">
+              <h3 className="text-lg font-bold text-text font-display mb-6">Send a Message</h3>
+              <div className="grid sm:grid-cols-2 gap-4">
                 <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-text mb-2">Full Name *</label>
-                  <input id="name" type="text" required value={form.name} onChange={update('name')} className="w-full px-4 py-3 rounded-xl border border-primary/15 focus:border-accent focus:ring-2 focus:ring-accent/20 outline-none bg-section/50" placeholder="Your name" />
+                  <label htmlFor="name" className="contact-label">Full Name *</label>
+                  <input id="name" type="text" required value={form.name} onChange={update('name')} className="contact-glass-input" placeholder="Your name" />
                 </div>
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-text mb-2">Email *</label>
-                  <input id="email" type="email" required value={form.email} onChange={update('email')} className="w-full px-4 py-3 rounded-xl border border-primary/15 focus:border-accent focus:ring-2 focus:ring-accent/20 outline-none bg-section/50" placeholder="you@company.com" />
+                  <label htmlFor="email" className="contact-label">Email *</label>
+                  <input id="email" type="email" required value={form.email} onChange={update('email')} className="contact-glass-input" placeholder="you@company.com" />
                 </div>
                 <div>
-                  <label htmlFor="phone" className="block text-sm font-medium text-text mb-2">Phone</label>
-                  <input id="phone" type="tel" value={form.phone} onChange={update('phone')} className="w-full px-4 py-3 rounded-xl border border-primary/15 focus:border-accent focus:ring-2 focus:ring-accent/20 outline-none bg-section/50" placeholder="+92 300 0000000" />
+                  <label htmlFor="phone" className="contact-label">Phone</label>
+                  <input id="phone" type="tel" value={form.phone} onChange={update('phone')} className="contact-glass-input" placeholder="+92 300 0000000" />
                 </div>
                 <div>
-                  <label htmlFor="company" className="block text-sm font-medium text-text mb-2">Company</label>
-                  <input id="company" type="text" value={form.company} onChange={update('company')} className="w-full px-4 py-3 rounded-xl border border-primary/15 focus:border-accent focus:ring-2 focus:ring-accent/20 outline-none bg-section/50" placeholder="Your company" />
+                  <label htmlFor="company" className="contact-label">Company</label>
+                  <input id="company" type="text" value={form.company} onChange={update('company')} className="contact-glass-input" placeholder="Your company" />
                 </div>
                 <div>
-                  <label htmlFor="service" className="block text-sm font-medium text-text mb-2">Service</label>
-                  <select id="service" value={form.service} onChange={update('service')} className="w-full px-4 py-3 rounded-xl border border-primary/15 focus:border-accent focus:ring-2 focus:ring-accent/20 outline-none bg-section/50">
+                  <label htmlFor="service" className="contact-label">Service</label>
+                  <select id="service" value={form.service} onChange={update('service')} className="contact-glass-input">
                     <option value="">Select a service</option>
                     {serviceOptions.map((s) => <option key={s} value={s}>{s}</option>)}
                   </select>
                 </div>
                 <div>
-                  <label htmlFor="budget" className="block text-sm font-medium text-text mb-2">Budget</label>
-                  <select id="budget" value={form.budget} onChange={update('budget')} className="w-full px-4 py-3 rounded-xl border border-primary/15 focus:border-accent focus:ring-2 focus:ring-accent/20 outline-none bg-section/50">
+                  <label htmlFor="budget" className="contact-label">Budget</label>
+                  <select id="budget" value={form.budget} onChange={update('budget')} className="contact-glass-input">
                     <option value="">Select budget range</option>
                     {budgetOptions.map((b) => <option key={b} value={b}>{b}</option>)}
                   </select>
                 </div>
               </div>
-              <div>
-                <label htmlFor="message" className="block text-sm font-medium text-text mb-2">Message *</label>
-                <textarea id="message" required rows={4} value={form.message} onChange={update('message')} className="w-full px-4 py-3 rounded-xl border border-primary/15 focus:border-accent focus:ring-2 focus:ring-accent/20 outline-none bg-section/50 resize-none" placeholder="Tell us about your project..." />
+              <div className="mt-4">
+                <label htmlFor="message" className="contact-label">Message *</label>
+                <textarea id="message" required rows={4} value={form.message} onChange={update('message')} className="contact-glass-input resize-none" placeholder="Tell us about your project..." />
               </div>
-              <button type="submit" className="w-full btn-primary py-4 text-base">Submit Request</button>
+              <button type="submit" className="contact-submit-btn mt-6">
+                Submit Request
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                </svg>
+              </button>
             </form>
           </Reveal>
         </div>
