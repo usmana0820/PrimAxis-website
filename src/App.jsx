@@ -1,13 +1,12 @@
 import { useState, useEffect } from 'react'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
-import TrustedTech from './components/TrustedTech'
 import About from './components/About'
+import OurTeam from './components/OurTeam'
 import Services from './components/Services'
 import WhyChoose from './components/WhyChoose'
 import Industries from './components/Industries'
 import Process from './components/Process'
-import Technologies from './components/Technologies'
 import Portfolio from './components/Portfolio'
 import Stats from './components/Stats'
 import Testimonials from './components/Testimonials'
@@ -17,7 +16,6 @@ import Contact from './components/Contact'
 import Footer from './components/Footer'
 import LoadingScreen from './components/LoadingScreen'
 import SectionDivider from './components/SectionDivider'
-import TechStackStrip from './components/TechStackStrip'
 import WhatsAppChat from './components/WhatsAppChat'
 
 function App() {
@@ -41,9 +39,9 @@ function App() {
         <main>
           <Hero />
           <SectionDivider variant="navy-cyan" />
-          <TrustedTech />
-          <SectionDivider variant="cyan-indigo" index={1} />
           <About />
+          <SectionDivider variant="cyan-indigo" index={1} />
+          <OurTeam />
           <SectionDivider variant="indigo-teal" index={2} />
           <Services />
           <SectionDivider variant="teal-navy" index={3} />
@@ -53,8 +51,6 @@ function App() {
           <SectionDivider variant="warm-cool" index={5} />
           <Process />
           <SectionDivider variant="navy-cyan" index={6} />
-          <Technologies />
-          <SectionDivider variant="cyan-indigo" index={7} />
           <Portfolio />
           <SectionDivider variant="indigo-teal" index={8} />
           <Stats />
@@ -67,7 +63,6 @@ function App() {
           <SectionDivider variant="navy-cyan" index={12} />
           <Contact />
         </main>
-        {/* <TechStackStrip variant="dark" /> */}
         <Footer />
       </div>
       {!loading && <WhatsAppChat />}

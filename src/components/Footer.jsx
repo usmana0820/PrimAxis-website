@@ -5,6 +5,7 @@ import { getWhatsAppUrl } from '../constants/contact'
 const quickLinks = [
   { label: 'Home', href: '/#home' },
   { label: 'About Us', href: '/#about' },
+  { label: 'Our Team', href: '/team' },
   { label: 'Services', href: '/#services' },
   { label: 'Portfolio', href: '/#portfolio' },
   { label: 'Process', href: '/#process' },

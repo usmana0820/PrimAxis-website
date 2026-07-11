@@ -27,7 +27,8 @@ export default function BlogPost() {
       title={post.title}
       description={post.excerpt}
     >
-      <section className={`page-section relative overflow-hidden section-light-theme section-edge-glow resource-article ${THEME_CLASS[post.theme]}`}>
+      {/* White — intro */}
+      <section className={`page-section relative overflow-hidden section-light-theme resource-article ${THEME_CLASS[post.theme]}`}>
         <div className="section-light-mesh" aria-hidden="true" />
         <div className="relative max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <Reveal>
@@ -38,7 +39,13 @@ export default function BlogPost() {
             </div>
             <p className="resource-article-intro">{post.intro}</p>
           </Reveal>
+        </div>
+      </section>
 
+      {/* White — article content */}
+      <section className={`page-section relative overflow-hidden section-light-theme resource-article ${THEME_CLASS[post.theme]}`}>
+        <div className="section-light-mesh" aria-hidden="true" />
+        <div className="relative max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <Reveal delay={80}>
             <article className="resource-article-body">
               {post.sections.map((section) => (
@@ -60,14 +67,22 @@ export default function BlogPost() {
               )}
             </article>
           </Reveal>
+        </div>
+      </section>
 
-          <Reveal delay={120} className="mt-10">
+      {/* Blue — live chat & navigation */}
+      <section className="page-section relative overflow-hidden section-blue-theme">
+        <div className="section-blue-pattern" aria-hidden="true" />
+        <div className="section-blue-glow section-blue-glow-center" aria-hidden="true" />
+
+        <div className="relative max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+          <Reveal>
             <ResourceLiveChat variant="blog" />
           </Reveal>
 
-          <Reveal delay={140} className="mt-8 flex flex-col sm:flex-row gap-3 justify-between items-center">
-            <a href="/blog" className="phase-link-btn phase-link-btn-outline">← All Articles</a>
-            <a href="/#contact" className="phase-link-btn">Get Free Consultation</a>
+          <Reveal delay={80} className="mt-8 flex flex-col sm:flex-row gap-3 justify-between items-center">
+            <a href="/blog" className="phase-link-btn phase-link-btn-light-outline">← All Articles</a>
+            <a href="/#contact" className="phase-link-btn phase-link-btn-light">Get Free Consultation</a>
           </Reveal>
         </div>
       </section>

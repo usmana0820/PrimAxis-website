@@ -7,6 +7,7 @@ import Blog from './pages/Blog.jsx'
 import BlogPost from './pages/BlogPost.jsx'
 import CaseStudies from './pages/CaseStudies.jsx'
 import CaseStudyDetail from './pages/CaseStudyDetail.jsx'
+import Team from './pages/Team.jsx'
 
 const path = window.location.pathname.replace(/\/$/, '') || '/'
 
@@ -23,6 +24,7 @@ function resolvePage() {
     '/': App,
     '/blog': Blog,
     '/case-studies': CaseStudies,
+    '/team': Team,
   }
 
   return routes[path] ?? NotFound

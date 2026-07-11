@@ -19,7 +19,8 @@ export default function CaseStudyDetail() {
       title={study.title}
       description={study.summary}
     >
-      <section className="page-section relative overflow-hidden section-light-theme section-edge-glow resource-article resource-detail-case">
+      {/* White — meta & highlights */}
+      <section className="page-section relative overflow-hidden section-light-theme resource-article resource-detail-case">
         <div className="section-light-mesh" aria-hidden="true" />
         <div className="relative max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <Reveal>
@@ -42,7 +43,13 @@ export default function CaseStudyDetail() {
               ))}
             </div>
           </Reveal>
+        </div>
+      </section>
 
+      {/* White — article content */}
+      <section className="page-section relative overflow-hidden section-light-theme resource-article resource-detail-case">
+        <div className="section-light-mesh" aria-hidden="true" />
+        <div className="relative max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <Reveal delay={80}>
             <article className="resource-article-body resource-case-body">
               <section className="resource-block resource-block-challenge">
@@ -73,16 +80,24 @@ export default function CaseStudyDetail() {
               </aside>
             </article>
           </Reveal>
+        </div>
+      </section>
 
-          <Reveal delay={100} className="mt-10">
+      {/* Blue — live chat & navigation */}
+      <section className="page-section relative overflow-hidden section-blue-theme">
+        <div className="section-blue-pattern" aria-hidden="true" />
+        <div className="section-blue-glow section-blue-glow-center" aria-hidden="true" />
+
+        <div className="relative max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+          <Reveal>
             <ResourceLiveChat variant="case-study" />
           </Reveal>
 
-          <Reveal delay={120} className="mt-8 flex flex-col sm:flex-row gap-3 justify-between items-center">
-            <a href="/case-studies" className="phase-link-btn phase-link-btn-outline">← All Case Studies</a>
+          <Reveal delay={80} className="mt-8 flex flex-col sm:flex-row gap-3 justify-between items-center">
+            <a href="/case-studies" className="phase-link-btn phase-link-btn-light-outline">← All Case Studies</a>
             <div className="flex flex-col sm:flex-row gap-3">
-              <a href="/#portfolio" className="phase-link-btn phase-link-btn-outline">View Portfolio</a>
-              <a href="/#contact" className="phase-link-btn">Start Your Project</a>
+              <a href="/#portfolio" className="phase-link-btn phase-link-btn-light-outline">View Portfolio</a>
+              <a href="/#contact" className="phase-link-btn phase-link-btn-light">Start Your Project</a>
             </div>
           </Reveal>
         </div>

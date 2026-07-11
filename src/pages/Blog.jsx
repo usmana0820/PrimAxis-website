@@ -31,7 +31,8 @@ export default function Blog() {
       title="Insights, Guides & Technology Trends"
       description="Company news, Zoho expertise, AI automation tips, and SEO-friendly articles to help your business grow."
     >
-      <section className="page-section relative overflow-hidden section-light-theme section-edge-glow">
+      {/* White — featured & filters */}
+      <section className="page-section relative overflow-hidden section-light-theme">
         <div className="section-light-mesh" aria-hidden="true" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {activeCategory === 'all' && (
@@ -65,8 +66,24 @@ export default function Blog() {
               </button>
             ))}
           </Reveal>
+        </div>
+      </section>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-7 mt-10">
+      {/* Blue — article grid & live chat */}
+      <section className="page-section relative overflow-hidden section-blue-theme">
+        <div className="section-blue-pattern" aria-hidden="true" />
+        <div className="section-blue-glow section-blue-glow-left" aria-hidden="true" />
+        <div className="section-blue-glow section-blue-glow-right" aria-hidden="true" />
+
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <Reveal className="text-center max-w-2xl mx-auto section-header">
+            <span className="section-label section-label-on-dark">Articles</span>
+            <h2 className="mt-5 text-3xl sm:text-4xl font-bold text-white tracking-tight font-display">
+              {activeCategory === 'all' ? 'Latest Insights' : BLOG_CATEGORIES.find((c) => c.id === activeCategory)?.label}
+            </h2>
+          </Reveal>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-7">
             {listPosts.map((post, i) => (
               <Reveal key={post.slug} delay={i * 60} variant="scale">
                 <a href={getBlogPostUrl(post.slug)} className={`resource-card group h-full ${THEME_CLASS[post.theme]}`}>
@@ -87,6 +104,11 @@ export default function Blog() {
 
           <Reveal delay={100} className="mt-12">
             <ResourceLiveChat variant="blog" />
+          </Reveal>
+
+          <Reveal delay={120} className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
+            <a href="/#contact" className="phase-link-btn phase-link-btn-light">Get Free Consultation</a>
+            <a href="/" className="phase-link-btn phase-link-btn-light-outline">Back to Home</a>
           </Reveal>
         </div>
       </section>

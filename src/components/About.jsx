@@ -1,42 +1,42 @@
 import Reveal from './Reveal'
 import aboutImage from '../assets/aboutsection.jpg'
 
-const achievements = [
-  { title: 'Business Focused', desc: 'Solutions aligned with your goals', position: 'top-4 -left-4 lg:-left-8', delay: 200 },
-  { title: 'Agile Development', desc: 'Fast, iterative delivery', position: 'top-8 -right-2 lg:-right-6', delay: 300 },
-  { title: 'Dedicated Support', desc: 'We stay with you after launch', position: 'bottom-16 -left-2 lg:-left-4', delay: 400 },
-  { title: 'Innovation Driven', desc: 'Modern tech, smart solutions', position: 'bottom-8 -right-4 lg:-right-10', delay: 500 },
+const highlights = [
+  {
+    title: 'Business Focused',
+    desc: 'Solutions aligned with your goals',
+    icon: (
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+    ),
+  },
+  {
+    title: 'Agile Delivery',
+    desc: 'Fast, iterative releases',
+    icon: (
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M13 10V3L4 14h7v7l9-11h-7z" />
+    ),
+  },
+  {
+    title: 'Dedicated Support',
+    desc: 'We stay after launch',
+    icon: (
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+    ),
+  },
+  {
+    title: 'Innovation Driven',
+    desc: 'Modern tech, smart solutions',
+    icon: (
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+    ),
+  },
 ]
 
-function OfficeIllustration() {
-  return (
-    <div className="relative w-full aspect-[4/3] max-w-lg mx-auto lg:max-w-none">
-      <div className="about-illustration-bg absolute inset-0 rounded-3xl overflow-hidden">
-        <img
-          src={aboutImage}
-          alt="PrimeAxis Technologies team at work"
-          className="w-full h-full object-cover"
-          loading="lazy"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#355C7D]/20 via-transparent to-transparent" />
-      </div>
-
-      {achievements.map((item) => (
-        <Reveal key={item.title} delay={item.delay} variant="scale">
-          <div className={`about-float-card absolute ${item.position} z-10 max-w-[160px]`}>
-            <div className="glass-card-light p-4 rounded-2xl">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#355C7D] to-[#06B6D4] mb-2 flex items-center justify-center">
-                <span className="w-1.5 h-1.5 bg-white rounded-full" />
-              </div>
-              <h4 className="text-xs font-bold text-text leading-tight">{item.title}</h4>
-              <p className="text-[10px] text-text-muted mt-1 leading-snug">{item.desc}</p>
-            </div>
-          </div>
-        </Reveal>
-      ))}
-    </div>
-  )
-}
+const stats = [
+  { value: '50+', label: 'Projects' },
+  { value: '25+', label: 'Clients' },
+  { value: '10+', label: 'Industries' },
+]
 
 export default function About() {
   return (
@@ -44,44 +44,78 @@ export default function About() {
       <div className="section-light-mesh" aria-hidden="true" />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <Reveal className="text-center max-w-3xl mx-auto section-header">
-          <span className="section-label">About Us</span>
-          <h2 className="mt-5 text-3xl sm:text-4xl lg:text-[2.75rem] font-bold text-text tracking-tight font-display leading-tight">
-            Transforming Ideas into Powerful Digital Solutions
-          </h2>
-        </Reveal>
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+          <Reveal variant="slide-right" className="order-2 lg:order-1">
+            <div className="about-visual-wrap">
+              <div className="about-visual-frame">
+                <img
+                  src={aboutImage}
+                  alt="PrimeAxis Technologies team at work"
+                  className="about-visual-img"
+                  loading="lazy"
+                />
+                <div className="about-visual-overlay" aria-hidden="true" />
+              </div>
 
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-          <Reveal delay={100} variant="slide-right" className="space-y-8">
-            <div className="space-y-5 text-text-muted leading-relaxed">
-              <p className="text-base lg:text-[17px]">
-                PrimeAxis Technologies is committed to helping businesses embrace digital transformation
-                through innovative technology solutions. Our expertise spans business analysis, enterprise
-                software, custom web and mobile applications, AI integration, and digital marketing.
-              </p>
-              <p>
-                We believe every business has unique challenges. That&apos;s why we don&apos;t deliver
-                one-size-fits-all products—we build customized solutions designed around your goals,
-                workflows, and long-term growth strategy.
-              </p>
-              <p>
-                From startups to established enterprises, we partner with our clients to automate
-                processes, enhance customer experiences, and create scalable systems that drive measurable
-                business success.
-              </p>
-            </div>
+              <div className="about-visual-badge">
+                <span className="about-visual-badge-value">5+</span>
+                <span className="about-visual-badge-label">Years of Excellence</span>
+              </div>
 
-            <div className="glass-card-light rounded-2xl p-6 lg:p-8 border border-slate-100">
-              <h3 className="text-lg font-bold text-[#355C7D] mb-3 font-display">Our Mission</h3>
-              <p className="text-text-muted text-sm leading-relaxed">
-                To empower businesses with innovative, reliable, and scalable technology solutions that
-                simplify operations, enhance productivity, and create sustainable growth.
-              </p>
+              <div className="about-visual-stats">
+                {stats.map((stat) => (
+                  <div key={stat.label} className="about-visual-stat">
+                    <span className="about-visual-stat-value">{stat.value}</span>
+                    <span className="about-visual-stat-label">{stat.label}</span>
+                  </div>
+                ))}
+              </div>
             </div>
           </Reveal>
 
-          <Reveal delay={200} variant="slide-left" className="relative lg:min-h-[420px]">
-            <OfficeIllustration />
+          <Reveal delay={100} variant="slide-left" className="order-1 lg:order-2 space-y-8">
+            <div>
+              <span className="section-label">About Us</span>
+              <h2 className="mt-5 text-3xl sm:text-4xl lg:text-[2.75rem] font-bold text-text tracking-tight font-display leading-tight">
+                Transforming Ideas into Powerful Digital Solutions
+              </h2>
+              <p className="mt-5 text-text-muted text-base lg:text-[17px] leading-relaxed">
+                PrimeAxis Technologies helps businesses embrace digital transformation through
+                Zoho ERP, custom software, mobile apps, AI, and digital marketing — built around
+                your goals, not generic templates.
+              </p>
+            </div>
+
+            <div className="grid sm:grid-cols-2 gap-4">
+              {highlights.map((item, i) => (
+                <div key={item.title} className="about-highlight-card">
+                  <div className="about-highlight-icon">
+                    <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      {item.icon}
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 className="about-highlight-title">{item.title}</h3>
+                    <p className="about-highlight-desc">{item.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="grid sm:grid-cols-2 gap-4">
+              <div className="about-mission-card">
+                <p className="about-mission-label">Our Mission</p>
+                <p className="about-mission-text">
+                  Empower businesses with reliable, scalable technology that simplifies operations and drives growth.
+                </p>
+              </div>
+              <div className="about-mission-card about-mission-card-accent">
+                <p className="about-mission-label">Our Vision</p>
+                <p className="about-mission-text">
+                  Become the trusted digital partner for SMEs and enterprises across Pakistan and beyond.
+                </p>
+              </div>
+            </div>
           </Reveal>
         </div>
       </div>
