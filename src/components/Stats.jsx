@@ -1,4 +1,5 @@
 import Reveal from './Reveal'
+import { getCardRevealVariant } from '../utils/revealVariants'
 import { useCountUp } from '../hooks/useCountUp'
 
 const stats = [
@@ -9,11 +10,11 @@ const stats = [
   { value: '5', suffix: '+', label: 'Core Services', gradient: 'from-[#4F46E5] to-[#355C7D]' },
 ]
 
-function StatCard({ value, suffix, label, gradient, delay }) {
+function StatCard({ value, suffix, label, gradient, delay, index }) {
   const { ref, display } = useCountUp(value, 2000, suffix)
 
   return (
-    <Reveal delay={delay} variant="scale">
+    <Reveal delay={delay} variant={getCardRevealVariant(index)}>
       <div ref={ref} className="stats-glass-card group h-full">
         <div className={`stats-glass-accent bg-gradient-to-br ${gradient}`} />
         <div className="relative p-7 lg:p-8 text-center h-full flex flex-col items-center justify-center">
@@ -29,11 +30,11 @@ function StatCard({ value, suffix, label, gradient, delay }) {
 
 export default function Stats() {
   return (
-    <section className="page-section relative overflow-hidden section-light-theme section-edge-glow">
+    <section className="page-section relative section-light-theme section-edge-glow">
       <div className="section-light-mesh" aria-hidden="true" />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <Reveal className="text-center max-w-3xl mx-auto section-header">
+        <Reveal className="text-center max-w-3xl mx-auto section-header" variant="slide-top">
           <span className="section-label">Our Impact</span>
           <h2 className="mt-5 text-3xl sm:text-4xl lg:text-[2.75rem] font-bold text-text tracking-tight font-display">
             Delivering Results That Matter
@@ -45,7 +46,7 @@ export default function Stats() {
 
         <div className="grid grid-cols-2 lg:grid-cols-5 gap-4 lg:gap-6">
           {stats.map((stat, i) => (
-            <StatCard key={stat.label} {...stat} delay={i * 80} />
+            <StatCard key={stat.label} {...stat} delay={i * 80} index={i} />
           ))}
         </div>
       </div>

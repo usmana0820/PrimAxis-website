@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import Reveal from './Reveal'
+import { getCardRevealVariant } from '../utils/revealVariants'
 import {
   OFFICE_ADDRESS,
   OFFICE_ADDRESS_SHORT,
@@ -89,11 +90,11 @@ export default function Contact() {
   const update = (field) => (e) => setForm({ ...form, [field]: e.target.value })
 
   return (
-    <section id="contact" className="page-section relative overflow-hidden section-light-theme section-edge-glow">
+    <section id="contact" className="page-section relative section-light-theme section-edge-glow">
       <div className="section-light-mesh" aria-hidden="true" />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <Reveal className="text-center max-w-3xl mx-auto section-header">
+        <Reveal className="text-center max-w-3xl mx-auto section-header" variant="slide-top">
           <span className="section-label">Contact Us</span>
           <h2 className="mt-5 text-3xl sm:text-4xl lg:text-[2.75rem] font-bold text-text tracking-tight font-display">
             Let&apos;s Build Something Great Together
@@ -105,16 +106,17 @@ export default function Contact() {
         </Reveal>
 
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-14">
-          <Reveal delay={80} variant="slide-right">
-            <div className="space-y-4">
+          <div className="space-y-4">
+            <Reveal delay={40} variant="slide-right">
               <h3 className="text-lg font-bold text-text font-display mb-6">Get in Touch</h3>
-              {contactLinks.map((item) => (
+            </Reveal>
+            {contactLinks.map((item, i) => (
+              <Reveal key={item.label} delay={i * 60} variant={getCardRevealVariant(i)}>
                 <a
-                  key={item.label}
                   href={item.href}
                   target={item.href.startsWith('http') ? '_blank' : undefined}
                   rel={item.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                  className="contact-info-card group"
+                  className="contact-info-card group block"
                 >
                   <div className={`contact-info-icon bg-gradient-to-br ${item.gradient}`}>
                     <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -129,8 +131,10 @@ export default function Contact() {
                     {item.sub && <p className="text-xs text-text-muted mt-0.5">{item.sub}</p>}
                   </div>
                 </a>
-              ))}
+              </Reveal>
+            ))}
 
+            <Reveal delay={contactLinks.length * 60} variant="slide-bottom">
               <div className="contact-map-preview mt-8">
                 <iframe
                   title="Office location map"
@@ -142,8 +146,8 @@ export default function Contact() {
                   <span className="contact-map-badge">{OFFICE_ADDRESS_SHORT}</span>
                 </div>
               </div>
-            </div>
-          </Reveal>
+            </Reveal>
+          </div>
 
           <Reveal delay={160} variant="slide-left">
             <form onSubmit={handleSubmit} className="contact-form-glass">

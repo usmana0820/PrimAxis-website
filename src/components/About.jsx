@@ -1,4 +1,5 @@
 import Reveal from './Reveal'
+import { getCardRevealVariant } from '../utils/revealVariants'
 import aboutImage from '../assets/aboutsection.jpg'
 
 const highlights = [
@@ -40,7 +41,7 @@ const stats = [
 
 export default function About() {
   return (
-    <section id="about" className="relative page-section overflow-hidden section-light-theme section-edge-glow">
+    <section id="about" className="relative page-section section-light-theme section-edge-glow">
       <div className="section-light-mesh" aria-hidden="true" />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -88,33 +89,39 @@ export default function About() {
 
             <div className="grid sm:grid-cols-2 gap-4">
               {highlights.map((item, i) => (
-                <div key={item.title} className="about-highlight-card">
-                  <div className="about-highlight-icon">
-                    <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      {item.icon}
-                    </svg>
+                <Reveal key={item.title} delay={i * 70} variant={getCardRevealVariant(i)} className="h-full">
+                  <div className="about-highlight-card h-full">
+                    <div className="about-highlight-icon">
+                      <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        {item.icon}
+                      </svg>
+                    </div>
+                    <div>
+                      <h3 className="about-highlight-title">{item.title}</h3>
+                      <p className="about-highlight-desc">{item.desc}</p>
+                    </div>
                   </div>
-                  <div>
-                    <h3 className="about-highlight-title">{item.title}</h3>
-                    <p className="about-highlight-desc">{item.desc}</p>
-                  </div>
-                </div>
+                </Reveal>
               ))}
             </div>
 
             <div className="grid sm:grid-cols-2 gap-4">
-              <div className="about-mission-card">
-                <p className="about-mission-label">Our Mission</p>
-                <p className="about-mission-text">
-                  Empower businesses with reliable, scalable technology that simplifies operations and drives growth.
-                </p>
-              </div>
-              <div className="about-mission-card about-mission-card-accent">
-                <p className="about-mission-label">Our Vision</p>
-                <p className="about-mission-text">
-                  Become the trusted digital partner for SMEs and enterprises across Pakistan and beyond.
-                </p>
-              </div>
+              <Reveal delay={80} variant="slide-left">
+                <div className="about-mission-card h-full">
+                  <p className="about-mission-label">Our Mission</p>
+                  <p className="about-mission-text">
+                    Empower businesses with reliable, scalable technology that simplifies operations and drives growth.
+                  </p>
+                </div>
+              </Reveal>
+              <Reveal delay={140} variant="slide-right">
+                <div className="about-mission-card about-mission-card-accent h-full">
+                  <p className="about-mission-label">Our Vision</p>
+                  <p className="about-mission-text">
+                    Become the trusted digital partner for SMEs and enterprises across Pakistan and beyond.
+                  </p>
+                </div>
+              </Reveal>
             </div>
           </Reveal>
         </div>

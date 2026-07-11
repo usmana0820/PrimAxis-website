@@ -1,4 +1,5 @@
 import Reveal from './Reveal'
+import { getCardRevealVariant } from '../utils/revealVariants'
 
 const industries = [
   {
@@ -65,11 +66,11 @@ const industries = [
 
 export default function Industries() {
   return (
-    <section className="page-section relative overflow-hidden section-light-theme section-edge-glow">
+    <section className="page-section relative section-light-theme section-edge-glow">
       <div className="section-light-mesh" aria-hidden="true" />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <Reveal className="text-center max-w-3xl mx-auto section-header">
+        <Reveal className="text-center max-w-3xl mx-auto section-header" variant="slide-top">
           <span className="section-label">Industries We Serve</span>
           <h2 className="mt-5 text-3xl sm:text-4xl lg:text-[2.75rem] font-bold text-text tracking-tight font-display">
             Solutions Across Every Sector
@@ -81,7 +82,7 @@ export default function Industries() {
 
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-5">
           {industries.map((industry, i) => (
-            <Reveal key={industry.name} delay={i * 50} variant="scale">
+            <Reveal key={industry.name} delay={i * 60} variant={getCardRevealVariant(i, 5)} className="h-full">
               <div className="industry-premium-card group h-full">
                 <div className="p-6 text-center flex flex-col items-center">
                   <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${industry.gradient} flex items-center justify-center text-white shadow-lg mb-4 transition-all duration-400 group-hover:scale-110 group-hover:shadow-xl`}>

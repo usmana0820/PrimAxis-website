@@ -137,11 +137,11 @@ function ProcessTimeline() {
 
 export default function Process() {
   return (
-    <section id="process" className="page-section relative overflow-hidden section-light-theme section-edge-glow">
+    <section id="process" className="page-section relative section-light-theme section-edge-glow">
       <div className="section-light-mesh" aria-hidden="true" />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <Reveal className="text-center max-w-3xl mx-auto section-header">
+        <Reveal className="text-center max-w-3xl mx-auto section-header" variant="slide-top">
           <span className="section-label">Our Development Process</span>
           <h2 className="mt-5 text-3xl sm:text-4xl lg:text-[2.75rem] font-bold text-text tracking-tight font-display">
             From Idea to Launch

@@ -1,4 +1,5 @@
 import Reveal from './Reveal'
+import { getCardRevealVariant } from '../utils/revealVariants'
 
 const services = [
   {
@@ -56,11 +57,11 @@ const services = [
 
 export default function Services() {
   return (
-    <section id="services" className="page-section relative overflow-hidden section-light-theme section-edge-glow">
+    <section id="services" className="page-section relative section-light-theme section-edge-glow">
       <div className="section-light-mesh" aria-hidden="true" />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <Reveal className="text-center max-w-3xl mx-auto section-header">
+        <Reveal className="text-center max-w-3xl mx-auto section-header" variant="slide-top">
           <span className="section-label">Our Services</span>
           <h2 className="mt-5 text-3xl sm:text-4xl lg:text-[2.75rem] font-bold text-text tracking-tight font-display">
             Comprehensive Technology Solutions
@@ -72,7 +73,7 @@ export default function Services() {
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
           {services.map((service, i) => (
-            <Reveal key={service.title} delay={i * 80} variant="scale">
+            <Reveal key={service.title} delay={i * 90} variant={getCardRevealVariant(i, 3)} className="h-full">
               <article className="service-luxury-card group h-full">
                 <div className="relative p-8 h-full flex flex-col">
                   <div className={`service-icon-wrap bg-gradient-to-br ${service.gradient} mb-6`}>

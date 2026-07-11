@@ -1,4 +1,5 @@
 import Reveal from './Reveal'
+import { getCardRevealVariant } from '../utils/revealVariants'
 
 const reasons = [
   {
@@ -41,11 +42,11 @@ const reasons = [
 
 export default function WhyChoose() {
   return (
-    <section className="page-section relative overflow-hidden section-light-theme section-edge-glow">
+    <section className="page-section relative section-light-theme section-edge-glow">
       <div className="section-light-mesh" aria-hidden="true" />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <Reveal className="text-center max-w-3xl mx-auto section-header">
+        <Reveal className="text-center max-w-3xl mx-auto section-header" variant="slide-top">
           <span className="section-label">Why Choose Us</span>
           <h2 className="mt-5 text-3xl sm:text-4xl lg:text-[2.75rem] font-bold text-text tracking-tight font-display leading-tight">
             Your Trusted Technology Partner
@@ -58,7 +59,7 @@ export default function WhyChoose() {
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
           {reasons.map((reason, i) => (
-            <Reveal key={reason.title} delay={i * 80} variant="scale">
+            <Reveal key={reason.title} delay={i * 90} variant={getCardRevealVariant(i, 3)} className="h-full">
               <article className="why-feature-card group h-full">
                 <div className="p-8 lg:p-9 h-full flex flex-col">
                   <div className={`why-icon-wrap bg-gradient-to-br ${reason.gradient}`}>

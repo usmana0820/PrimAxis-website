@@ -17,6 +17,7 @@ import Footer from './components/Footer'
 import LoadingScreen from './components/LoadingScreen'
 import SectionDivider from './components/SectionDivider'
 import WhatsAppChat from './components/WhatsAppChat'
+import { PageReadyProvider } from './context/PageReadyContext'
 
 function App() {
   const [loading, setLoading] = useState(true)
@@ -32,7 +33,7 @@ function App() {
   }, [])
 
   return (
-    <>
+    <PageReadyProvider ready={!loading}>
       {loading && <LoadingScreen fading={fading} />}
       <div className={`min-h-screen bg-background text-text ${loading ? 'opacity-0' : 'opacity-100 transition-opacity duration-500'}`}>
         <Navbar />
@@ -66,7 +67,7 @@ function App() {
         <Footer />
       </div>
       {!loading && <WhatsAppChat />}
-    </>
+    </PageReadyProvider>
   )
 }
 

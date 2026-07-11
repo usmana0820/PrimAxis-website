@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import Reveal from './Reveal'
+import { getCardRevealVariant } from '../utils/revealVariants'
 
 const faqs = [
   {
@@ -32,11 +33,11 @@ export default function FAQ() {
   const [open, setOpen] = useState(0)
 
   return (
-    <section id="faq" className="page-section relative overflow-hidden section-light-theme section-edge-glow">
+    <section id="faq" className="page-section relative section-light-theme section-edge-glow">
       <div className="section-light-mesh" aria-hidden="true" />
 
       <div className="relative max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-        <Reveal className="text-center section-header">
+        <Reveal className="text-center section-header" variant="slide-top">
           <span className="section-label">FAQs</span>
           <h2 className="mt-5 text-3xl sm:text-4xl lg:text-[2.75rem] font-bold text-text tracking-tight font-display">
             Frequently Asked Questions
@@ -50,7 +51,7 @@ export default function FAQ() {
           {faqs.map((faq, i) => {
             const isOpen = open === i
             return (
-              <Reveal key={faq.q} delay={i * 50}>
+              <Reveal key={faq.q} delay={i * 70} variant={getCardRevealVariant(i, 1)}>
                 <article className={`faq-card ${isOpen ? 'faq-card-open' : ''}`}>
                   <button
                     type="button"

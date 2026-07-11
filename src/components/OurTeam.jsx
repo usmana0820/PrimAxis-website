@@ -1,4 +1,5 @@
 import Reveal from './Reveal'
+import { getCardRevealVariant } from '../utils/revealVariants'
 import { COMPANY_STATS, LEADERSHIP, TEAM_PREVIEW } from '../constants/team'
 
 const DEPT_ICONS = {
@@ -24,11 +25,11 @@ const DEPT_ICONS = {
 
 export default function OurTeam() {
   return (
-    <section id="team" className="page-section relative overflow-hidden section-light-theme section-edge-glow">
+    <section id="team" className="page-section relative section-light-theme section-edge-glow">
       <div className="section-light-mesh" aria-hidden="true" />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <Reveal className="text-center max-w-3xl mx-auto section-header">
+        <Reveal className="text-center max-w-3xl mx-auto section-header" variant="slide-top">
           <span className="section-label">Our Team</span>
           <h2 className="mt-5 text-3xl sm:text-4xl lg:text-[2.75rem] font-bold text-text tracking-tight font-display">
             Company Structure &amp; Leadership
@@ -39,7 +40,7 @@ export default function OurTeam() {
           </p>
         </Reveal>
 
-        <Reveal delay={60}>
+        <Reveal delay={60} variant="slide-bottom">
           <div className="team-stats-row">
             {COMPANY_STATS.map((stat) => (
               <div key={stat.label} className="team-stat-pill">
@@ -52,7 +53,7 @@ export default function OurTeam() {
 
         <div className="grid md:grid-cols-3 gap-6 lg:gap-8 mt-10">
           {LEADERSHIP.map((person, i) => (
-            <Reveal key={person.name} delay={i * 80} variant="scale">
+            <Reveal key={person.name} delay={i * 90} variant={getCardRevealVariant(i, 3)} className="h-full">
               <article className="team-leader-card group h-full">
                 <div className={`team-leader-avatar bg-gradient-to-br ${person.gradient}`}>
                   {person.initials}
@@ -67,7 +68,7 @@ export default function OurTeam() {
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-7 mt-12">
           {TEAM_PREVIEW.map((dept, i) => (
-            <Reveal key={dept.id} delay={i * 70} variant="scale">
+            <Reveal key={dept.id} delay={i * 80} variant={getCardRevealVariant(i, 4)} className="h-full">
               <article className="team-dept-card group h-full">
                 <div className={`team-dept-icon bg-gradient-to-br ${dept.gradient}`}>
                   <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -5,6 +5,8 @@ const variantClass = {
   scale: 'reveal-scale',
   'slide-left': 'reveal-slide-left',
   'slide-right': 'reveal-slide-right',
+  'slide-top': 'reveal-slide-top',
+  'slide-bottom': 'reveal-slide-bottom',
   flip: 'reveal-flip',
 }
 

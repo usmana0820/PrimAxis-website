@@ -1,4 +1,5 @@
 import Reveal from './Reveal'
+import { getCardRevealVariant } from '../utils/revealVariants'
 import { CASE_STUDIES, getCaseStudyUrl } from '../constants/caseStudies'
 
 function PreviewMockup({ type, gradient }) {
@@ -120,11 +121,11 @@ function PreviewMockup({ type, gradient }) {
 
 export default function Portfolio() {
   return (
-    <section id="portfolio" className="page-section relative overflow-hidden section-light-theme section-edge-glow">
+    <section id="portfolio" className="page-section relative section-light-theme section-edge-glow">
       <div className="section-light-mesh" aria-hidden="true" />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <Reveal className="text-center max-w-3xl mx-auto section-header">
+        <Reveal className="text-center max-w-3xl mx-auto section-header" variant="slide-top">
           <span className="section-label">Portfolio</span>
           <h2 className="mt-5 text-3xl sm:text-4xl lg:text-[2.75rem] font-bold text-text tracking-tight font-display">
             Our Recent Work
@@ -139,7 +140,7 @@ export default function Portfolio() {
             const caseStudyUrl = getCaseStudyUrl(item.slug)
 
             return (
-              <Reveal key={item.slug} delay={i * 70} variant="scale">
+              <Reveal key={item.slug} delay={i * 90} variant={getCardRevealVariant(i, 3)} className="h-full">
                 <article className="portfolio-premium-card group h-full flex flex-col">
                   <a href={caseStudyUrl} className="portfolio-preview-wrap block">
                     <PreviewMockup type={item.preview} gradient={item.gradient} />

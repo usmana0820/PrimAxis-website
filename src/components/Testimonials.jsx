@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
 import Reveal from './Reveal'
+import { getCardRevealVariant } from '../utils/revealVariants'
 
 const testimonials = [
   {
@@ -73,11 +74,11 @@ export default function Testimonials() {
   const t = testimonials[active]
 
   return (
-    <section className="page-section relative overflow-hidden section-light-theme section-edge-glow">
+    <section className="page-section relative section-light-theme section-edge-glow">
       <div className="section-light-mesh" aria-hidden="true" />
 
       <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-        <Reveal className="text-center max-w-3xl mx-auto section-header">
+        <Reveal className="text-center max-w-3xl mx-auto section-header" variant="slide-top">
           <span className="section-label">Testimonials</span>
           <h2 className="mt-5 text-3xl sm:text-4xl lg:text-[2.75rem] font-bold text-text tracking-tight font-display">
             What Our Clients Say
@@ -87,7 +88,7 @@ export default function Testimonials() {
           </p>
         </Reveal>
 
-        <Reveal variant="scale">
+        <Reveal variant="slide-bottom">
           <div className="testimonial-slider-wrap">
             <button
               type="button"
