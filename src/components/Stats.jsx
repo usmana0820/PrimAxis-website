@@ -1,4 +1,5 @@
 import Reveal from './Reveal'
+import TiltCard from './TiltCard'
 import { getCardRevealVariant } from '../utils/revealVariants'
 import { useCountUp } from '../hooks/useCountUp'
 
@@ -14,8 +15,9 @@ function StatCard({ value, suffix, label, gradient, delay, index }) {
   const { ref, display } = useCountUp(value, 2000, suffix)
 
   return (
-    <Reveal delay={delay} variant={getCardRevealVariant(index)}>
-      <div ref={ref} className="stats-glass-card group h-full">
+    <Reveal delay={delay} variant={getCardRevealVariant(index)} className="h-full">
+      <TiltCard className="h-full" intensity={12}>
+        <div ref={ref} className="stats-glass-card tilt-card-surface group h-full">
         <div className={`stats-glass-accent bg-gradient-to-br ${gradient}`} />
         <div className="relative p-7 lg:p-8 text-center h-full flex flex-col items-center justify-center">
           <p className="stats-counter-value">{display}</p>
@@ -23,7 +25,8 @@ function StatCard({ value, suffix, label, gradient, delay, index }) {
             {label}
           </p>
         </div>
-      </div>
+        </div>
+      </TiltCard>
     </Reveal>
   )
 }

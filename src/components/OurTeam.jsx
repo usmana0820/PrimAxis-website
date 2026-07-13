@@ -1,4 +1,5 @@
 import Reveal from './Reveal'
+import TiltCard from './TiltCard'
 import { getCardRevealVariant } from '../utils/revealVariants'
 import { COMPANY_STATS, LEADERSHIP, TEAM_PREVIEW } from '../constants/team'
 
@@ -54,14 +55,16 @@ export default function OurTeam() {
         <div className="grid md:grid-cols-3 gap-6 lg:gap-8 mt-10">
           {LEADERSHIP.map((person, i) => (
             <Reveal key={person.name} delay={i * 90} variant={getCardRevealVariant(i, 3)} className="h-full">
-              <article className="team-leader-card group h-full">
+              <TiltCard className="h-full">
+                <article className="team-leader-card tilt-card-surface group h-full">
                 <div className={`team-leader-avatar bg-gradient-to-br ${person.gradient}`}>
                   {person.initials}
                 </div>
                 <h3 className="team-leader-name">{person.name}</h3>
                 <p className="team-leader-role">{person.role}</p>
                 <p className="team-leader-bio">{person.bio}</p>
-              </article>
+                </article>
+              </TiltCard>
             </Reveal>
           ))}
         </div>
@@ -69,7 +72,8 @@ export default function OurTeam() {
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-7 mt-12">
           {TEAM_PREVIEW.map((dept, i) => (
             <Reveal key={dept.id} delay={i * 80} variant={getCardRevealVariant(i, 4)} className="h-full">
-              <article className="team-dept-card group h-full">
+              <TiltCard className="h-full" intensity={12}>
+                <article className="team-dept-card tilt-card-surface group h-full">
                 <div className={`team-dept-icon bg-gradient-to-br ${dept.gradient}`}>
                   <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     {DEPT_ICONS[dept.icon]}
@@ -78,7 +82,8 @@ export default function OurTeam() {
                 <h3 className="team-dept-name">{dept.name}</h3>
                 <p className="team-dept-head">{dept.head}</p>
                 <p className="team-dept-summary">{dept.summary}</p>
-              </article>
+                </article>
+              </TiltCard>
             </Reveal>
           ))}
         </div>

@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import Reveal from './Reveal'
+import TiltCard from './TiltCard'
 import { getCardRevealVariant } from '../utils/revealVariants'
 import {
   OFFICE_ADDRESS,
@@ -112,12 +113,13 @@ export default function Contact() {
             </Reveal>
             {contactLinks.map((item, i) => (
               <Reveal key={item.label} delay={i * 60} variant={getCardRevealVariant(i)}>
-                <a
-                  href={item.href}
-                  target={item.href.startsWith('http') ? '_blank' : undefined}
-                  rel={item.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                  className="contact-info-card group block"
-                >
+                <TiltCard intensity={10}>
+                  <a
+                    href={item.href}
+                    target={item.href.startsWith('http') ? '_blank' : undefined}
+                    rel={item.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                    className="contact-info-card tilt-card-surface group block"
+                  >
                   <div className={`contact-info-icon bg-gradient-to-br ${item.gradient}`}>
                     <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       {item.icon}
@@ -130,7 +132,8 @@ export default function Contact() {
                     </p>
                     {item.sub && <p className="text-xs text-text-muted mt-0.5">{item.sub}</p>}
                   </div>
-                </a>
+                  </a>
+                </TiltCard>
               </Reveal>
             ))}
 

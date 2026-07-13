@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { createPortal } from 'react-dom'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import About from './components/About'
@@ -34,8 +35,9 @@ function App() {
 
   return (
     <PageReadyProvider ready={!loading}>
-      {loading && <LoadingScreen fading={fading} />}
-      <div className={`min-h-screen bg-background text-text ${loading ? 'opacity-0' : 'opacity-100 transition-opacity duration-500'}`}>
+      {loading &&
+        createPortal(<LoadingScreen fading={fading} />, document.body)}
+      <div className="min-h-screen bg-background text-text">
         <Navbar />
         <main>
           <Hero />
@@ -55,13 +57,13 @@ function App() {
           <Portfolio />
           <SectionDivider variant="indigo-teal" index={8} />
           <Stats />
-          <SectionDivider variant="teal-navy" index={9} />
-          <Testimonials />
           <SectionDivider variant="tri-blend" index={10} />
-          <FAQ />
+          <Testimonials />
           <SectionDivider variant="warm-cool" index={11} />
-          <CTA />
+          <FAQ />
           <SectionDivider variant="navy-cyan" index={12} />
+          <CTA />
+          <SectionDivider variant="cyan-indigo" index={13} />
           <Contact />
         </main>
         <Footer />

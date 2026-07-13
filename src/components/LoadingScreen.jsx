@@ -17,6 +17,7 @@ export default function LoadingScreen({ fading }) {
           </div>
         </div>
         <p className="loading-brand-name">{BRAND_NAME}</p>
+        <p className="loading-tagline">Loading your experience…</p>
         <div className="loading-bar">
           <div className="loading-bar-fill" />
         </div>

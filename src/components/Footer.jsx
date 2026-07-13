@@ -1,29 +1,34 @@
 import { useState } from 'react'
-import { LOGO_SRC, BRAND_NAME } from '../constants/branding'
-import { getWhatsAppUrl } from '../constants/contact'
+import { Link } from 'react-router-dom'
+import { LOGO_SRC, BRAND_NAME, BRAND_SHORT } from '../constants/branding'
+import {
+  getWhatsAppUrl,
+  WHATSAPP_DISPLAY,
+  OFFICE_ADDRESS_SHORT,
+  OFFICE_MAP_URL,
+} from '../constants/contact'
 
 const quickLinks = [
   { label: 'Home', href: '/#home' },
-  { label: 'About Us', href: '/#about' },
-  { label: 'Our Team', href: '/team' },
+  { label: 'About', href: '/about' },
   { label: 'Services', href: '/#services' },
-  { label: 'Portfolio', href: '/#portfolio' },
+  { label: 'Portfolio', href: '/portfolio' },
   { label: 'Process', href: '/#process' },
   { label: 'Contact', href: '/#contact' },
 ]
 
-const resourceLinks = [
-  { label: 'Blog', href: '/blog' },
-  { label: 'Case Studies', href: '/case-studies' },
-]
-
 const serviceLinks = [
   { label: 'Zoho ERP & CRM', href: '/#services' },
-  { label: 'Website Development', href: '/#services' },
-  { label: 'Mobile Applications', href: '/#services' },
+  { label: 'Web Development', href: '/#services' },
+  { label: 'Mobile Apps', href: '/#services' },
   { label: 'AI Solutions', href: '/#services' },
   { label: 'Digital Marketing', href: '/#services' },
-  { label: 'Business Consulting', href: '/#services' },
+]
+
+const resourceLinks = [
+  { label: 'Blog', to: '/blog' },
+  { label: 'Case Studies', to: '/case-studies' },
+  { label: 'Our Team', to: '/team' },
 ]
 
 const socialLinks = [
@@ -39,13 +44,6 @@ const socialLinks = [
     href: 'https://github.com',
     icon: (
       <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
-    ),
-  },
-  {
-    label: 'Twitter',
-    href: 'https://twitter.com',
-    icon: (
-      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
     ),
   },
   {
@@ -69,41 +67,35 @@ export default function Footer() {
   }
 
   return (
-    <footer className="footer-premium theme-dark relative overflow-hidden">
+    <footer className="footer-v2 footer-premium theme-dark relative overflow-hidden">
+      <div className="footer-v2-mesh footer-mesh" aria-hidden="true" />
+      <div className="footer-v2-pattern" aria-hidden="true" />
       <div className="footer-top-glow" aria-hidden="true" />
-      <div className="footer-mesh" aria-hidden="true" />
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 lg:pt-20 pb-10">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-8">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-14 lg:pt-16 pb-8">
+        <div className="footer-v2-main-grid">
           {/* Brand */}
-          <div className="sm:col-span-2 lg:col-span-4">
-            <a href="/" className="footer-brand inline-flex items-center gap-3 group">
-              <div className="footer-logo-wrap">
-                <img src={LOGO_SRC} alt={BRAND_NAME} className="h-10 w-10 object-contain" />
+          <div className="footer-v2-brand-col">
+            <Link to="/" className="footer-v2-brand group">
+              <div className="footer-v2-logo">
+                <img src={LOGO_SRC} alt={BRAND_NAME} />
               </div>
               <div>
-                <span className="block text-white font-bold text-base font-display leading-tight group-hover:text-cyan-300 transition-colors">
-                  {BRAND_NAME}
-                </span>
-                <span className="block text-[11px] text-slate-500 tracking-wide mt-0.5">
-                  Enterprise Digital Solutions
-                </span>
+                <strong>{BRAND_SHORT}</strong>
+                <span>Enterprise Digital Solutions</span>
               </div>
-            </a>
-
-            <p className="footer-tagline mt-5 text-sm text-slate-400 leading-relaxed max-w-sm">
-              We build scalable software, Zoho ecosystems, and AI-powered platforms that help
-              businesses grow with confidence.
+            </Link>
+            <p className="footer-v2-tagline">
+              Scalable software, Zoho ecosystems, and AI-powered platforms for growing businesses.
             </p>
-
-            <div className="flex gap-2.5 mt-6">
+            <div className="footer-v2-social">
               {socialLinks.map((social) => (
                 <a
                   key={social.label}
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="footer-social-icon"
+                  className="footer-v2-social-btn"
                   aria-label={social.label}
                 >
                   <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
@@ -114,88 +106,96 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Quick Links */}
-          <div className="lg:col-span-2">
-            <h4 className="footer-heading">Quick Links</h4>
-            <ul className="footer-link-list">
+          {/* Links */}
+          <div className="footer-v2-links-col">
+            <h4 className="footer-v2-heading">Company</h4>
+            <ul className="footer-v2-links">
               {quickLinks.map((link) => (
                 <li key={link.href}>
-                  <a href={link.href} className="footer-link">{link.label}</a>
+                  <a href={link.href}>{link.label}</a>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Services */}
-          <div className="lg:col-span-3">
-            <h4 className="footer-heading">Services</h4>
-            <ul className="footer-link-list">
-              {serviceLinks.map((service) => (
-                <li key={service.label}>
-                  <a href={service.href} className="footer-link">{service.label}</a>
+          <div className="footer-v2-links-col">
+            <h4 className="footer-v2-heading">Services</h4>
+            <ul className="footer-v2-links">
+              {serviceLinks.map((link) => (
+                <li key={link.label}>
+                  <a href={link.href}>{link.label}</a>
                 </li>
               ))}
             </ul>
           </div>
 
-          <div className="lg:col-span-3">
-            <h4 className="footer-heading">Resources</h4>
-            <ul className="footer-link-list">
+          <div className="footer-v2-links-col">
+            <h4 className="footer-v2-heading">Resources</h4>
+            <ul className="footer-v2-links">
               {resourceLinks.map((link) => (
-                <li key={link.href}>
-                  <a href={link.href} className="footer-link">{link.label}</a>
+                <li key={link.to}>
+                  <Link to={link.to}>{link.label}</Link>
                 </li>
               ))}
+            </ul>
+          </div>
+
+          {/* Contact */}
+          <div className="footer-v2-contact-col">
+            <h4 className="footer-v2-heading">Contact</h4>
+            <ul className="footer-v2-contact-list">
+              <li>
+                <span className="footer-v2-contact-icon" aria-hidden="true">📍</span>
+                <a href={OFFICE_MAP_URL} target="_blank" rel="noopener noreferrer">
+                  {OFFICE_ADDRESS_SHORT}
+                </a>
+              </li>
+              <li>
+                <span className="footer-v2-contact-icon" aria-hidden="true">📞</span>
+                <a href={getWhatsAppUrl()} target="_blank" rel="noopener noreferrer">
+                  {WHATSAPP_DISPLAY}
+                </a>
+              </li>
+              <li>
+                <span className="footer-v2-contact-icon" aria-hidden="true">✉️</span>
+                <a href="mailto:primeaxis.technologies19@gmail.com">
+                  primeaxis.technologies19@gmail.com
+                </a>
+              </li>
             </ul>
           </div>
         </div>
 
         {/* Newsletter */}
-        <div className="footer-newsletter-card mt-14">
-          <div className="footer-newsletter-content">
-            <div>
-              <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-cyan-400/90 mb-2">
-                Stay Updated
-              </p>
-              <h3 className="text-lg font-bold text-white font-display">Subscribe to Our Newsletter</h3>
-              <p className="text-sm text-slate-400 mt-1.5 max-w-md">
-                Get insights on technology trends, product updates, and digital transformation tips.
-              </p>
-            </div>
-
-            <form onSubmit={handleNewsletter} className="footer-newsletter-form">
-              <div className="footer-newsletter-wrap">
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Enter your email address"
-                  className="footer-newsletter-input"
-                  required
-                  aria-label="Email address"
-                />
-                <button type="submit" className="footer-newsletter-btn">
-                  Subscribe
-                </button>
-              </div>
-              {subscribed && (
-                <p className="text-emerald-400 text-xs mt-2.5" role="status">
-                  Thank you for subscribing!
-                </p>
-              )}
-            </form>
+        <div className="footer-v2-newsletter">
+          <div className="footer-v2-newsletter-text">
+            <span className="footer-v2-newsletter-label">Newsletter</span>
+            <h3>Stay ahead with tech insights</h3>
+            <p>Product updates, case studies, and digital transformation tips — no spam.</p>
           </div>
+          <form onSubmit={handleNewsletter} className="footer-v2-newsletter-form">
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Your email address"
+              required
+              aria-label="Email address"
+            />
+            <button type="submit">Subscribe</button>
+            {subscribed && (
+              <p className="footer-v2-subscribed" role="status">Thanks — you&apos;re subscribed!</p>
+            )}
+          </form>
         </div>
 
-        {/* Bottom bar */}
-        <div className="footer-bottom mt-12 pt-8">
-          <p className="footer-copyright">
-            &copy; {new Date().getFullYear()} {BRAND_NAME}. All rights reserved.
-          </p>
-          <nav className="footer-legal-nav" aria-label="Legal">
-            <a href="#" className="footer-legal-link">Privacy Policy</a>
-            <span className="footer-legal-sep" aria-hidden="true" />
-            <a href="#" className="footer-legal-link">Terms &amp; Conditions</a>
+        {/* Bottom */}
+        <div className="footer-v2-bottom">
+          <p>&copy; {new Date().getFullYear()} {BRAND_NAME}. All rights reserved.</p>
+          <nav aria-label="Legal">
+            <a href="#">Privacy</a>
+            <span aria-hidden="true">·</span>
+            <a href="#">Terms</a>
           </nav>
         </div>
       </div>

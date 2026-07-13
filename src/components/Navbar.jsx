@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { LOGO_SRC, BRAND_NAME, BRAND_SHORT } from '../constants/branding'
+import { useAuth } from '../context/useAuth'
 
 const navLinks = [
   { label: 'Home', href: '/#home' },
@@ -12,9 +14,11 @@ const navLinks = [
 ]
 
 export default function Navbar({ isSubpage = false }) {
+  const { isAdmin, loading: authLoading, profile, logout } = useAuth()
   const [open, setOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [overHero, setOverHero] = useState(true)
+  const navigate = useNavigate()
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24)
@@ -42,6 +46,15 @@ export default function Navbar({ isSubpage = false }) {
 
   const onHero = !isSubpage && overHero && !scrolled
   const navTheme = isSubpage || scrolled ? 'nav-glass nav-glass-scrolled' : onHero ? 'nav-glass-hero' : 'nav-glass'
+
+  const handleLogout = async () => {
+    await logout()
+    setOpen(false)
+    navigate('/')
+  }
+
+  const authBtnOutline = onHero ? 'btn-nav-auth-outline-hero' : 'btn-nav-auth-outline'
+  const authBtnSolid = onHero ? 'btn-nav-quote-hero' : 'btn-nav-quote'
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 px-4 sm:px-6 pt-4">
@@ -75,7 +88,33 @@ export default function Navbar({ isSubpage = false }) {
               ))}
             </div>
 
-            <div className="hidden lg:flex items-center gap-3 shrink-0">
+            <div className="hidden lg:flex items-center gap-2 shrink-0">
+              {!authLoading && (
+                isAdmin ? (
+                  <>
+                    <Link
+                      to="/admin/dashboard"
+                      className={`text-[13px] font-semibold px-4 py-2.5 rounded-xl transition-all duration-500 ${authBtnSolid}`}
+                    >
+                      Dashboard
+                    </Link>
+                    <button
+                      type="button"
+                      onClick={handleLogout}
+                      className={`text-[13px] font-medium px-3 py-2.5 rounded-xl transition-all duration-500 ${authBtnOutline}`}
+                    >
+                      Sign Out
+                    </button>
+                  </>
+                ) : (
+                  <Link
+                    to="/admin/login"
+                    className={`text-[13px] font-semibold px-4 py-2.5 rounded-xl transition-all duration-500 ${authBtnSolid}`}
+                  >
+                    Admin
+                  </Link>
+                )
+              )}
               <a
                 href="/#contact"
                 className={`text-[13px] font-semibold px-5 py-2.5 rounded-xl transition-all duration-500 ${
@@ -106,7 +145,7 @@ export default function Navbar({ isSubpage = false }) {
 
         <div
           className={`lg:hidden overflow-hidden transition-all duration-300 ease-out ${
-            open ? 'max-h-[28rem] opacity-100' : 'max-h-0 opacity-0'
+            open ? 'max-h-[36rem] opacity-100' : 'max-h-0 opacity-0'
           }`}
         >
           <div className={`px-4 pb-4 pt-1 border-t ${onHero ? 'border-white/10' : 'border-slate-100/80'}`}>
@@ -123,6 +162,38 @@ export default function Navbar({ isSubpage = false }) {
                   {link.label}
                 </a>
               ))}
+
+              {!authLoading && (
+                <div className={`mt-2 pt-2 border-t flex flex-col gap-2 ${onHero ? 'border-white/10' : 'border-slate-100/80'}`}>
+                  {isAdmin ? (
+                    <>
+                      <Link
+                        to="/admin/dashboard"
+                        className={`text-sm font-semibold px-5 py-3 rounded-xl text-center ${onHero ? 'btn-nav-quote-hero' : 'btn-nav-quote'}`}
+                        onClick={() => setOpen(false)}
+                      >
+                        Dashboard {profile?.name ? `· ${profile.name}` : ''}
+                      </Link>
+                      <button
+                        type="button"
+                        className={`text-sm font-medium px-5 py-3 rounded-xl text-center ${onHero ? 'btn-nav-auth-outline-hero' : 'btn-nav-auth-outline'}`}
+                        onClick={handleLogout}
+                      >
+                        Sign Out
+                      </button>
+                    </>
+                  ) : (
+                    <Link
+                      to="/admin/login"
+                      className={`text-sm font-semibold px-5 py-3 rounded-xl text-center ${onHero ? 'btn-nav-quote-hero' : 'btn-nav-quote'}`}
+                      onClick={() => setOpen(false)}
+                    >
+                      Admin
+                    </Link>
+                  )}
+                </div>
+              )}
+
               <a
                 href="/#contact"
                 className={`mt-2 text-sm font-semibold px-5 py-3 rounded-xl text-center ${onHero ? 'btn-nav-quote-hero' : 'btn-nav-quote'}`}

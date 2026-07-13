@@ -1,4 +1,5 @@
 import Reveal from './Reveal'
+import TiltCard from './TiltCard'
 import { getCardRevealVariant } from '../utils/revealVariants'
 
 const reasons = [
@@ -60,7 +61,8 @@ export default function WhyChoose() {
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
           {reasons.map((reason, i) => (
             <Reveal key={reason.title} delay={i * 90} variant={getCardRevealVariant(i, 3)} className="h-full">
-              <article className="why-feature-card group h-full">
+              <TiltCard className="h-full">
+                <article className="why-feature-card tilt-card-surface group h-full">
                 <div className="p-8 lg:p-9 h-full flex flex-col">
                   <div className={`why-icon-wrap bg-gradient-to-br ${reason.gradient}`}>
                     <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -73,6 +75,7 @@ export default function WhyChoose() {
                   <p className="text-text-muted text-sm leading-relaxed flex-1">{reason.description}</p>
                 </div>
               </article>
+              </TiltCard>
             </Reveal>
           ))}
         </div>

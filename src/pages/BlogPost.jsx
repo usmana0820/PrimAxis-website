@@ -1,6 +1,6 @@
+import { useParams } from 'react-router-dom'
 import PageShell from '../components/PageShell'
 import Reveal from '../components/Reveal'
-import ResourceLiveChat from '../components/ResourceLiveChat'
 import NotFound from './NotFound'
 import { getBlogPostBySlug } from '../constants/blogPosts'
 
@@ -13,7 +13,7 @@ const THEME_CLASS = {
 }
 
 export default function BlogPost() {
-  const slug = window.location.pathname.replace(/\/$/, '').split('/').pop()
+  const { slug } = useParams()
   const post = getBlogPostBySlug(slug)
 
   if (!post) {
@@ -66,23 +66,6 @@ export default function BlogPost() {
                 </aside>
               )}
             </article>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* Blue — live chat & navigation */}
-      <section className="page-section relative overflow-hidden section-blue-theme">
-        <div className="section-blue-pattern" aria-hidden="true" />
-        <div className="section-blue-glow section-blue-glow-center" aria-hidden="true" />
-
-        <div className="relative max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <Reveal>
-            <ResourceLiveChat variant="blog" />
-          </Reveal>
-
-          <Reveal delay={80} className="mt-8 flex flex-col sm:flex-row gap-3 justify-between items-center">
-            <a href="/blog" className="phase-link-btn phase-link-btn-light-outline">← All Articles</a>
-            <a href="/#contact" className="phase-link-btn phase-link-btn-light">Get Free Consultation</a>
           </Reveal>
         </div>
       </section>

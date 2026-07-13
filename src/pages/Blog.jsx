@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import PageShell from '../components/PageShell'
 import Reveal from '../components/Reveal'
-import ResourceLiveChat from '../components/ResourceLiveChat'
 import { BLOG_CATEGORIES, BLOG_POSTS, getBlogPostUrl, getFeaturedPost } from '../constants/blogPosts'
 
 const THEME_CLASS = {
@@ -28,8 +27,8 @@ export default function Blog() {
     <PageShell
       heroVariant="blog"
       badge="Blog"
-      title="Insights, Guides & Technology Trends"
-      description="Company news, Zoho expertise, AI automation tips, and SEO-friendly articles to help your business grow."
+      title="Blog Showcase"
+      description="Browse all articles below — pick any topic to read insights on Zoho, AI, mobile, web, and company news."
     >
       {/* White — featured & filters */}
       <section className="page-section relative overflow-hidden section-light-theme">
@@ -69,7 +68,7 @@ export default function Blog() {
         </div>
       </section>
 
-      {/* Blue — article grid & live chat */}
+      {/* Blue — article grid */}
       <section className="page-section relative overflow-hidden section-blue-theme">
         <div className="section-blue-pattern" aria-hidden="true" />
         <div className="section-blue-glow section-blue-glow-left" aria-hidden="true" />
@@ -79,8 +78,13 @@ export default function Blog() {
           <Reveal className="text-center max-w-2xl mx-auto section-header">
             <span className="section-label section-label-on-dark">Articles</span>
             <h2 className="mt-5 text-3xl sm:text-4xl font-bold text-white tracking-tight font-display">
-              {activeCategory === 'all' ? 'Latest Insights' : BLOG_CATEGORIES.find((c) => c.id === activeCategory)?.label}
+              Choose an article to read
             </h2>
+            <p className="mt-4 text-white/70 text-base leading-relaxed">
+              {activeCategory === 'all'
+                ? 'Pick any topic below — Zoho, AI, mobile, web, and company updates.'
+                : BLOG_CATEGORIES.find((c) => c.id === activeCategory)?.label}
+            </p>
           </Reveal>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-7">
@@ -101,15 +105,6 @@ export default function Blog() {
               </Reveal>
             ))}
           </div>
-
-          <Reveal delay={100} className="mt-12">
-            <ResourceLiveChat variant="blog" />
-          </Reveal>
-
-          <Reveal delay={120} className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
-            <a href="/#contact" className="phase-link-btn phase-link-btn-light">Get Free Consultation</a>
-            <a href="/" className="phase-link-btn phase-link-btn-light-outline">Back to Home</a>
-          </Reveal>
         </div>
       </section>
     </PageShell>

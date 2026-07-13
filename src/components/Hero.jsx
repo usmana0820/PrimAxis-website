@@ -1,7 +1,13 @@
+import { lazy, Suspense, useEffect, useRef } from 'react'
+import gsap from 'gsap'
 import Reveal from './Reveal'
+import TiltCard from './TiltCard'
+import { usePageReady } from '../context/PageReadyContext'
 import { BRAND_NAME } from '../constants/branding'
 import { HERO_FLOAT_TECH } from '../constants/techStack'
 import TechIcon from './TechIcon'
+
+const HeroThreeScene = lazy(() => import('./HeroThreeScene'))
 
 const stats = [
   {
@@ -50,7 +56,7 @@ function HeroDashboard() {
 
       <div className="hero-glow-base" />
 
-      <div className="hero-dashboard-card">
+      <div className="hero-dashboard-card tilt-card-surface">
         <div className="hero-dashboard-bar">
           <span /><span /><span />
         </div>
@@ -79,36 +85,75 @@ function HeroDashboard() {
 }
 
 export default function Hero() {
+  const dashboardRef = useRef(null)
+  const pageReady = usePageReady()
+
+  useEffect(() => {
+    if (!pageReady || !dashboardRef.current) return undefined
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined
+
+    const ctx = gsap.context(() => {
+      gsap.from('.hero-float-tile', {
+        opacity: 0,
+        y: 28,
+        scale: 0.85,
+        duration: 0.85,
+        stagger: 0.1,
+        ease: 'power2.out',
+        delay: 0.25,
+      })
+      gsap.from('.hero-dashboard-card', {
+        opacity: 0,
+        y: 36,
+        scale: 0.92,
+        duration: 1,
+        ease: 'power3.out',
+        delay: 0.4,
+      })
+      gsap.from('.hero-glow-base', {
+        opacity: 0,
+        scale: 0.75,
+        duration: 1.1,
+        ease: 'power2.out',
+      })
+    }, dashboardRef)
+
+    return () => ctx.revert()
+  }, [pageReady])
+
   return (
     <section id="home" className="theme-dark relative min-h-screen flex items-center bg-hero-premium overflow-hidden pt-28">
+      <Suspense fallback={null}>
+        <HeroThreeScene />
+      </Suspense>
       <div className="absolute inset-0 hero-grid opacity-40" />
       <div className="absolute inset-0 hero-premium-glow pointer-events-none" />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24 w-full">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           <div className="max-w-2xl">
-            <Reveal variant="slide-right">
+            <Reveal variant="slide-right" eager>
               <div className="hero-badge">
                 <span className="text-cyan-400">✧</span>
                 DIGITAL INNOVATION. MEASURABLE IMPACT.
               </div>
             </Reveal>
 
-            <Reveal delay={100} variant="flip">
+            <Reveal delay={100} variant="flip" eager>
               <h1 className="mt-8 text-4xl sm:text-5xl lg:text-[3.25rem] font-extrabold text-white leading-[1.08] tracking-tight font-display">
                 Empowering Businesses Through{' '}
                 <span className="hero-gradient-text">Smart Digital Solutions</span>
               </h1>
             </Reveal>
 
-            <Reveal delay={200} variant="fade-up">
+            <Reveal delay={200} variant="fade-up" eager>
               <p className="mt-6 text-base sm:text-lg text-slate-300/90 leading-relaxed max-w-xl">
                 {BRAND_NAME} delivers intelligent, scalable, and future-ready digital solutions — from
                 Zoho ERP &amp; CRM to custom software, mobile apps, AI automation, and digital marketing.
               </p>
             </Reveal>
 
-            <Reveal delay={300}>
+            <Reveal delay={300} eager>
               <div className="mt-10 flex flex-col sm:flex-row gap-4">
                 <a href="#contact" className="hero-btn-primary">
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -131,27 +176,33 @@ export default function Hero() {
               </div>
             </Reveal>
 
-            <Reveal delay={400}>
+            <Reveal delay={400} eager>
               <div className="mt-10 flex flex-wrap gap-3">
                 {stats.map((stat) => (
-                  <div key={stat.label} className="hero-stat-card">
-                    <div className="hero-stat-icon">
-                      <svg className="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        {stat.icon}
-                      </svg>
+                  <TiltCard key={stat.label} intensity={10} scale={1.04}>
+                    <div className="hero-stat-card tilt-card-surface">
+                      <div className="hero-stat-icon">
+                        <svg className="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          {stat.icon}
+                        </svg>
+                      </div>
+                      <div>
+                        <p className="text-lg font-bold text-white leading-none">{stat.value}</p>
+                        <p className="text-xs text-slate-400 mt-1">{stat.label}</p>
+                      </div>
                     </div>
-                    <div>
-                      <p className="text-lg font-bold text-white leading-none">{stat.value}</p>
-                      <p className="text-xs text-slate-400 mt-1">{stat.label}</p>
-                    </div>
-                  </div>
+                  </TiltCard>
                 ))}
               </div>
             </Reveal>
           </div>
 
-          <Reveal delay={200} variant="scale" className="relative hidden lg:block">
-            <HeroDashboard />
+          <Reveal delay={200} variant="scale" eager className="relative hidden lg:block">
+            <TiltCard intensity={8} scale={1.02} className="w-full">
+              <div ref={dashboardRef}>
+                <HeroDashboard />
+              </div>
+            </TiltCard>
           </Reveal>
         </div>
       </div>

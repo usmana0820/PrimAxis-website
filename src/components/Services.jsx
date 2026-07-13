@@ -1,4 +1,5 @@
 import Reveal from './Reveal'
+import TiltCard from './TiltCard'
 import { getCardRevealVariant } from '../utils/revealVariants'
 
 const services = [
@@ -74,7 +75,8 @@ export default function Services() {
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
           {services.map((service, i) => (
             <Reveal key={service.title} delay={i * 90} variant={getCardRevealVariant(i, 3)} className="h-full">
-              <article className="service-luxury-card group h-full">
+              <TiltCard className="h-full">
+                <article className="service-luxury-card tilt-card-surface group h-full">
                 <div className="relative p-8 h-full flex flex-col">
                   <div className={`service-icon-wrap bg-gradient-to-br ${service.gradient} mb-6`}>
                     <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -93,6 +95,7 @@ export default function Services() {
                   </div>
                 </div>
               </article>
+              </TiltCard>
             </Reveal>
           ))}
         </div>

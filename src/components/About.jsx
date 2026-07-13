@@ -1,4 +1,6 @@
+import { Link } from 'react-router-dom'
 import Reveal from './Reveal'
+import TiltCard from './TiltCard'
 import { getCardRevealVariant } from '../utils/revealVariants'
 import aboutImage from '../assets/aboutsection.jpg'
 
@@ -90,7 +92,8 @@ export default function About() {
             <div className="grid sm:grid-cols-2 gap-4">
               {highlights.map((item, i) => (
                 <Reveal key={item.title} delay={i * 70} variant={getCardRevealVariant(i)} className="h-full">
-                  <div className="about-highlight-card h-full">
+                  <TiltCard className="h-full" intensity={12}>
+                    <div className="about-highlight-card tilt-card-surface h-full">
                     <div className="about-highlight-icon">
                       <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         {item.icon}
@@ -100,31 +103,45 @@ export default function About() {
                       <h3 className="about-highlight-title">{item.title}</h3>
                       <p className="about-highlight-desc">{item.desc}</p>
                     </div>
-                  </div>
+                    </div>
+                  </TiltCard>
                 </Reveal>
               ))}
             </div>
 
             <div className="grid sm:grid-cols-2 gap-4">
-              <Reveal delay={80} variant="slide-left">
-                <div className="about-mission-card h-full">
+              <Reveal delay={80} variant="slide-left" className="h-full">
+                <TiltCard className="h-full" intensity={10}>
+                  <div className="about-mission-card tilt-card-surface h-full">
                   <p className="about-mission-label">Our Mission</p>
                   <p className="about-mission-text">
                     Empower businesses with reliable, scalable technology that simplifies operations and drives growth.
                   </p>
-                </div>
+                  </div>
+                </TiltCard>
               </Reveal>
-              <Reveal delay={140} variant="slide-right">
-                <div className="about-mission-card about-mission-card-accent h-full">
+              <Reveal delay={140} variant="slide-right" className="h-full">
+                <TiltCard className="h-full" intensity={10}>
+                  <div className="about-mission-card about-mission-card-accent tilt-card-surface h-full">
                   <p className="about-mission-label">Our Vision</p>
                   <p className="about-mission-text">
                     Become the trusted digital partner for SMEs and enterprises across Pakistan and beyond.
                   </p>
-                </div>
+                  </div>
+                </TiltCard>
               </Reveal>
             </div>
           </Reveal>
         </div>
+
+        <Reveal delay={160} className="about-section-cta">
+          <Link to="/about" className="hero-btn-primary portfolio-view-details-btn">
+            Know More About Us
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </Link>
+        </Reveal>
       </div>
     </section>
   )

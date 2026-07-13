@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Case Study | PrimeAxis Technologies</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap');
+        
+        :root {
+            --primary: #355C7D;
+            --secondary: #4F46E5;
+            --accent: #06B6D4;
+        }
+        
+        .hero-bg {
+            background: linear-gradient(135deg, #355C7D 0%, #1E3A8A 100%);
+        }
+        
+        .glass {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .feature-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
+        
+        .timeline-item {
+            position: relative;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 23px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, #06B6D4, #4F46E5);
+        }
+        
+        .kpi-number {
+            font-size: 3.5rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, #355C7D, #06B6D4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .section-header {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-white text-[#1E293B] font-['Inter']">
+    <!-- Hero Banner -->
+    <section class="hero-bg text-white relative overflow-hidden min-h-[90vh] flex items-center">
+        <div class="absolute inset-0 bg-[url('https://picsum.photos/id/1015/2000/1200')] bg-cover bg-center"></div>
+        <div class="absolute inset-0 bg-gradient-to-r from-[#355C7D]/90 via-[#355C7D]/70 to-transparent"></div>
+        
+        <div class="max-w-7xl mx-auto px-6 relative z-10 pt-20">
+            <div class="flex flex-col lg:flex-row gap-16 items-center">
+                <div class="lg:w-3/5">
+                    <div class="inline-flex items-center gap-2 bg-white/20 text-white text-sm px-4 py-2 rounded-full backdrop-blur-md mb-6">
+                        <span class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></span>
+                        FEATURED PROJECT
+                    </div>
+                    
+                    <h1 class="text-6xl lg:text-7xl font-bold leading-none tracking-tighter section-header mb-6">
+                        Elite Properties<br>Management Platform
+                    </h1>
+                    
+                    <div class="flex items-center gap-4 text-sm mb-8">
+                        <span class="bg-white/20 px-5 py-2 rounded-3xl backdrop-blur-md">Real Estate</span>
+                        <span class="bg-white/20 px-5 py-2 rounded-3xl backdrop-blur-md">SaaS Platform</span>
+                        <span class="bg-emerald-400/90 px-5 py-2 rounded-3xl">Completed</span>
+                    </div>
+                    
+                    <div class="flex items-center gap-8 text-lg">
+                        <div>
+                            <div class="text-white/70 text-sm">CLIENT</div>
+                            <div class="font-semibold">Elite Realty Group</div>
+                        </div>
+                        <div>
+                            <div class="text-white/70 text-sm">DURATION</div>
+                            <div class="font-semibold">6 Months</div>
+                        </div>
+                        <div>
+                            <div class="text-white/70 text-sm">COMPLETED</div>
+                            <div class="font-semibold">March 2026</div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex gap-4 mt-12">
+                        <button onclick="alert('Starting new project...')" 
+                                class="px-8 py-4 bg-white text-[#355C7D] font-semibold rounded-2xl hover:bg-white/90 transition-all flex items-center gap-3 text-lg">
+                            <i class="fa-solid fa-rocket"></i>
+                            START A PROJECT
+                        </button>
+                        <button onclick="alert('Contacting PrimeAxis...')" 
+                                class="px-8 py-4 border border-white/70 hover:bg-white/10 font-semibold rounded-2xl transition-all flex items-center gap-3 text-lg">
+                            <i class="fa-solid fa-envelope"></i>
+                            CONTACT US
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Glassmorphism Stats -->
+                <div class="lg:w-2/5 grid grid-cols-2 gap-4">
+                    <div class="glass p-6 rounded-3xl text-center">
+                        <div class="text-4xl font-bold mb-1">6</div>
+                        <div class="text-sm uppercase tracking-widest opacity-75">Months</div>
+                        <div class="text-xs text-white/60 mt-1">Duration</div>
+                    </div>
+                    <div class="glass p-6 rounded-3xl text-center">
+                        <div class="text-emerald-400 text-4xl font-bold mb-1">✓</div>
+                        <div class="text-sm uppercase tracking-widest opacity-75">LIVE</div>
+                        <div class="text-xs text-white/60 mt-1">Status</div>
+                    </div>
+                    <div class="glass p-6 rounded-3xl text-center">
+                        <div class="text-4xl font-bold mb-1">12</div>
+                        <div class="text-sm uppercase tracking-widest opacity-75">Experts</div>
+                        <div class="text-xs text-white/60 mt-1">Team Size</div>
+                    </div>
+                    <div class="glass p-6 rounded-3xl text-center">
+                        <div class="text-4xl font-bold mb-1">03.26</div>
+                        <div class="text-sm uppercase tracking-widest opacity-75">2026</div>
+                        <div class="text-xs text-white/60 mt-1">Completed</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Tech badges -->
+        <div class="absolute bottom-12 left-1/2 -translate-x-1/2 flex gap-3 flex-wrap justify-center max-w-lg">
+            <div class="bg-white/10 text-white text-xs px-4 py-2 rounded-3xl backdrop-blur flex items-center gap-2">
+                <i class="fa-brands fa-react"></i> React
+            </div>
+            <div class="bg-white/10 text-white text-xs px-4 py-2 rounded-3xl backdrop-blur flex items-center gap-2">
+                <i class="fa-solid fa-node"></i> Node.js
+            </div>
+            <div class="bg-white/10 text-white text-xs px-4 py-2 rounded-3xl backdrop-blur">Tailwind</div>
+            <div class="bg-white/10 text-white text-xs px-4 py-2 rounded-3xl backdrop-blur">PostgreSQL</div>
+        </div>
+    </section>
+
+    <!-- Project Story -->
+    <section class="py-24 bg-[#F8FAFC]">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <span class="uppercase text-[#06B6D4] tracking-[2px] text-sm font-medium">THE STORY</span>
+                <h2 class="text-5xl font-semibold section-header mt-3">Project Overview</h2>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Executive Summary -->
+                <div class="bg-white p-8 rounded-3xl shadow-sm">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-[#355C7D] text-white rounded-2xl flex items-center justify-center">
+                            <i class="fa-solid fa-file-lines"></i>
+                        </div>
+                        <h3 class="text-2xl font-semibold">Executive Summary</h3>
+                    </div>
+                    <p class="text-[#475569] leading-relaxed">
+                        PrimeAxis delivered a comprehensive property management SaaS platform for Elite Realty Group, transforming fragmented operations into a unified, intelligent ecosystem.
+                    </p>
+                </div>
+                
+                <!-- Project Objectives -->
+                <div class="bg-white p-8 rounded-3xl shadow-sm">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-[#4F46E5] text-white rounded-2xl flex items-center justify-center">
+                            <i class="fa-solid fa-bullseye"></i>
+                        </div>
+                        <h3 class="text-2xl font-semibold">Project Objectives</h3>
+                    </div>
+                    <ul class="space-y-4 text-[#475569]">
+                        <li class="flex gap-3"><span class="text-emerald-500">→</span> Streamline property listings and tenant management</li>
+                        <li class="flex gap-3"><span class="text-emerald-500">→</span> Automate lead nurturing and conversion</li>
+                        <li class="flex gap-3"><span class="text-emerald-500">→</span> Provide real-time analytics dashboard</li>
+                    </ul>
+                </div>
+                
+                <!-- Client Goals -->
+                <div class="bg-white p-8 rounded-3xl shadow-sm">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-[#06B6D4] text-white rounded-2xl flex items-center justify-center">
+                            <i class="fa-solid fa-flag"></i>
+                        </div>
+                        <h3 class="text-2xl font-semibold">Client Goals</h3>
+                    </div>
+                    <p class="text-[#475569] leading-relaxed">
+                        Modernize legacy systems, reduce manual administrative work by over 50%, and create a scalable platform for future growth.
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Additional sections in cards -->
+            <div class="grid md:grid-cols-2 gap-8 mt-8">
+                <div class="bg-white p-8 rounded-3xl shadow-sm">
+                    <h3 class="font-semibold text-xl mb-6 flex items-center gap-3">
+                        <span class="text-amber-500">📋</span> Business Requirements
+                    </h3>
+                    <p class="text-[#475569]">Multi-property portfolio management, financial tracking, maintenance scheduling, and tenant portal.</p>
+                </div>
+                <div class="bg-white p-8 rounded-3xl shadow-sm">
+                    <h3 class="font-semibold text-xl mb-6 flex items-center gap-3">
+                        <span class="text-violet-500">⚙️</span> Functional Requirements
+                    </h3>
+                    <p class="text-[#475569]">Role-based access, automated notifications, advanced search, document management, and seamless integrations.</p>
+                </div>
+            </div>
+            
+            <div class="mt-8 bg-gradient-to-r from-[#355C7D] to-[#4F46E5] text-white p-10 rounded-3xl">
+                <h3 class="font-semibold text-2xl mb-4">Expected Outcome</h3>
+                <p class="text-lg opacity-90">A powerful, intuitive platform that empowers property managers to focus on growth rather than operations.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Business Challenges -->
+    <section class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="max-w-2xl mx-auto text-center mb-16">
+                <h2 class="text-5xl font-semibold section-header">Business Challenges</h2>
+                <p class="text-xl text-[#475569] mt-4">The obstacles that shaped our approach</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="border-l-4 border-rose-500 pl-8 py-2">
+                    <div class="flex gap-4">
+                        <i class="fa-solid fa-triangle-exclamation text-rose-500 text-2xl mt-1"></i>
+                        <div>
+                            <h4 class="font-semibold text-xl">Fragmented Systems</h4>
+                            <p class="text-[#475569]">Multiple disconnected tools leading to data silos and inefficiencies.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="border-l-4 border-amber-500 pl-8 py-2">
+                    <div class="flex gap-4">
+                        <i class="fa-solid fa-triangle-exclamation text-amber-500 text-2xl mt-1"></i>
+                        <div>
+                            <h4 class="font-semibold text-xl">Slow Lead Response</h4>
+                            <p class="text-[#475569]">Manual processes resulted in lost opportunities and poor customer experience.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-12 bg-[#F8FAFC] p-10 rounded-3xl italic border-l-8 border-[#355C7D]">
+                “We were drowning in spreadsheets and missed leads daily. We needed one system to rule them all.”
+                <div class="mt-6 text-sm opacity-75">- CEO, Elite Realty Group</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Our Solution -->
+    <section class="py-24 bg-[#F8FAFC]">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid lg:grid-cols-12 gap-16 items-center">
+                <div class="lg:col-span-5">
+                    <div class="sticky top-8">
+                        <img src="https://picsum.photos/id/201/800/900" 
+                             class="rounded-3xl shadow-2xl w-full" alt="Solution Interface">
+                    </div>
+                </div>
+                
+                <div class="lg:col-span-7">
+                    <div class="max-w-xl">
+                        <span class="px-5 py-2 bg-white rounded-3xl text-sm font-medium text-[#4F46E5]">OUR APPROACH</span>
+                        <h2 class="text-5xl font-semibold section-header mt-6 leading-tight">How we solved it</h2>
+                        <p class="mt-8 text-lg text-[#475569]">A comprehensive digital transformation built with modern technologies.</p>
+                    </div>
+                    
+                    <div class="mt-16 space-y-16">
+                        <div class="flex gap-8">
+                            <div class="w-12 h-12 bg-white shadow rounded-2xl flex-shrink-0 flex items-center justify-center text-2xl">1</div>
+                            <div>
+                                <h4 class="font-semibold">Centralized Dashboard</h4>
+                                <p class="text-[#475569]">Unified view of all properties, tenants, and financials.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-8">
+                            <div class="w-12 h-12 bg-white shadow rounded-2xl flex-shrink-0 flex items-center justify-center text-2xl">2</div>
+                            <div>
+                                <h4 class="font-semibold">Intelligent Automation</h4>
+                                <p class="text-[#475569]">AI-assisted lead qualification and task reminders.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Key Features -->
+    <section class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-5xl font-semibold section-header">Key Features</h2>
+            </div>
+            
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <div class="feature-card bg-white border border-gray-100 p-8 rounded-3xl text-center hover:border-[#06B6D4]">
+                    <div class="w-14 h-14 mx-auto bg-[#F0F9FF] text-[#06B6D4] rounded-2xl flex items-center justify-center text-3xl mb-6">🏠</div>
+                    <h4 class="font-semibold">Property Management</h4>
+                </div>
+                <div class="feature-card bg-white border border-gray-100 p-8 rounded-3xl text-center hover:border-[#06B6D4]">
+                    <div class="w-14 h-14 mx-auto bg-[#F0F9FF] text-[#4F46E5] rounded-2xl flex items-center justify-center text-3xl mb-6">👥</div>
+                    <h4 class="font-semibold">Lead Management</h4>
+                </div>
+                <div class="feature-card bg-white border border-gray-100 p-8 rounded-3xl text-center hover:border-[#06B6D4]">
+                    <div class="w-14 h-14 mx-auto bg-[#F0F9FF] text-[#355C7D] rounded-2xl flex items-center justify-center text-3xl mb-6">📊</div>
+                    <h4 class="font-semibold">Sales Dashboard</h4>
+                </div>
+                <div class="feature-card bg-white border border-gray-100 p-8 rounded-3xl text-center hover:border-[#06B6D4]">
+                    <div class="w-14 h-14 mx-auto bg-[#F0F9FF] text-amber-500 rounded-2xl flex items-center justify-center text-3xl mb-6">🔐</div>
+                    <h4 class="font-semibold">Role Based Access</h4>
+                </div>
+                <!-- Add more as needed -->
+                <div class="feature-card bg-white border border-gray-100 p-8 rounded-3xl text-center hover:border-[#06B6D4]">
+                    <div class="w-14 h-14 mx-auto bg-[#F0F9FF] text-emerald-500 rounded-2xl flex items-center justify-center text-3xl mb-6">📧</div>
+                    <h4 class="font-semibold">Email Notifications</h4>
+                </div>
+                <div class="feature-card bg-white border border-gray-100 p-8 rounded-3xl text-center hover:border-[#06B6D4]">
+                    <div class="w-14 h-14 mx-auto bg-[#F0F9FF] text-violet-500 rounded-2xl flex items-center justify-center text-3xl mb-6">🔍</div>
+                    <h4 class="font-semibold">Advanced Search</h4>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technology Stack -->
+    <section class="py-24 bg-[#F8FAFC]">
+        <div class="max-w-7xl mx-auto px-6">
+            <h2 class="text-center text-5xl font-semibold section-header mb-16">Technology Stack</h2>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-12">
+                <!-- Frontend -->
+                <div>
+                    <div class="uppercase text-xs tracking-widest mb-6 text-[#355C7D]">Frontend</div>
+                    <div class="flex flex-wrap gap-3">
+                        <div class="px-6 py-3 bg-white rounded-3xl shadow text-sm flex items-center gap-2">React</div>
+                        <div class="px-6 py-3 bg-white rounded-3xl shadow text-sm flex items-center gap-2">Tailwind CSS</div>
+                        <div class="px-6 py-3 bg-white rounded-3xl shadow text-sm flex items-center gap-2">TypeScript</div>
+                    </div>
+                </div>
+                
+                <div>
+                    <div class="uppercase text-xs tracking-widest mb-6 text-[#4F46E5]">Backend</div>
+                    <div class="flex flex-wrap gap-3">
+                        <div class="px-6 py-3 bg-white rounded-3xl shadow text-sm flex items-center gap-2">Node.js</div>
+                        <div class="px-6 py-3 bg-white rounded-3xl shadow text-sm flex items-center gap-2">Express</div>
+                    </div>
+                </div>
+                
+                <div>
+                    <div class="uppercase text-xs tracking-widest mb-6 text-[#06B6D4]">Database &amp; Cloud</div>
+                    <div class="flex flex-wrap gap-3">
+                        <div class="px-6 py-3 bg-white rounded-3xl shadow text-sm flex items-center gap-2">PostgreSQL</div>
+                        <div class="px-6 py-3 bg-white rounded-3xl shadow text-sm flex items-center gap-2">AWS</div>
+                        <div class="px-6 py-3 bg-white rounded-3xl shadow text-sm flex items-center gap-2">Docker</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery -->
+    <section class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-6">
+            <h2 class="text-5xl font-semibold section-header text-center mb-8">Project Gallery</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <img onclick="alert('Lightbox would open here')" src="https://picsum.photos/id/1015/800/600" class="rounded-3xl cursor-pointer shadow-xl hover:scale-105 transition-transform" alt="">
+                <img onclick="alert('Lightbox would open here')" src="https://picsum.photos/id/133/800/600" class="rounded-3xl cursor-pointer shadow-xl hover:scale-105 transition-transform" alt="">
+                <img onclick="alert('Lightbox would open here')" src="https://picsum.photos/id/201/800/600" class="rounded-3xl cursor-pointer shadow-xl hover:scale-105 transition-transform" alt="">
+            </div>
+        </div>
+    </section>
+
+    <!-- Development Process -->
+    <section class="py-24 bg-[#F8FAFC]">
+        <div class="max-w-6xl mx-auto px-6">
+            <h2 class="text-center text-5xl font-semibold section-header mb-16">Development Process</h2>
+            
+            <div class="flex flex-col md:flex-row justify-between gap-8 relative">
+                <div class="timeline-item flex-1 text-center">
+                    <div class="w-12 h-12 mx-auto bg-white shadow-md rounded-2xl flex items-center justify-center text-3xl mb-4">🔍</div>
+                    <div class="font-medium">Discovery</div>
+                </div>
+                <div class="timeline-item flex-1 text-center">
+                    <div class="w-12 h-12 mx-auto bg-white shadow-md rounded-2xl flex items-center justify-center text-3xl mb-4">📐</div>
+                    <div class="font-medium">Planning</div>
+                </div>
+                <div class="timeline-item flex-1 text-center">
+                    <div class="w-12 h-12 mx-auto bg-white shadow-md rounded-2xl flex items-center justify-center text-3xl mb-4">🎨</div>
+                    <div class="font-medium">UI/UX Design</div>
+                </div>
+                <div class="timeline-item flex-1 text-center">
+                    <div class="w-12 h-12 mx-auto bg-white shadow-md rounded-2xl flex items-center justify-center text-3xl mb-4">💻</div>
+                    <div class="font-medium">Development</div>
+                </div>
+                <div class="timeline-item flex-1 text-center">
+                    <div class="w-12 h-12 mx-auto bg-white shadow-md rounded-2xl flex items-center justify-center text-3xl mb-4">🧪</div>
+                    <div class="font-medium">Testing</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Business Impact / Results -->
+    <section class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-6">
+            <h2 class="text-center text-5xl font-semibold section-header mb-16">Business Impact</h2>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-gradient-to-br from-[#355C7D] to-[#06B6D4] text-white p-10 rounded-3xl text-center">
+                    <div class="kpi-number">35</div>
+                    <div class="text-2xl font-medium mt-2">%</div>
+                    <div class="mt-8 text-lg">Increase in Lead Conversion</div>
+                </div>
+                <div class="bg-gradient-to-br from-[#4F46E5] to-[#355C7D] text-white p-10 rounded-3xl text-center">
+                    <div class="kpi-number">60</div>
+                    <div class="text-2xl font-medium mt-2">%</div>
+                    <div class="mt-8 text-lg">Reduction in Manual Work</div>
+                </div>
+                <div class="bg-white border border-gray-100 p-10 rounded-3xl text-center shadow">
+                    <div class="text-6xl font-bold text-emerald-500">2.4x</div>
+                    <div class="mt-8 text-lg font-medium">Faster Response Times</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Delivered -->
+    <section class="py-24 bg-[#F8FAFC]">
+        <div class="max-w-7xl mx-auto px-6">
+            <h2 class="text-5xl font-semibold section-header text-center mb-16">Services Delivered</h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="bg-white p-6 rounded-3xl flex items-center gap-4">
+                    <i class="fa-solid fa-chart-simple text-[#06B6D4]"></i>
+                    <span class="font-medium">Business Analysis</span>
+                </div>
+                <div class="bg-white p-6 rounded-3xl flex items-center gap-4">
+                    <i class="fa-solid fa-palette text-[#4F46E5]"></i>
+                    <span class="font-medium">UI/UX Design</span>
+                </div>
+                <div class="bg-white p-6 rounded-3xl flex items-center gap-4">
+                    <i class="fa-solid fa-code text-[#355C7D]"></i>
+                    <span class="font-medium">Full-Stack Development</span>
+                </div>
+                <div class="bg-white p-6 rounded-3xl flex items-center gap-4">
+                    <i class="fa-solid fa-cloud text-emerald-500"></i>
+                    <span class="font-medium">Cloud Deployment</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Members -->
+    <section class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-6">
+            <h2 class="text-center text-5xl font-semibold section-header mb-16">Our Team</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="group bg-white border rounded-3xl overflow-hidden hover:shadow-2xl transition-all">
+                    <img src="https://picsum.photos/id/64/400/300" class="w-full h-60 object-cover">
+                    <div class="p-6">
+                        <div class="font-semibold">Sarah Chen</div>
+                        <div class="text-sm text-[#64748B]">Lead Designer</div>
+                        <p class="text-xs mt-4 text-[#475569]">Crafted delightful user experiences that drive engagement.</p>
+                        <div class="flex gap-4 mt-6">
+                            <i class="fa-brands fa-linkedin cursor-pointer"></i>
+                        </div>
+                    </div>
+                </div>
+                <!-- More team cards can be added -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Related Projects -->
+    <section class="py-24 bg-[#F8FAFC]">
+        <div class="max-w-7xl mx-auto px-6">
+            <h2 class="text-5xl font-semibold section-header mb-8">Related Projects</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-white rounded-3xl overflow-hidden shadow hover:shadow-xl transition-all group">
+                    <img src="https://picsum.photos/id/180/600/400" class="w-full h-56 object-cover">
+                    <div class="p-8">
+                        <span class="text-xs uppercase tracking-wider text-[#06B6D4]">Fintech</span>
+                        <h4 class="font-semibold mt-2 group-hover:text-[#4F46E5]">Banking Portal Redesign</h4>
+                        <button class="mt-8 text-sm flex items-center gap-2 hover:gap-3 transition-all">
+                            View Case Study <span class="text-xl">→</span>
+                        </button>
+                    </div>
+                </div>
+                <!-- Two more similar cards -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="hero-bg py-28 text-white text-center">
+        <div class="max-w-2xl mx-auto px-6">
+            <h2 class="text-6xl font-bold section-header leading-none">Ready to build your next digital solution?</h2>
+            <div class="flex flex-wrap gap-6 justify-center mt-12">
+                <button class="px-10 py-5 bg-white text-[#355C7D] rounded-3xl font-semibold text-lg">START A PROJECT</button>
+                <button class="px-10 py-5 border-2 border-white rounded-3xl font-semibold text-lg">SCHEDULE CONSULTATION</button>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Simple Tailwind script already included via CDN
+        console.log('%cPrimeAxis Case Study loaded successfully ✨', 'color:#06B6D4; font-family:monospace');
+    </script>
+</body>
+</html>

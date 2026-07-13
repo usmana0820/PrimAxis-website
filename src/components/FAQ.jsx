@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import Reveal from './Reveal'
+import TiltCard from './TiltCard'
 import { getCardRevealVariant } from '../utils/revealVariants'
 
 const faqs = [
@@ -52,7 +53,8 @@ export default function FAQ() {
             const isOpen = open === i
             return (
               <Reveal key={faq.q} delay={i * 70} variant={getCardRevealVariant(i, 1)}>
-                <article className={`faq-card ${isOpen ? 'faq-card-open' : ''}`}>
+                <TiltCard intensity={8} scale={1.01}>
+                  <article className={`faq-card tilt-card-surface ${isOpen ? 'faq-card-open' : ''}`}>
                   <button
                     type="button"
                     onClick={() => setOpen(isOpen ? -1 : i)}
@@ -72,6 +74,7 @@ export default function FAQ() {
                     </div>
                   </div>
                 </article>
+                </TiltCard>
               </Reveal>
             )
           })}

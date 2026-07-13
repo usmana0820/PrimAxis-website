@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
 import Reveal from './Reveal'
+import TiltCard from './TiltCard'
 import { getCardRevealVariant } from '../utils/revealVariants'
 
 const testimonials = [
@@ -89,7 +90,8 @@ export default function Testimonials() {
         </Reveal>
 
         <Reveal variant="slide-bottom">
-          <div className="testimonial-slider-wrap">
+          <TiltCard intensity={6} scale={1.01} className="w-full">
+            <div className="testimonial-slider-wrap tilt-card-surface">
             <button
               type="button"
               onClick={prev}
@@ -161,6 +163,7 @@ export default function Testimonials() {
               />
             ))}
           </div>
+          </TiltCard>
         </Reveal>
       </div>
     </section>

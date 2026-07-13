@@ -1,4 +1,5 @@
 import Reveal from './Reveal'
+import TiltCard from './TiltCard'
 import { getCardRevealVariant } from '../utils/revealVariants'
 
 const industries = [
@@ -83,7 +84,8 @@ export default function Industries() {
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-5">
           {industries.map((industry, i) => (
             <Reveal key={industry.name} delay={i * 60} variant={getCardRevealVariant(i, 5)} className="h-full">
-              <div className="industry-premium-card group h-full">
+              <TiltCard className="h-full" intensity={12}>
+                <div className="industry-premium-card tilt-card-surface group h-full">
                 <div className="p-6 text-center flex flex-col items-center">
                   <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${industry.gradient} flex items-center justify-center text-white shadow-lg mb-4 transition-all duration-400 group-hover:scale-110 group-hover:shadow-xl`}>
                     <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -94,7 +96,8 @@ export default function Industries() {
                     {industry.name}
                   </span>
                 </div>
-              </div>
+                </div>
+              </TiltCard>
             </Reveal>
           ))}
         </div>
