@@ -1,4 +1,5 @@
 import Reveal from './Reveal'
+import SectionHead from './SectionHead'
 import { useReveal } from '../hooks/useReveal'
 
 const steps = [
@@ -141,15 +142,11 @@ export default function Process() {
       <div className="section-light-mesh" aria-hidden="true" />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <Reveal className="text-center max-w-3xl mx-auto section-header" variant="slide-top">
-          <span className="section-label">Our Development Process</span>
-          <h2 className="mt-5 text-3xl sm:text-4xl lg:text-[2.75rem] font-bold text-text tracking-tight font-display">
-            From Idea to Launch
-          </h2>
-          <p className="mt-5 text-text-muted text-lg leading-relaxed">
-            Eight clear steps from discovery to launch and beyond.
-          </p>
-        </Reveal>
+        <SectionHead
+          label="Our Development Process"
+          title="From Idea to Launch"
+          subtitle="Eight clear steps from discovery to launch and beyond."
+        />
 
         <Reveal variant="fade-up">
           <ProcessTimeline />

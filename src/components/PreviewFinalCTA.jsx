@@ -30,8 +30,9 @@ export default function PreviewFinalCTA({
   return (
     <section className="cs-preview-cta theme-dark bg-hero-premium relative overflow-hidden">
       <Suspense fallback={null}>
-        <LiveBackground variant="band" />
+        <LiveBackground variant="hero" />
       </Suspense>
+      <div className="absolute inset-0 hero-grid opacity-35 pointer-events-none" aria-hidden="true" />
       <div className="cs-preview-cta-scrim" aria-hidden="true" />
       <div className="absolute inset-0 hero-premium-glow pointer-events-none" aria-hidden="true" />
 

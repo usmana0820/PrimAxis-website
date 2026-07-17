@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { lazy, Suspense, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { LOGO_SRC, BRAND_NAME, BRAND_SHORT } from '../constants/branding'
 import {
@@ -55,6 +55,8 @@ const socialLinks = [
   },
 ]
 
+const LiveBackground = lazy(() => import('./LiveBackground'))
+
 export default function Footer() {
   const [email, setEmail] = useState('')
   const [subscribed, setSubscribed] = useState(false)
@@ -67,7 +69,14 @@ export default function Footer() {
   }
 
   return (
-    <footer className="footer-v2 footer-premium theme-dark relative overflow-hidden">
+    <footer className="footer-v2 footer-premium theme-dark bg-hero-premium relative overflow-hidden">
+      <div className="footer-live-base absolute inset-0 pointer-events-none" aria-hidden="true" />
+      <Suspense fallback={null}>
+        <LiveBackground variant="footer" />
+      </Suspense>
+      <div className="hero-grid footer-live-grid absolute inset-0 pointer-events-none" aria-hidden="true" />
+      <div className="absolute inset-0 hero-premium-glow footer-live-glow pointer-events-none" aria-hidden="true" />
+      <div className="footer-live-scrim absolute inset-0 pointer-events-none" aria-hidden="true" />
       <div className="footer-v2-mesh footer-mesh" aria-hidden="true" />
       <div className="footer-v2-pattern" aria-hidden="true" />
       <div className="footer-top-glow" aria-hidden="true" />

@@ -20,9 +20,11 @@ export default function PageShell({ children, badge, title, description, heroVar
           {isPremium ? (
             <>
               <Suspense fallback={null}>
-                <LiveBackground variant="band" />
+                <LiveBackground variant="hero" />
               </Suspense>
+              <div className="absolute inset-0 hero-grid opacity-40 pointer-events-none" aria-hidden="true" />
               <div className="absolute inset-0 hero-premium-glow pointer-events-none" aria-hidden="true" />
+              <div className="page-hero-premium-scrim absolute inset-0 pointer-events-none" aria-hidden="true" />
             </>
           ) : (
             <>

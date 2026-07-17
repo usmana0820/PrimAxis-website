@@ -41,3 +41,64 @@ export const PAGE_TRANSITION = {
   exit: { opacity: 0, y: -10 },
   transition: { duration: 0.38, ease: [0.22, 1, 0.36, 1] },
 }
+
+/** Staggered word / character flow for headings & copy */
+export const TEXT_FLOW_EASE = [0.22, 1, 0.36, 1]
+
+export const TEXT_FLOW_CONTAINER = {
+  hidden: { opacity: 1 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.045,
+      delayChildren: 0.08,
+    },
+  },
+}
+
+export const TEXT_FLOW_CHAR_CONTAINER = {
+  hidden: { opacity: 1 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.028,
+      delayChildren: 0.05,
+    },
+  },
+}
+
+export const TEXT_FLOW_ITEM = {
+  hidden: {
+    opacity: 0,
+    y: '0.95em',
+    rotateX: 48,
+    filter: 'blur(6px)',
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    rotateX: 0,
+    filter: 'blur(0px)',
+    transition: {
+      duration: 0.62,
+      ease: TEXT_FLOW_EASE,
+    },
+  },
+}
+
+export const TEXT_FLOW_CHAR = {
+  hidden: {
+    opacity: 0,
+    y: 8,
+    filter: 'blur(4px)',
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    filter: 'blur(0px)',
+    transition: {
+      duration: 0.4,
+      ease: TEXT_FLOW_EASE,
+    },
+  },
+}

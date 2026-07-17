@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import Reveal from './Reveal'
+import SectionHead from './SectionHead'
 import TiltCard from './TiltCard'
 import { getCardRevealVariant } from '../utils/revealVariants'
 import {
@@ -95,16 +96,11 @@ export default function Contact() {
       <div className="section-light-mesh" aria-hidden="true" />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <Reveal className="text-center max-w-3xl mx-auto section-header" variant="slide-top">
-          <span className="section-label">Contact Us</span>
-          <h2 className="mt-5 text-3xl sm:text-4xl lg:text-[2.75rem] font-bold text-text tracking-tight font-display">
-            Let&apos;s Build Something Great Together
-          </h2>
-          <p className="mt-5 text-text-muted text-lg leading-relaxed">
-            We&apos;d love to hear about your project and discuss how our technology solutions can
-            support your business goals.
-          </p>
-        </Reveal>
+        <SectionHead
+          label="Contact Us"
+          title="Let's Build Something Great Together"
+          subtitle="We'd love to hear about your project and discuss how our technology solutions can support your business goals."
+        />
 
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-14">
           <div className="space-y-4">

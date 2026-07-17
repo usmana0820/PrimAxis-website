@@ -1,4 +1,5 @@
 import Reveal from './Reveal'
+import SectionHead from './SectionHead'
 import TiltCard from './TiltCard'
 import { getCardRevealVariant } from '../utils/revealVariants'
 import { COMPANY_STATS, LEADERSHIP, TEAM_PREVIEW } from '../constants/team'
@@ -30,16 +31,11 @@ export default function OurTeam() {
       <div className="section-light-mesh" aria-hidden="true" />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <Reveal className="text-center max-w-3xl mx-auto section-header" variant="slide-top">
-          <span className="section-label">Our Team</span>
-          <h2 className="mt-5 text-3xl sm:text-4xl lg:text-[2.75rem] font-bold text-text tracking-tight font-display">
-            Company Structure &amp; Leadership
-          </h2>
-          <p className="mt-5 text-text-muted text-lg leading-relaxed">
-            A cross-functional team of developers, Zoho specialists, designers, and consultants
-            working together to deliver exceptional digital solutions.
-          </p>
-        </Reveal>
+        <SectionHead
+          label="Our Team"
+          title="Company Structure & Leadership"
+          subtitle="A cross-functional team of developers, Zoho specialists, designers, and consultants working together to deliver exceptional digital solutions."
+        />
 
         <Reveal delay={60} variant="slide-bottom">
           <div className="team-stats-row">

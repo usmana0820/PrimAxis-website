@@ -1,4 +1,5 @@
 import Reveal from './Reveal'
+import SectionHead from './SectionHead'
 import TiltCard from './TiltCard'
 import { getCardRevealVariant } from '../utils/revealVariants'
 
@@ -47,16 +48,12 @@ export default function WhyChoose() {
       <div className="section-light-mesh" aria-hidden="true" />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <Reveal className="text-center max-w-3xl mx-auto section-header" variant="slide-top">
-          <span className="section-label">Why Choose Us</span>
-          <h2 className="mt-5 text-3xl sm:text-4xl lg:text-[2.75rem] font-bold text-text tracking-tight font-display leading-tight">
-            Your Trusted Technology Partner
-          </h2>
-          <p className="mt-5 text-text-muted text-lg leading-relaxed">
-            At PrimeAxis Technologies, we combine technical expertise with strategic thinking to deliver
-            solutions that create measurable business value.
-          </p>
-        </Reveal>
+        <SectionHead
+          label="Why Choose Us"
+          title="Your Trusted Technology Partner"
+          subtitle="At PrimeAxis Technologies, we combine technical expertise with strategic thinking to deliver solutions that create measurable business value."
+          titleClassName="mt-5 text-3xl sm:text-4xl lg:text-[2.75rem] font-bold text-text tracking-tight font-display leading-tight"
+        />
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
           {reasons.map((reason, i) => (

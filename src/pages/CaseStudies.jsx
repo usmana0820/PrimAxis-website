@@ -4,9 +4,9 @@ import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import WhatsAppChat from '../components/WhatsAppChat'
 import Reveal from '../components/Reveal'
+import PreviewHeroBackground from '../components/PreviewHeroBackground'
 import PreviewFinalCTA from '../components/PreviewFinalCTA'
 import PreviewProjectCard from '../components/PreviewProjectCard'
-import aboutHeroImage from '../assets/about_more.jpg'
 import { usePublishedProjects } from '../hooks/usePublishedProjects'
 
 function SectionIntro({ label, title, subtitle }) {
@@ -30,13 +30,8 @@ export default function CaseStudies() {
     <div className="cs-preview-page">
       <Navbar isSubpage />
 
-      <section className="cs-preview-hero">
-        <div
-          className="cs-preview-hero-bg"
-          style={{ backgroundImage: `url('${aboutHeroImage}')` }}
-          aria-hidden="true"
-        />
-        <div className="cs-preview-hero-overlay" aria-hidden="true" />
+      <section className="cs-preview-hero theme-dark bg-hero-premium">
+        <PreviewHeroBackground />
 
         <div className="cs-preview-hero-inner">
           <Reveal variant="slide-top">

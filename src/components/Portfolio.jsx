@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import Reveal from './Reveal'
+import SectionHead from './SectionHead'
 import TiltCard from './TiltCard'
 import PortfolioCard from './PortfolioCard'
 import { getCardRevealVariant } from '../utils/revealVariants'
@@ -16,15 +17,11 @@ export default function Portfolio() {
       <div className="section-light-mesh" aria-hidden="true" />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <Reveal className="text-center max-w-3xl mx-auto section-header" variant="slide-top">
-          <span className="section-label">Portfolio</span>
-          <h2 className="mt-5 text-3xl sm:text-4xl lg:text-[2.75rem] font-bold text-text tracking-tight font-display">
-            Our Recent Work
-          </h2>
-          <p className="mt-5 text-text-muted text-lg leading-relaxed">
-            Real projects at a glance — open any card for the full case study.
-          </p>
-        </Reveal>
+        <SectionHead
+          label="Portfolio"
+          title="Our Recent Work"
+          subtitle="Real projects at a glance — open any card for the full case study."
+        />
 
         <div className="portfolio-home-grid">
           {preview.map((item, i) => (

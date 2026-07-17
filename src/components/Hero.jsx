@@ -1,6 +1,7 @@
 import { lazy, Suspense, useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import Reveal from './Reveal'
+import TextFlow from './TextFlow'
 import TiltCard from './TiltCard'
 import { usePageReady } from '../context/PageReadyContext'
 import { BRAND_NAME } from '../constants/branding'
@@ -34,51 +35,61 @@ const stats = [
 ]
 
 function HeroDashboard() {
-  return (
-    <div className="hero-dashboard-scene">
-      <div className="hero-light-trail hero-light-trail-1" />
-      <div className="hero-light-trail hero-light-trail-2" />
+  const heroMetrics = [
+    { value: '50+', label: 'Projects', sub: 'Delivered' },
+    { value: '10+', label: 'Industries', sub: 'Served' },
+    { value: '99%', label: 'Satisfaction', sub: 'Client Rating', live: true },
+  ]
 
-      {HERO_FLOAT_TECH.map((tech) => (
-        <div key={tech.name} className={`hero-float-tile ${tech.style}`}>
+  return (
+    <div className="hero-visual-v2">
+      <div className="hero-visual-v2-glow" aria-hidden="true" />
+      <div className="hero-visual-v2-orbit" aria-hidden="true">
+        <span className="hero-visual-v2-orbit-ring" />
+      </div>
+
+      {HERO_FLOAT_TECH.slice(0, 6).map((tech, index) => (
+        <div
+          key={tech.name}
+          className={`hero-visual-v2-chip hero-visual-v2-chip-${index + 1}`}
+        >
           {tech.icon ? (
-            <div className="hero-float-icon-box">
-              <TechIcon name={tech.name} icon={tech.icon} size={22} className="w-[22px] h-[22px]" />
-            </div>
+            <TechIcon name={tech.name} icon={tech.icon} size={18} className="w-[18px] h-[18px]" />
           ) : (
-            <div className="hero-float-icon-box hero-float-icon-box-label">
-              <span className="text-[9px] font-bold text-[#355C7D] leading-tight text-center px-0.5">AI</span>
-            </div>
+            <span className="hero-visual-v2-chip-ai">AI</span>
           )}
-          <span className="hero-float-label">{tech.label ?? tech.name}</span>
+          <span>{tech.label ?? tech.name}</span>
         </div>
       ))}
 
-      <div className="hero-glow-base" />
+      <div className="hero-visual-v2-bento">
+        <article className="hero-visual-v2-primary">
+          <div className="hero-visual-v2-primary-mesh" aria-hidden="true" />
+          <p className="hero-visual-v2-kicker">Live Analytics</p>
+          <p className="hero-visual-v2-value">75%</p>
+          <p className="hero-visual-v2-label">Growth Trajectory</p>
+          <div className="hero-visual-v2-chart" aria-hidden="true">
+            {[35, 55, 40, 70, 50, 85, 60, 78].map((h, i) => (
+              <span key={i} style={{ height: `${h}%` }} />
+            ))}
+          </div>
+          <div className="hero-visual-v2-feed">
+            <div><span />New Clients</div>
+            <div><span />Recent Projects</div>
+            <div><span />AI Automation</div>
+          </div>
+        </article>
 
-      <div className="hero-dashboard-card tilt-card-surface">
-        <div className="hero-dashboard-bar">
-          <span /><span /><span />
-        </div>
-        <div className="hero-dashboard-grid">
-          <div className="hero-dash-panel">
-            <div className="hero-dash-chart">
-              {[35, 55, 40, 70, 50, 85, 60].map((h, i) => (
-                <span key={i} style={{ height: `${h}%` }} />
-              ))}
-            </div>
-          </div>
-          <div className="hero-dash-panel hero-dash-panel-sm">
-            <div className="hero-dash-donut">
-              <span>75%</span>
-            </div>
-          </div>
-          <div className="hero-dash-panel hero-dash-list">
-            <div className="hero-dash-list-item"><span />New Clients</div>
-            <div className="hero-dash-list-item"><span />Recent Projects</div>
-            <div className="hero-dash-list-item"><span />Analytics</div>
-          </div>
-        </div>
+        {heroMetrics.map((metric, index) => (
+          <article key={metric.label} className={`hero-visual-v2-cell hero-visual-v2-cell-${index + 1}`}>
+            <div className="hero-visual-v2-cell-accent" aria-hidden="true" />
+            <p className={`hero-visual-v2-value hero-visual-v2-value-sm${metric.live ? ' is-live' : ''}`}>
+              {metric.value}
+            </p>
+            <p className="hero-visual-v2-label">{metric.label}</p>
+            <p className="hero-visual-v2-sub">{metric.sub}</p>
+          </article>
+        ))}
       </div>
     </div>
   )
@@ -93,26 +104,26 @@ export default function Hero() {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined
 
     const ctx = gsap.context(() => {
-      gsap.from('.hero-float-tile', {
+      gsap.from('.hero-visual-v2-chip', {
         opacity: 0,
-        y: 28,
-        scale: 0.85,
-        duration: 0.85,
-        stagger: 0.1,
+        y: 20,
+        scale: 0.88,
+        duration: 0.75,
+        stagger: 0.08,
         ease: 'power2.out',
-        delay: 0.25,
+        delay: 0.2,
       })
-      gsap.from('.hero-dashboard-card', {
+      gsap.from('.hero-visual-v2-bento', {
         opacity: 0,
-        y: 36,
-        scale: 0.92,
+        y: 32,
+        rotateX: 8,
         duration: 1,
         ease: 'power3.out',
-        delay: 0.4,
+        delay: 0.35,
       })
-      gsap.from('.hero-glow-base', {
+      gsap.from('.hero-visual-v2-glow', {
         opacity: 0,
-        scale: 0.75,
+        scale: 0.8,
         duration: 1.1,
         ease: 'power2.out',
       })
@@ -132,26 +143,45 @@ export default function Hero() {
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24 w-full">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           <div className="max-w-2xl">
-            <Reveal variant="slide-right" eager>
-              <div className="hero-badge">
-                <span className="text-cyan-400">✧</span>
-                DIGITAL INNOVATION. MEASURABLE IMPACT.
-              </div>
-            </Reveal>
+            <div className="hero-badge">
+              <span className="text-cyan-400">✧</span>
+              <TextFlow
+                as="span"
+                mode="chars"
+                eager
+                className="hero-badge-text"
+                text="DIGITAL INNOVATION. MEASURABLE IMPACT."
+              />
+            </div>
 
-            <Reveal delay={100} variant="flip" eager>
-              <h1 className="mt-8 text-4xl sm:text-5xl lg:text-[3.25rem] font-extrabold text-white leading-[1.08] tracking-tight font-display">
-                Empowering Businesses Through{' '}
-                <span className="hero-gradient-text">Smart Digital Solutions</span>
-              </h1>
-            </Reveal>
+            <h1 className="mt-8 text-4xl sm:text-5xl lg:text-[3.25rem] font-extrabold text-white leading-[1.08] tracking-tight font-display">
+              <TextFlow
+                as="span"
+                mode="words"
+                eager
+                delay={80}
+                className="block sm:inline"
+                text="Empowering Businesses Through"
+              />
+              {' '}
+              <TextFlow
+                as="span"
+                mode="words"
+                eager
+                delay={420}
+                className="hero-gradient-text block sm:inline"
+                text="Smart Digital Solutions"
+              />
+            </h1>
 
-            <Reveal delay={200} variant="fade-up" eager>
-              <p className="mt-6 text-base sm:text-lg text-slate-300/90 leading-relaxed max-w-xl">
-                {BRAND_NAME} delivers intelligent, scalable, and future-ready digital solutions — from
-                Zoho ERP &amp; CRM to custom software, mobile apps, AI automation, and digital marketing.
-              </p>
-            </Reveal>
+            <TextFlow
+              as="p"
+              mode="words"
+              eager
+              delay={200}
+              className="mt-6 text-base sm:text-lg text-slate-300/90 leading-relaxed max-w-xl"
+              text={`${BRAND_NAME} delivers intelligent, scalable, and future-ready digital solutions — from Zoho ERP & CRM to custom software, mobile apps, AI automation, and digital marketing.`}
+            />
 
             <Reveal delay={300} eager>
               <div className="mt-10 flex flex-col sm:flex-row gap-4">

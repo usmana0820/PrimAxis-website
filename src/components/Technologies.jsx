@@ -1,4 +1,5 @@
 import Reveal from './Reveal'
+import SectionHead from './SectionHead'
 import { TECH_CATEGORIES, getTechByName } from '../constants/techStack'
 import TechIcon from './TechIcon'
 
@@ -42,15 +43,11 @@ export default function Technologies() {
       <div className="section-light-mesh" aria-hidden="true" />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <Reveal className="text-center max-w-3xl mx-auto section-header">
-          <span className="section-label">Technology Stack</span>
-          <h2 className="mt-5 text-3xl sm:text-4xl lg:text-[2.75rem] font-bold text-text tracking-tight font-display">
-            Modern Tech Stack
-          </h2>
-          <p className="mt-5 text-text-muted text-lg leading-relaxed">
-            We utilize industry-leading technologies to build secure, scalable, and high-performance digital solutions.
-          </p>
-        </Reveal>
+        <SectionHead
+          label="Technology Stack"
+          title="Modern Tech Stack"
+          subtitle="We utilize industry-leading technologies to build secure, scalable, and high-performance digital solutions."
+        />
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-7">
           {TECH_CATEGORIES.map((cat, i) => (

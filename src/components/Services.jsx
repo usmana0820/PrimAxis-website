@@ -1,4 +1,5 @@
 import Reveal from './Reveal'
+import SectionHead from './SectionHead'
 import TiltCard from './TiltCard'
 import { getCardRevealVariant } from '../utils/revealVariants'
 
@@ -62,15 +63,12 @@ export default function Services() {
       <div className="section-light-mesh" aria-hidden="true" />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <Reveal className="text-center max-w-3xl mx-auto section-header" variant="slide-top">
-          <span className="section-label">Our Services</span>
-          <h2 className="mt-5 text-3xl sm:text-4xl lg:text-[2.75rem] font-bold text-text tracking-tight font-display">
-            Comprehensive Technology Solutions
-          </h2>
-          <p className="mt-4 text-text-muted text-lg">
-            End-to-end digital services tailored to help your business grow and thrive.
-          </p>
-        </Reveal>
+        <SectionHead
+          label="Our Services"
+          title="Comprehensive Technology Solutions"
+          subtitle="End-to-end digital services tailored to help your business grow and thrive."
+          subtitleClassName="mt-4 text-text-muted text-lg"
+        />
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
           {services.map((service, i) => (
@@ -87,7 +85,7 @@ export default function Services() {
                     {service.title}
                   </h3>
                   <p className="text-text-muted text-sm leading-relaxed flex-1">{service.description}</p>
-                  <div className="mt-6 flex items-center text-sm font-semibold text-[#06B6D4] opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300">
+                  <div className="service-card-more mt-6 flex items-center text-sm font-semibold text-[#06B6D4] opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300">
                     Learn more
                     <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />

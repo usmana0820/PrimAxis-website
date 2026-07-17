@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import Reveal from './Reveal'
+import SectionHead from './SectionHead'
 import SeeAllLink from './SeeAllLink'
 import { getCardRevealVariant } from '../utils/revealVariants'
 import { BLOG_POSTS, getBlogPostUrl } from '../constants/blogPosts'
@@ -22,15 +23,11 @@ export default function BlogPreview() {
       <div className="section-light-mesh" aria-hidden="true" />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <Reveal className="text-center max-w-3xl mx-auto section-header" variant="slide-top">
-          <span className="section-label">Blog</span>
-          <h2 className="mt-5 text-3xl sm:text-4xl lg:text-[2.75rem] font-bold text-text tracking-tight font-display">
-            Insights & Technology Trends
-          </h2>
-          <p className="mt-5 text-text-muted text-lg leading-relaxed">
-            Zoho tips, AI automation guides, and practical advice for growing your business.
-          </p>
-        </Reveal>
+        <SectionHead
+          label="Blog"
+          title="Insights & Technology Trends"
+          subtitle="Zoho tips, AI automation guides, and practical advice for growing your business."
+        />
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
           {preview.map((post, i) => (

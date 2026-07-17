@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
 import Reveal from './Reveal'
+import SectionHead from './SectionHead'
 import TiltCard from './TiltCard'
 import { getCardRevealVariant } from '../utils/revealVariants'
 
@@ -79,15 +80,11 @@ export default function Testimonials() {
       <div className="section-light-mesh" aria-hidden="true" />
 
       <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-        <Reveal className="text-center max-w-3xl mx-auto section-header" variant="slide-top">
-          <span className="section-label">Testimonials</span>
-          <h2 className="mt-5 text-3xl sm:text-4xl lg:text-[2.75rem] font-bold text-text tracking-tight font-display">
-            What Our Clients Say
-          </h2>
-          <p className="mt-5 text-text-muted text-lg leading-relaxed">
-            Trusted by businesses across industries to deliver exceptional technology solutions.
-          </p>
-        </Reveal>
+        <SectionHead
+          label="Testimonials"
+          title="What Our Clients Say"
+          subtitle="Trusted by businesses across industries to deliver exceptional technology solutions."
+        />
 
         <Reveal variant="slide-bottom">
           <TiltCard intensity={6} scale={1.01} className="w-full">

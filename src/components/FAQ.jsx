@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import Reveal from './Reveal'
+import SectionHead from './SectionHead'
 import TiltCard from './TiltCard'
 import { getCardRevealVariant } from '../utils/revealVariants'
 
@@ -38,15 +39,11 @@ export default function FAQ() {
       <div className="section-light-mesh" aria-hidden="true" />
 
       <div className="relative max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-        <Reveal className="text-center section-header" variant="slide-top">
-          <span className="section-label">FAQs</span>
-          <h2 className="mt-5 text-3xl sm:text-4xl lg:text-[2.75rem] font-bold text-text tracking-tight font-display">
-            Frequently Asked Questions
-          </h2>
-          <p className="mt-5 text-text-muted text-lg leading-relaxed">
-            Everything you need to know about working with us.
-          </p>
-        </Reveal>
+        <SectionHead
+          label="FAQs"
+          title="Frequently Asked Questions"
+          subtitle="Everything you need to know about working with us."
+        />
 
         <div className="space-y-3">
           {faqs.map((faq, i) => {

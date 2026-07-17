@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import Reveal from './Reveal'
+import TextFlow from './TextFlow'
 import TiltCard from './TiltCard'
 import { getCardRevealVariant } from '../utils/revealVariants'
 import aboutImage from '../assets/aboutsection.jpg'
@@ -78,15 +79,21 @@ export default function About() {
 
           <Reveal delay={100} variant="slide-left" className="order-1 lg:order-2 space-y-8">
             <div>
-              <span className="section-label">About Us</span>
-              <h2 className="mt-5 text-3xl sm:text-4xl lg:text-[2.75rem] font-bold text-text tracking-tight font-display leading-tight">
-                Transforming Ideas into Powerful Digital Solutions
-              </h2>
-              <p className="mt-5 text-text-muted text-base lg:text-[17px] leading-relaxed">
-                PrimeAxis Technologies helps businesses embrace digital transformation through
-                Zoho ERP, custom software, mobile apps, AI, and digital marketing — built around
-                your goals, not generic templates.
-              </p>
+              <TextFlow as="span" mode="chars" className="section-label block" text="About Us" />
+              <TextFlow
+                as="h2"
+                mode="words"
+                delay={90}
+                className="mt-5 text-3xl sm:text-4xl lg:text-[2.75rem] font-bold text-text tracking-tight font-display leading-tight"
+                text="Transforming Ideas into Powerful Digital Solutions"
+              />
+              <TextFlow
+                as="p"
+                mode="words"
+                delay={180}
+                className="mt-5 text-text-muted text-base lg:text-[17px] leading-relaxed"
+                text="PrimeAxis Technologies helps businesses embrace digital transformation through Zoho ERP, custom software, mobile apps, AI, and digital marketing — built around your goals, not generic templates."
+              />
             </div>
 
             <div className="grid sm:grid-cols-2 gap-4">

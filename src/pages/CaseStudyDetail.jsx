@@ -9,6 +9,8 @@ import { getCaseStudyBySlug, getCaseStudyUrl } from '../constants/caseStudies'
 import { firebaseReady } from '../lib/firebase'
 import { fetchPublishedProjectBySlug } from '../services/projects'
 import { normalizeProject } from '../utils/projectAdapter'
+import PreviewHeroBackground from '../components/PreviewHeroBackground'
+import PreviewHeroAside from '../components/PreviewHeroAside'
 import PreviewFinalCTA from '../components/PreviewFinalCTA'
 import { usePublishedProjects } from '../hooks/usePublishedProjects'
 
@@ -254,17 +256,8 @@ export default function CaseStudyDetail() {
       <Navbar isSubpage />
 
       {/* Hero Banner */}
-      <section className="cs-preview-hero">
-        {heroImage ? (
-          <div
-            className="cs-preview-hero-bg"
-            style={{ backgroundImage: `url('${heroImage}')` }}
-            aria-hidden="true"
-          />
-        ) : (
-          <div className="cs-preview-hero-bg cs-preview-hero-fallback" aria-hidden="true" />
-        )}
-        <div className="cs-preview-hero-overlay" aria-hidden="true" />
+      <section className="cs-preview-hero theme-dark bg-hero-premium">
+        <PreviewHeroBackground coverImage={heroImage || undefined} />
 
         <div className="cs-preview-hero-inner">
           <Reveal variant="slide-top">
@@ -329,30 +322,31 @@ export default function CaseStudyDetail() {
             </Reveal>
 
             <Reveal delay={80} variant="scale">
-              <div className="cs-preview-glass-grid">
-                <div className="cs-preview-glass-card">
-                  <div className="cs-preview-glass-value">{parseDurationMonths(study.duration)}</div>
-                  <div className="cs-preview-glass-label">Months</div>
-                  <div className="cs-preview-glass-sub">Duration</div>
-                </div>
-                <div className="cs-preview-glass-card">
-                  <div className={`cs-preview-glass-value${isLive ? ' cs-preview-glass-value-live' : ''}`}>
-                    {isLive ? '✓' : '…'}
-                  </div>
-                  <div className="cs-preview-glass-label">{isLive ? 'Live' : 'In Progress'}</div>
-                  <div className="cs-preview-glass-sub">Status</div>
-                </div>
-                <div className="cs-preview-glass-card">
-                  <div className="cs-preview-glass-value">{typeof teamSize === 'number' ? teamSize : teamSize}</div>
-                  <div className="cs-preview-glass-label">{typeof teamSize === 'number' ? 'Experts' : 'Team'}</div>
-                  <div className="cs-preview-glass-sub">Team Size</div>
-                </div>
-                <div className="cs-preview-glass-card">
-                  <div className="cs-preview-glass-value">{formatCompletedShort(study.publishedAt)}</div>
-                  <div className="cs-preview-glass-label">{study.publishedAt?.split(' ')[1] || 'Year'}</div>
-                  <div className="cs-preview-glass-sub">Completed</div>
-                </div>
-              </div>
+              <PreviewHeroAside
+                stats={[
+                  {
+                    value: parseDurationMonths(study.duration),
+                    label: 'Months',
+                    sub: 'Project Duration',
+                  },
+                  {
+                    value: isLive ? '✓' : '…',
+                    label: isLive ? 'Live' : 'In Progress',
+                    sub: 'Status',
+                    live: isLive,
+                  },
+                  {
+                    value: typeof teamSize === 'number' ? teamSize : teamSize,
+                    label: typeof teamSize === 'number' ? 'Experts' : 'Team',
+                    sub: 'Team Size',
+                  },
+                  {
+                    value: formatCompletedShort(study.publishedAt),
+                    label: study.publishedAt?.split(' ')[1] || 'Year',
+                    sub: 'Completed',
+                  },
+                ]}
+              />
             </Reveal>
           </div>
         </div>

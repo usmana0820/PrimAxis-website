@@ -1,5 +1,6 @@
 import { lazy, Suspense } from 'react'
 import Reveal from './Reveal'
+import TextFlow from './TextFlow'
 
 const LiveBackground = lazy(() => import('./LiveBackground'))
 
@@ -21,19 +22,28 @@ export default function CTA() {
       <div className="absolute inset-0 hero-premium-glow pointer-events-none" aria-hidden="true" />
 
       <div className="relative max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 z-[2] text-center home-cta-inner">
-        <Reveal variant="scale">
-          <h2 className="home-cta-title font-display">
-            Ready to Transform Your Business?
-          </h2>
-          <p className="home-cta-lead">
-            Whether you need a modern website, custom mobile application, Zoho ERP &amp; CRM
-            implementation, AI-powered automation, or a complete digital transformation strategy,
-            PrimeAxis Technologies is here to help.
-          </p>
-          <p className="home-cta-sub">
-            Let&apos;s discuss your project and build a solution that drives measurable results.
-          </p>
+        <TextFlow
+          as="h2"
+          mode="words"
+          className="home-cta-title font-display"
+          text="Ready to Transform Your Business?"
+        />
+        <TextFlow
+          as="p"
+          mode="words"
+          delay={120}
+          className="home-cta-lead"
+          text="Whether you need a modern website, custom mobile application, Zoho ERP & CRM implementation, AI-powered automation, or a complete digital transformation strategy, PrimeAxis Technologies is here to help."
+        />
+        <TextFlow
+          as="p"
+          mode="words"
+          delay={220}
+          className="home-cta-sub"
+          text="Let's discuss your project and build a solution that drives measurable results."
+        />
 
+        <Reveal delay={320}>
           <div className="home-cta-actions">
             <a href="/#contact" className="cta-btn-primary">
               Request a Free Consultation

@@ -22,13 +22,13 @@ const PRESETS = {
   footer: {
     className: 'live-bg live-bg-footer',
     particles: [
-      { count: 600, size: 0.03, spread: [22, 10, 12], speed: 0.012 },
-      { count: 200, size: 0.05, spread: [16, 8, 8], speed: 0.008 },
+      { count: 950, size: 0.042, spread: [26, 14, 14], speed: 0.016 },
+      { count: 320, size: 0.058, spread: [20, 10, 10], speed: 0.011 },
     ],
     showOrbs: true,
     showWire: true,
-    showGrid: false,
-    camera: { position: [0, 0, 8], fov: 52 },
+    showGrid: true,
+    camera: { position: [0, 0.15, 7.5], fov: 50 },
   },
   band: {
     className: 'live-bg live-bg-band',

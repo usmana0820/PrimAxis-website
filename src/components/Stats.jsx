@@ -1,4 +1,5 @@
 import Reveal from './Reveal'
+import SectionHead from './SectionHead'
 import TiltCard from './TiltCard'
 import { getCardRevealVariant } from '../utils/revealVariants'
 import { useCountUp } from '../hooks/useCountUp'
@@ -37,15 +38,11 @@ export default function Stats() {
       <div className="section-light-mesh" aria-hidden="true" />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <Reveal className="text-center max-w-3xl mx-auto section-header" variant="slide-top">
-          <span className="section-label">Our Impact</span>
-          <h2 className="mt-5 text-3xl sm:text-4xl lg:text-[2.75rem] font-bold text-text tracking-tight font-display">
-            Delivering Results That Matter
-          </h2>
-          <p className="mt-5 text-text-muted text-lg leading-relaxed">
-            Numbers that reflect our commitment to quality, scale, and client success.
-          </p>
-        </Reveal>
+        <SectionHead
+          label="Our Impact"
+          title="Delivering Results That Matter"
+          subtitle="Numbers that reflect our commitment to quality, scale, and client success."
+        />
 
         <div className="grid grid-cols-2 lg:grid-cols-5 gap-4 lg:gap-6">
           {stats.map((stat, i) => (

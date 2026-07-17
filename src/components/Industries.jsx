@@ -1,4 +1,5 @@
 import Reveal from './Reveal'
+import SectionHead from './SectionHead'
 import TiltCard from './TiltCard'
 import { getCardRevealVariant } from '../utils/revealVariants'
 
@@ -71,15 +72,12 @@ export default function Industries() {
       <div className="section-light-mesh" aria-hidden="true" />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <Reveal className="text-center max-w-3xl mx-auto section-header" variant="slide-top">
-          <span className="section-label">Industries We Serve</span>
-          <h2 className="mt-5 text-3xl sm:text-4xl lg:text-[2.75rem] font-bold text-text tracking-tight font-display">
-            Solutions Across Every Sector
-          </h2>
-          <p className="mt-4 text-text-muted text-lg">
-            We proudly deliver technology solutions across multiple industries.
-          </p>
-        </Reveal>
+        <SectionHead
+          label="Industries We Serve"
+          title="Solutions Across Every Sector"
+          subtitle="We proudly deliver technology solutions across multiple industries."
+          subtitleClassName="mt-4 text-text-muted text-lg"
+        />
 
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-5">
           {industries.map((industry, i) => (

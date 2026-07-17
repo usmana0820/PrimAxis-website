@@ -4,8 +4,9 @@ import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import WhatsAppChat from '../components/WhatsAppChat'
 import Reveal from '../components/Reveal'
-import aboutHeroImage from '../assets/about_more.jpg'
 import aboutImage from '../assets/aboutsection.jpg'
+import PreviewHeroBackground from '../components/PreviewHeroBackground'
+import PreviewHeroAside from '../components/PreviewHeroAside'
 import PreviewFinalCTA from '../components/PreviewFinalCTA'
 import {
   COMPANY_STATS,
@@ -47,13 +48,8 @@ export default function AboutPage() {
       <Navbar isSubpage />
 
       {/* Hero */}
-      <section className="cs-preview-hero">
-        <div
-          className="cs-preview-hero-bg"
-          style={{ backgroundImage: `url('${aboutHeroImage}')` }}
-          aria-hidden="true"
-        />
-        <div className="cs-preview-hero-overlay" aria-hidden="true" />
+      <section className="cs-preview-hero theme-dark bg-hero-premium">
+        <PreviewHeroBackground />
 
         <div className="cs-preview-hero-inner">
           <Reveal variant="slide-top">
@@ -101,15 +97,13 @@ export default function AboutPage() {
             </Reveal>
 
             <Reveal delay={80} variant="scale" eager>
-              <div className="cs-preview-glass-grid">
-                {COMPANY_STATS.map((stat) => (
-                  <div key={stat.label} className="cs-preview-glass-card">
-                    <div className="cs-preview-glass-value">{stat.value}</div>
-                    <div className="cs-preview-glass-label">{stat.label.split(' ')[0]}</div>
-                    <div className="cs-preview-glass-sub">{stat.label}</div>
-                  </div>
-                ))}
-              </div>
+              <PreviewHeroAside
+                stats={COMPANY_STATS.map((stat) => ({
+                  value: stat.value,
+                  label: stat.label.split(' ')[0],
+                  sub: stat.label,
+                }))}
+              />
             </Reveal>
           </div>
         </div>

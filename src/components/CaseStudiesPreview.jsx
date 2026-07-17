@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import Reveal from './Reveal'
+import SectionHead from './SectionHead'
 import SeeAllLink from './SeeAllLink'
 import { getCardRevealVariant } from '../utils/revealVariants'
 import { getCaseStudyUrl } from '../constants/caseStudies'
@@ -20,15 +21,14 @@ export default function CaseStudiesPreview() {
       <div className="section-blue-glow section-blue-glow-right" aria-hidden="true" />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <Reveal className="text-center max-w-3xl mx-auto section-header" variant="slide-top">
-          <span className="section-label section-label-on-dark">Case Studies</span>
-          <h2 className="mt-5 text-3xl sm:text-4xl lg:text-[2.75rem] font-bold text-white tracking-tight font-display">
-            Real Projects. Measurable Results.
-          </h2>
-          <p className="mt-5 text-white/70 text-lg leading-relaxed">
-            Deep dives into how we solve business challenges — with technologies used and proven impact.
-          </p>
-        </Reveal>
+        <SectionHead
+          dark
+          label="Case Studies"
+          title="Real Projects. Measurable Results."
+          subtitle="Deep dives into how we solve business challenges — with technologies used and proven impact."
+          titleClassName="mt-5 text-3xl sm:text-4xl lg:text-[2.75rem] font-bold text-white tracking-tight font-display"
+          subtitleClassName="mt-5 text-white/70 text-lg leading-relaxed"
+        />
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
           {preview.map((study, i) => (
