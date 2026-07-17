@@ -6,6 +6,7 @@ import PortfolioCard from '../../components/PortfolioCard'
 import { normalizeProject } from '../../utils/projectAdapter'
 import { estimateImagePayloadBytes, getImageStorageMode } from '../../lib/projectImages'
 import { formatMultilineList, mergeMultilineList, parseMultilineList } from '../../utils/multilineList'
+import { normalizeExternalUrl } from '../../utils/url'
 import {
   EMPTY_PROJECT,
   PROJECT_CATEGORIES,
@@ -123,6 +124,8 @@ export default function AdminProjectForm() {
       status,
       slug: form.slug || slugify(form.title),
       galleryImages: form.galleryImages.filter(Boolean),
+      liveDemoUrl: normalizeExternalUrl(form.liveDemoUrl),
+      githubUrl: normalizeExternalUrl(form.githubUrl),
       seoTitle: form.seoTitle || form.title,
       seoDescription: form.seoDescription || form.shortDescription,
     }
@@ -221,6 +224,36 @@ export default function AdminProjectForm() {
               <span>Featured Project</span>
               <input type="checkbox" checked={form.featured} onChange={(e) => update('featured', e.target.checked)} />
             </label>
+            <div className="admin-subsection admin-subsection-compact">
+              <h3>Project Links <span className="admin-optional-tag">Optional</span></h3>
+              <p className="admin-field-hint">
+                Add live production and GitHub URLs — they appear on portfolio cards and the case study page.
+              </p>
+              <div className="admin-form-row">
+                <label className="admin-label">
+                  Live Production URL
+                  <input
+                    className="admin-input"
+                    type="url"
+                    inputMode="url"
+                    value={form.liveDemoUrl || ''}
+                    onChange={(e) => update('liveDemoUrl', e.target.value)}
+                    placeholder="https://yourproject.com"
+                  />
+                </label>
+                <label className="admin-label">
+                  GitHub Repository URL
+                  <input
+                    className="admin-input"
+                    type="url"
+                    inputMode="url"
+                    value={form.githubUrl || ''}
+                    onChange={(e) => update('githubUrl', e.target.value)}
+                    placeholder="https://github.com/org/repo"
+                  />
+                </label>
+              </div>
+            </div>
           </FormSection>
 
           <FormSection number={2} title="Short Overview">

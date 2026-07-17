@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom'
 import { LOGO_SRC, BRAND_NAME, BRAND_SHORT } from '../../constants/branding'
+import { FIREBASE_SETUP_MESSAGE } from '../../constants/firebaseSetup'
 import { useAuth } from '../../context/useAuth'
 
 export default function AdminLogin() {
@@ -69,7 +70,7 @@ export default function AdminLogin() {
           </p>
 
           {!firebaseReady && (
-            <p className="admin-form-error">Firebase is not configured. Check `.env.local` and restart the dev server.</p>
+            <p className="admin-form-error">{FIREBASE_SETUP_MESSAGE}</p>
           )}
 
           {success && <p className="admin-form-success">{success}</p>}

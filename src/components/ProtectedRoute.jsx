@@ -1,4 +1,5 @@
 import { Navigate, useLocation } from 'react-router-dom'
+import { FIREBASE_SETUP_MESSAGE } from '../constants/firebaseSetup'
 import { useAuth } from '../context/useAuth'
 
 export default function ProtectedRoute({ children, requireActive = true }) {
@@ -8,7 +9,7 @@ export default function ProtectedRoute({ children, requireActive = true }) {
   if (!firebaseReady) {
     return (
       <div className="admin-shell admin-center-message">
-        <p>Firebase is not configured. Add keys to <code>.env.local</code> and restart the dev server.</p>
+        <p>{FIREBASE_SETUP_MESSAGE}</p>
       </div>
     )
   }

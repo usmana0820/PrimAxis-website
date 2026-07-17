@@ -98,6 +98,7 @@ export function normalizeProject(project) {
     fullDescription,
     shortDescription,
     liveDemoUrl: project.liveDemoUrl || '',
+    githubUrl: project.githubUrl || '',
     featured: Boolean(project.featured),
     fromCms: Boolean(project.fromCms),
     seoTitle: project.seoTitle || project.title || '',

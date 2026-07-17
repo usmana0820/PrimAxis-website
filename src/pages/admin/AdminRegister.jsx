@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, Navigate, useNavigate } from 'react-router-dom'
 import { LOGO_SRC, BRAND_NAME, BRAND_SHORT } from '../../constants/branding'
+import { FIREBASE_SETUP_MESSAGE } from '../../constants/firebaseSetup'
 import { useAuth } from '../../context/useAuth'
 
 export default function AdminRegister() {
@@ -63,7 +64,7 @@ export default function AdminRegister() {
           <p className="admin-auth-desc">Your account starts as pending until approved.</p>
 
           {!firebaseReady && (
-            <p className="admin-form-error">Firebase is not configured. Check `.env.local` and restart the dev server.</p>
+            <p className="admin-form-error">{FIREBASE_SETUP_MESSAGE}</p>
           )}
 
           <form onSubmit={handleSubmit} className="admin-form">

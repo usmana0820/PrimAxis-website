@@ -93,6 +93,8 @@ export const EMPTY_PROJECT = {
   teamMembers: [],
   coverImage: '',
   galleryImages: ['', '', ''],
+  liveDemoUrl: '',
+  githubUrl: '',
   seoTitle: '',
   seoDescription: '',
 }

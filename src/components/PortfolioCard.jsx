@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { getCaseStudyUrl } from '../constants/caseStudies'
+import ProjectLinkActions from './ProjectLinkActions'
 
 export function PreviewMockup({ type, gradient }) {
   return (
@@ -150,6 +151,12 @@ export default function PortfolioCard({ item, compact = false }) {
         </h3>
 
         <p className="portfolio-card-summary">{blurb}</p>
+
+        <ProjectLinkActions
+          liveDemoUrl={item.liveDemoUrl}
+          githubUrl={item.githubUrl}
+          className="mb-3"
+        />
 
         <Link to={caseStudyUrl} className="portfolio-details-btn mt-auto">
           View Case Study

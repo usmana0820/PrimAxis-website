@@ -781,6 +781,30 @@
   margin-bottom: 0.75rem;
 }
 
+.admin-subsection-compact {
+  margin-top: 1rem;
+  padding-top: 1rem;
+}
+
+.admin-subsection-compact h3 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.375rem;
+}
+
+.admin-optional-tag {
+  font-size: 0.6875rem;
+  font-weight: 500;
+  color: #64748b;
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
 .admin-upload-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));

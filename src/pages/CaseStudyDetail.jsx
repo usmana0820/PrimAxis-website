@@ -311,10 +311,20 @@ export default function CaseStudyDetail() {
                       rel="noopener noreferrer"
                       className="cs-preview-btn-white"
                     >
-                      🚀 Live Demo
+                      🚀 Live Site
                     </a>
                   ) : (
                     <a href="/#contact" className="cs-preview-btn-white">🚀 Start a Project</a>
+                  )}
+                  {study.githubUrl && (
+                    <a
+                      href={study.githubUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="cs-preview-btn-outline"
+                    >
+                      GitHub Repo
+                    </a>
                   )}
                   <a href="/#contact" className="cs-preview-btn-outline">✉️ Contact Us</a>
                 </div>

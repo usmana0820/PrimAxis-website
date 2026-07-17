@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import Reveal from './Reveal'
 import { LOGO_SRC, BRAND_SHORT } from '../constants/branding'
 import { getCaseStudyUrl } from '../constants/caseStudies'
+import ProjectLinkActions from './ProjectLinkActions'
 
 function RingThumb({ item, angle, active, onSelect }) {
   return (
@@ -50,6 +51,11 @@ function DetailPanel({ project }) {
         {project.result && (
           <p className="portfolio-detail-result-line">{project.result}</p>
         )}
+        <ProjectLinkActions
+          liveDemoUrl={project.liveDemoUrl}
+          githubUrl={project.githubUrl}
+          className="portfolio-detail-panel-links"
+        />
         <Link to={getCaseStudyUrl(project.slug)} className="portfolio-detail-cta">
           View Case Study →
         </Link>

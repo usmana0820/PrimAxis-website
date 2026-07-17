@@ -1642,6 +1642,26 @@
   margin-top: auto;
 }
 
+.cs-preview-portfolio-card-main {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  flex: 1;
+}
+
+.cs-preview-portfolio-links {
+  padding: 0 1.25rem;
+  margin-top: 0.5rem;
+}
+
+.cs-preview-portfolio-card .cs-preview-portfolio-links {
+  margin-bottom: 0.25rem;
+}
+
+.cs-preview-portfolio-card .cs-preview-related-link {
+  margin-top: 0.75rem;
+}
+
 .cs-preview-related-media {
   position: relative;
 }
