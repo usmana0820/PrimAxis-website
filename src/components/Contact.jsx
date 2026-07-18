@@ -123,7 +123,7 @@ export default function Contact() {
                   </div>
                   <div className="min-w-0">
                     <p className="text-xs font-semibold uppercase tracking-wider text-text-muted">{item.label}</p>
-                    <p className="text-sm font-semibold text-text group-hover:text-[#355C7D] transition-colors truncate">
+                    <p className="contact-info-value text-sm font-semibold text-text group-hover:text-[#355C7D] transition-colors">
                       {item.value}
                     </p>
                     {item.sub && <p className="text-xs text-text-muted mt-0.5">{item.sub}</p>}

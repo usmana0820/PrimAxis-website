@@ -45,7 +45,25 @@ export default function Navbar({ isSubpage = false }) {
   }, [open])
 
   const onHero = !isSubpage && overHero && !scrolled
-  const navTheme = isSubpage || scrolled ? 'nav-glass nav-glass-scrolled' : onHero ? 'nav-glass-hero' : 'nav-glass'
+  const menuOpenSolid = open
+  const navTheme = menuOpenSolid
+    ? `nav-glass nav-menu-open ${onHero ? 'nav-menu-open-hero' : 'nav-menu-open-light'}`
+    : isSubpage || scrolled
+      ? 'nav-glass nav-glass-scrolled'
+      : onHero
+        ? 'nav-glass-hero'
+        : 'nav-glass'
+
+  const mobileNavClass = menuOpenSolid
+    ? onHero
+      ? 'nav-mobile-open-hero'
+      : 'nav-mobile-open-light'
+    : onHero
+      ? 'nav-mobile-hero'
+      : 'nav-mobile-light'
+
+  const mobileBtnSolid = menuOpenSolid || !onHero ? 'btn-nav-quote' : 'btn-nav-quote-hero'
+  const mobileBtnOutline = menuOpenSolid || !onHero ? 'btn-nav-auth-outline' : 'btn-nav-auth-outline-hero'
 
   const handleLogout = async () => {
     await logout()
@@ -57,7 +75,17 @@ export default function Navbar({ isSubpage = false }) {
   const authBtnSolid = onHero ? 'btn-nav-quote-hero' : 'btn-nav-quote'
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 px-4 sm:px-6 pt-4">
+    <>
+      {open && (
+        <button
+          type="button"
+          className="nav-mobile-backdrop lg:hidden"
+          aria-label="Close menu"
+          onClick={() => setOpen(false)}
+        />
+      )}
+
+      <header className="fixed top-0 left-0 right-0 z-50 px-4 sm:px-6 pt-4">
       <nav
         className={`max-w-7xl mx-auto rounded-2xl transition-all duration-500 ease-out font-display ${navTheme}`}
       >
@@ -69,7 +97,9 @@ export default function Navbar({ isSubpage = false }) {
                 alt={BRAND_NAME}
                 className="h-9 w-9 object-contain transition-transform duration-300 group-hover:scale-105"
               />
-              <span className={`hidden sm:block text-[15px] font-semibold tracking-tight transition-colors duration-500 ${onHero ? 'text-white' : 'text-text'}`}>
+              <span className={`hidden sm:block text-[15px] font-semibold tracking-tight transition-colors duration-500 ${
+                onHero && !menuOpenSolid ? 'text-white' : menuOpenSolid && onHero ? 'text-white' : 'text-text'
+              }`}>
                 {BRAND_SHORT}
               </span>
             </a>
@@ -127,7 +157,7 @@ export default function Navbar({ isSubpage = false }) {
 
             <button
               type="button"
-              className={`lg:hidden p-2 rounded-lg ${onHero ? 'nav-mobile-hero' : 'nav-mobile-light'}`}
+              className={`lg:hidden p-2 rounded-lg nav-mobile-toggle ${mobileNavClass}`}
               onClick={() => setOpen(!open)}
               aria-label="Toggle menu"
               aria-expanded={open}
@@ -144,19 +174,25 @@ export default function Navbar({ isSubpage = false }) {
         </div>
 
         <div
-          className={`lg:hidden overflow-hidden transition-all duration-300 ease-out ${
+          className={`lg:hidden overflow-hidden transition-all duration-300 ease-out nav-mobile-panel ${
             open ? 'max-h-[36rem] opacity-100' : 'max-h-0 opacity-0'
           }`}
         >
-          <div className={`px-4 pb-4 pt-1 border-t ${onHero ? 'border-white/10' : 'border-slate-100/80'}`}>
+          <div className={`px-4 pb-4 pt-1 border-t nav-mobile-panel-inner ${
+            menuOpenSolid
+              ? onHero
+                ? 'border-white/12'
+                : 'border-slate-100/80'
+              : onHero
+                ? 'border-white/10'
+                : 'border-slate-100/80'
+          }`}>
             <div className="flex flex-col gap-1">
               {navLinks.map((link) => (
                 <a
                   key={link.href}
                   href={link.href}
-                  className={`px-3 py-2.5 text-sm font-medium rounded-lg ${
-                    onHero ? 'nav-mobile-hero' : 'nav-mobile-light'
-                  }`}
+                  className={`px-3 py-2.5 text-sm font-medium rounded-lg ${mobileNavClass}`}
                   onClick={() => setOpen(false)}
                 >
                   {link.label}
@@ -164,19 +200,27 @@ export default function Navbar({ isSubpage = false }) {
               ))}
 
               {!authLoading && (
-                <div className={`mt-2 pt-2 border-t flex flex-col gap-2 ${onHero ? 'border-white/10' : 'border-slate-100/80'}`}>
+                <div className={`mt-2 pt-2 border-t flex flex-col gap-2 ${
+                  menuOpenSolid
+                    ? onHero
+                      ? 'border-white/12'
+                      : 'border-slate-100/80'
+                    : onHero
+                      ? 'border-white/10'
+                      : 'border-slate-100/80'
+                }`}>
                   {isAdmin ? (
                     <>
                       <Link
                         to="/admin/dashboard"
-                        className={`text-sm font-semibold px-5 py-3 rounded-xl text-center ${onHero ? 'btn-nav-quote-hero' : 'btn-nav-quote'}`}
+                        className={`text-sm font-semibold px-5 py-3 rounded-xl text-center ${mobileBtnSolid}`}
                         onClick={() => setOpen(false)}
                       >
                         Dashboard {profile?.name ? `· ${profile.name}` : ''}
                       </Link>
                       <button
                         type="button"
-                        className={`text-sm font-medium px-5 py-3 rounded-xl text-center ${onHero ? 'btn-nav-auth-outline-hero' : 'btn-nav-auth-outline'}`}
+                        className={`text-sm font-medium px-5 py-3 rounded-xl text-center ${mobileBtnOutline}`}
                         onClick={handleLogout}
                       >
                         Sign Out
@@ -185,7 +229,7 @@ export default function Navbar({ isSubpage = false }) {
                   ) : (
                     <Link
                       to="/admin/login"
-                      className={`text-sm font-semibold px-5 py-3 rounded-xl text-center ${onHero ? 'btn-nav-quote-hero' : 'btn-nav-quote'}`}
+                      className={`text-sm font-semibold px-5 py-3 rounded-xl text-center ${mobileBtnSolid}`}
                       onClick={() => setOpen(false)}
                     >
                       Admin
@@ -196,7 +240,7 @@ export default function Navbar({ isSubpage = false }) {
 
               <a
                 href="/#contact"
-                className={`mt-2 text-sm font-semibold px-5 py-3 rounded-xl text-center ${onHero ? 'btn-nav-quote-hero' : 'btn-nav-quote'}`}
+                className={`mt-2 text-sm font-semibold px-5 py-3 rounded-xl text-center ${mobileBtnSolid}`}
                 onClick={() => setOpen(false)}
               >
                 Let's Talk
@@ -206,5 +250,6 @@ export default function Navbar({ isSubpage = false }) {
         </div>
       </nav>
     </header>
+    </>
   )
 }
