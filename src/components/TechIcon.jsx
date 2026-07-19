@@ -6,7 +6,22 @@ const TECH_INITIALS = {
   'React Native': 'RN',
   'Next.js': 'N',
   'Node.js': 'N',
-  'Zoho CRM': 'Z',
+  'Express.js': 'EX',
+  'TypeScript': 'TS',
+  'Zoho CRM': 'ZC',
+  'Zoho ERP': 'ZE',
+  'Zoho Creator': 'ZR',
+  'Zoho Books': 'ZB',
+  'Zoho Analytics': 'ZA',
+  'Zoho Flow': 'ZF',
+  'Zoho Desk': 'ZD',
+  'Zoho API': 'ZP',
+  Deluge: 'DL',
+  MongoDB: 'MG',
+  PostgreSQL: 'PG',
+  Firebase: 'FB',
+  Kotlin: 'KT',
+  Flutter: 'FL',
 }
 
 export default function TechIcon({ name, icon, size = 28, className = '' }) {

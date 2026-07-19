@@ -33,20 +33,7 @@ export const DELIVERY_STATUSES = [
   { value: 'ongoing', label: 'Ongoing' },
 ]
 
-export const TECH_STACK_OPTIONS = [
-  'React',
-  'Flutter',
-  'Django',
-  'Python',
-  'Node.js',
-  'Firebase',
-  'Zoho CRM',
-  'Zoho Creator',
-  'PostgreSQL',
-  'MongoDB',
-  'Next.js',
-  'Tailwind CSS',
-]
+export { TECH_STACK_OPTIONS, TECH_ADMIN_GROUPS } from './techStack'
 
 export const TEAM_ROLES = [
   'Developer',

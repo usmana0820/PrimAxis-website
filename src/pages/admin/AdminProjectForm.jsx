@@ -14,8 +14,9 @@ import {
   PROJECT_CATEGORIES,
   PROJECT_INDUSTRIES,
   DELIVERY_STATUSES,
-  TECH_STACK_OPTIONS,
+  TECH_ADMIN_GROUPS,
   TEAM_ROLES,
+  USER_ROLES,
   slugify,
 } from '../../constants/cmsOptions'
 import { createProject, fetchProjectById, updateProject, deleteProject } from '../../services/projects'
@@ -44,7 +45,10 @@ export default function AdminProjectForm() {
   const [teamName, setTeamName] = useState('')
   const [loading, setLoading] = useState(isEdit)
   const [saving, setSaving] = useState(false)
+  const [deleting, setDeleting] = useState(false)
   const [error, setError] = useState('')
+
+  const canDelete = Boolean(USER_ROLES[profile?.role]?.canDelete)
 
   useEffect(() => {
     if (!isEdit) return
@@ -150,13 +154,23 @@ export default function AdminProjectForm() {
   }
 
   const handleDelete = async () => {
-    if (profile?.role !== 'developer') return
-    if (!window.confirm('Delete this draft permanently?')) return
+    if (!isEdit || !canDelete) return
+
+    const statusLabel = form.status === 'published' ? 'published' : 'draft'
+    const confirmed = window.confirm(
+      `Delete "${form.title}"?\n\nThis ${statusLabel} project will be removed permanently from the admin, portfolio, and case studies. This cannot be undone.`
+    )
+    if (!confirmed) return
+
+    setDeleting(true)
+    setError('')
     try {
       await deleteProject(id)
       navigate('/admin/projects')
     } catch (err) {
       setError(err.message)
+    } finally {
+      setDeleting(false)
     }
   }
 
@@ -183,7 +197,19 @@ export default function AdminProjectForm() {
           <h1>{isEdit ? 'Edit Project' : 'Add New Project'}</h1>
           <p>Fill in project details — images upload to Cloudinary, URLs save in Firestore.</p>
         </div>
-        <Link to="/admin/projects" className="admin-btn admin-btn-outline">← All Projects</Link>
+        <div className="admin-page-hero-actions">
+          {isEdit && canDelete && (
+            <button
+              type="button"
+              className="admin-btn admin-btn-danger"
+              disabled={saving || deleting}
+              onClick={handleDelete}
+            >
+              {deleting ? 'Deleting…' : 'Delete Project'}
+            </button>
+          )}
+          <Link to="/admin/projects" className="admin-btn admin-btn-outline">← All Projects</Link>
+        </div>
       </header>
 
       {error && <p className="admin-form-error">{error}</p>}
@@ -365,14 +391,26 @@ export default function AdminProjectForm() {
 
             <div className="admin-subsection">
               <h3>Technologies Used</h3>
-              <div className="admin-check-grid">
-                {TECH_STACK_OPTIONS.map((tech) => (
-                  <label key={tech} className="admin-check-item">
-                    <input type="checkbox" checked={form.technologies.includes(tech)} onChange={() => toggleTech(tech)} />
-                    {tech}
-                  </label>
-                ))}
-              </div>
+              <p className="admin-muted admin-tech-picker-hint">
+                Select all technologies used in this project, including mobile, cloud, and Zoho platform tools.
+              </p>
+              {TECH_ADMIN_GROUPS.map((group) => (
+                <div key={group.label} className="admin-tech-group">
+                  <h4 className="admin-tech-group-label">{group.label}</h4>
+                  <div className="admin-check-grid">
+                    {group.items.map((tech) => (
+                      <label key={tech} className="admin-check-item">
+                        <input
+                          type="checkbox"
+                          checked={form.technologies.includes(tech)}
+                          onChange={() => toggleTech(tech)}
+                        />
+                        {tech}
+                      </label>
+                    ))}
+                  </div>
+                </div>
+              ))}
             </div>
 
             <div className="admin-form-row">
@@ -483,16 +521,38 @@ export default function AdminProjectForm() {
               <PortfolioCard item={cardPreview} compact />
             </div>
           </FormSection>
+
+          {isEdit && canDelete && (
+            <FormSection number={7} title="Delete Project" className="admin-form-card-wide admin-form-danger-zone">
+              <p className="admin-danger-zone-text">
+                Permanently remove this project from the CMS, portfolio, and case studies.
+                {form.status === 'published' && ' This project is currently published on the live site.'}
+              </p>
+              <button
+                type="button"
+                className="admin-btn admin-btn-danger"
+                disabled={saving || deleting}
+                onClick={handleDelete}
+              >
+                {deleting ? 'Deleting…' : 'Delete Project'}
+              </button>
+            </FormSection>
+          )}
         </div>
 
         <div className="admin-form-footer">
-          {isEdit && profile?.role === 'developer' && (
-            <button type="button" className="admin-btn admin-btn-danger" disabled={saving} onClick={handleDelete}>
-              Delete Draft
+          {isEdit && canDelete && (
+            <button
+              type="button"
+              className="admin-btn admin-btn-danger"
+              disabled={saving || deleting}
+              onClick={handleDelete}
+            >
+              {deleting ? 'Deleting…' : 'Delete Project'}
             </button>
           )}
           <div className="admin-form-footer-right">
-            <button type="button" className="admin-btn admin-btn-outline" disabled={saving} onClick={() => save('draft')}>
+            <button type="button" className="admin-btn admin-btn-outline" disabled={saving || deleting} onClick={() => save('draft')}>
               Save Draft
             </button>
             {previewUrl && (
@@ -500,7 +560,7 @@ export default function AdminProjectForm() {
                 Preview Project
               </a>
             )}
-            <button type="button" className="admin-btn admin-btn-primary" disabled={saving} onClick={() => save('published')}>
+            <button type="button" className="admin-btn admin-btn-primary" disabled={saving || deleting} onClick={() => save('published')}>
               {saving ? 'Saving…' : 'Publish Project'}
             </button>
           </div>

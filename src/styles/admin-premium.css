@@ -770,6 +770,30 @@
   background: #fef2f2;
 }
 
+.admin-page-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.625rem;
+}
+
+.admin-form-danger-zone {
+  border-color: #fecaca;
+  background: #fffafa;
+}
+
+.admin-form-danger-zone .admin-form-card-head h2 {
+  color: #dc2626;
+}
+
+.admin-danger-zone-text {
+  margin-bottom: 1rem;
+  font-size: 0.875rem;
+  color: #64748b;
+  line-height: 1.55;
+  max-width: 42rem;
+}
+
 /* Project form */
 .admin-form-page {
   padding-bottom: 5rem;
