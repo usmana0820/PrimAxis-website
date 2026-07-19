@@ -28,7 +28,7 @@ export default function Blog() {
       heroVariant="blog"
       badge="Blog"
       title="Blog Showcase"
-      description="Browse all articles below — pick any topic to read insights on Zoho, AI, mobile, web, and company news."
+      description="Browse all articles below. Pick any topic to read insights on Zoho, AI, mobile, web, and company news."
     >
       {/* White — featured & filters */}
       <section className="page-section relative overflow-hidden section-light-theme">
@@ -82,7 +82,7 @@ export default function Blog() {
             </h2>
             <p className="mt-4 text-white/70 text-base leading-relaxed">
               {activeCategory === 'all'
-                ? 'Pick any topic below — Zoho, AI, mobile, web, and company updates.'
+                ? 'Pick any topic below: Zoho, AI, mobile, web, and company updates.'
                 : BLOG_CATEGORIES.find((c) => c.id === activeCategory)?.label}
             </p>
           </Reveal>

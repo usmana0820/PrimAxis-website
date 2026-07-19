@@ -180,7 +180,7 @@ export default function Hero() {
               eager
               delay={200}
               className="mt-6 text-base sm:text-lg text-slate-300/90 leading-relaxed max-w-xl"
-              text={`${BRAND_NAME} delivers intelligent, scalable, and future-ready digital solutions — from Zoho ERP & CRM to custom software, mobile apps, AI automation, and digital marketing.`}
+              text={`${BRAND_NAME} delivers intelligent, scalable, and future ready digital solutions, from Zoho ERP & CRM to custom software, mobile apps, AI automation, and digital marketing.`}
             />
 
             <Reveal delay={300} eager>

@@ -2,11 +2,13 @@ import { useEffect, useState, useMemo } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import ImageUpload from '../../components/admin/ImageUpload'
 import ProjectGalleryPicker from '../../components/admin/ProjectGalleryPicker'
+import ImpactMetricsEditor from '../../components/admin/ImpactMetricsEditor'
 import PortfolioCard from '../../components/PortfolioCard'
 import { normalizeProject } from '../../utils/projectAdapter'
 import { estimateImagePayloadBytes, getImageStorageMode } from '../../lib/projectImages'
 import { formatMultilineList, mergeMultilineList, parseMultilineList } from '../../utils/multilineList'
 import { normalizeExternalUrl } from '../../utils/url'
+import { hydrateImpactFields, normalizeImpactMetrics } from '../../utils/impactMetrics'
 import {
   EMPTY_PROJECT,
   PROJECT_CATEGORIES,
@@ -53,6 +55,7 @@ export default function AdminProjectForm() {
           ...EMPTY_PROJECT,
           featured: false,
           ...data,
+          ...hydrateImpactFields(data),
           galleryImages: data.galleryImages?.length ? data.galleryImages : ['', '', ''],
         })
       })
@@ -128,6 +131,8 @@ export default function AdminProjectForm() {
       githubUrl: normalizeExternalUrl(form.githubUrl),
       seoTitle: form.seoTitle || form.title,
       seoDescription: form.seoDescription || form.shortDescription,
+      businessImpact: String(form.businessImpact || '').trim(),
+      impactMetrics: normalizeImpactMetrics(form.impactMetrics),
     }
 
     try {
@@ -273,21 +278,37 @@ export default function AdminProjectForm() {
             <div className="admin-form-row">
               <label className="admin-label">
                 Challenge
-                <textarea className="admin-input admin-textarea" rows={3} value={form.problemStatement} onChange={(e) => update('problemStatement', e.target.value)} />
+                <span className="admin-field-hint">Keep this to one or two short lines.</span>
+                <textarea className="admin-input admin-textarea" rows={2} maxLength={320} value={form.problemStatement} onChange={(e) => update('problemStatement', e.target.value)} />
               </label>
               <label className="admin-label">
                 Solution
-                <textarea className="admin-input admin-textarea" rows={3} value={form.solution} onChange={(e) => update('solution', e.target.value)} />
+                <span className="admin-field-hint">Keep this to one or two short lines.</span>
+                <textarea className="admin-input admin-textarea" rows={2} maxLength={320} value={form.solution} onChange={(e) => update('solution', e.target.value)} />
               </label>
             </div>
             <label className="admin-label">
               Key Result
+              <span className="admin-field-hint">One headline outcome, e.g. 35% increase in lead conversion.</span>
               <input className="admin-input" value={form.result} onChange={(e) => update('result', e.target.value)} placeholder="e.g. 35% increase in lead conversion" />
             </label>
             <label className="admin-label">
-              Business Impact (one outcome per line)
-              <textarea className="admin-input admin-textarea" rows={3} value={form.businessImpact} onChange={(e) => update('businessImpact', e.target.value)} />
+              Business Impact Summary
+              <span className="admin-field-hint">One short statement shown below the impact metrics on the case study.</span>
+              <textarea
+                className="admin-input admin-textarea"
+                rows={2}
+                maxLength={280}
+                value={form.businessImpact}
+                onChange={(e) => update('businessImpact', e.target.value)}
+                placeholder="e.g. The platform improved sales efficiency, reduced manual work, and gave leadership real-time visibility."
+              />
             </label>
+
+            <ImpactMetricsEditor
+              metrics={form.impactMetrics || []}
+              onChange={(impactMetrics) => update('impactMetrics', impactMetrics)}
+            />
 
             <div className="admin-subsection">
               <h3>Key Features</h3>

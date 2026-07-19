@@ -6,7 +6,7 @@ import { getCardRevealVariant } from '../utils/revealVariants'
 const services = [
   {
     title: 'Zoho ERP & CRM',
-    description: 'Complete Zoho implementation — setup, customization, automation, and integration to streamline operations and improve customer relationships.',
+    description: 'Complete Zoho implementation with setup, customization, automation, and integration to streamline operations and improve customer relationships.',
     gradient: 'from-[#355C7D] to-[#4F46E5]',
     icon: (
       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
@@ -22,7 +22,7 @@ const services = [
   },
   {
     title: 'Mobile App Development',
-    description: 'Flutter, React Native, Kotlin, and Java — powerful Android and iOS apps with seamless UX, keeping your business connected anywhere.',
+    description: 'Flutter, React Native, Kotlin, and Java for powerful Android and iOS apps with seamless UX, keeping your business connected anywhere.',
     gradient: 'from-[#06B6D4] to-[#355C7D]',
     icon: (
       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />

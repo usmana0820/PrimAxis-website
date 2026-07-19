@@ -51,7 +51,7 @@ export default function CaseStudies() {
                 <span className="cs-preview-hero-tag cs-preview-hero-tag-status">{projects.length} Projects</span>
               </div>
               <p className="cs-preview-hero-lead">
-                Pick any project to read the full story — overview, gallery, technology stack,
+                Pick any project to read the full story: overview, gallery, technology stack,
                 business impact, and team behind the delivery.
               </p>
             </div>

@@ -20,7 +20,7 @@ export default function Portfolio() {
         <SectionHead
           label="Portfolio"
           title="Our Recent Work"
-          subtitle="Real projects at a glance — open any card for the full case study."
+          subtitle="Real projects at a glance. Open any card for the full case study."
         />
 
         <div className="portfolio-home-grid">

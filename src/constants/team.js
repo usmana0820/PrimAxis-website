@@ -1,95 +1,91 @@
 export const COMPANY_STATS = [
-  { value: '25+', label: 'Team Members' },
-  { value: '6', label: 'Departments' },
-  { value: '1', label: 'Office — Lahore' },
+  { value: '7', label: 'Core Team Members' },
+  { value: '4', label: 'Leadership Roles' },
+  { value: '50+', label: 'Projects Delivered' },
 ]
 
-export const LEADERSHIP = [
+export const LEADERSHIP_TEAM = [
   {
-    name: 'Usman Ali',
-    role: 'Chief Executive Officer',
-    department: 'Leadership',
-    bio: 'Leads PrimeAxis strategy, client partnerships, and delivery excellence across Zoho, web, mobile, and AI projects.',
-    gradient: 'from-[#355C7D] to-[#4F46E5]',
-    initials: 'UA',
-  },
-  {
-    name: 'Sarah Malik',
-    role: 'Head of Technology',
-    department: 'Leadership',
-    bio: 'Oversees architecture, engineering standards, and scalable solution design for enterprise and startup clients.',
+    name: 'Zoha Mahmood',
+    role: 'Founder & Chief Executive Officer (CEO)',
+    bio: 'Founded PrimeAxis and leads company vision, business strategy, operations, client relationships, and organizational growth.',
+    focus: 'Vision, Strategy & Operations',
     gradient: 'from-[#4F46E5] to-[#06B6D4]',
-    initials: 'SM',
+    initials: 'ZM',
+    themeId: 'ceo',
   },
   {
-    name: 'Ahmed Khan',
-    role: 'Director of Operations',
-    department: 'Leadership',
-    bio: 'Manages project delivery, Zoho implementations, and client success across multiple industries.',
+    name: 'Usmana Zulfiqar',
+    role: 'Chief Technology Officer (CTO)',
+    bio: 'Leads software engineering, web and mobile development, system architecture, backend engineering, API integration, DevOps, and technical innovation.',
+    focus: 'Technology & Engineering',
+    gradient: 'from-[#355C7D] to-[#4F46E5]',
+    initials: 'UZ',
+    themeId: 'cto',
+  },
+  {
+    name: 'Manahil Tehseen',
+    role: 'Chief Business Officer (CBO) & Business Analyst',
+    bio: 'Leads business analysis, Zoho ERP and CRM consulting, requirement gathering, solution design, proposal development, and process optimization.',
+    focus: 'Business & Zoho Consulting',
     gradient: 'from-[#06B6D4] to-[#355C7D]',
-    initials: 'AK',
-  },
-]
-
-export const DEPARTMENTS = [
-  {
-    id: 'development',
-    name: 'Software Development',
-    head: 'Engineering Lead',
-    summary: 'Full-stack web, mobile apps, APIs, and custom enterprise software using modern frameworks.',
-    responsibilities: ['React & Next.js applications', 'Flutter & React Native apps', 'Backend APIs & integrations', 'Code review & best practices'],
-    gradient: 'from-[#355C7D] to-[#4F46E5]',
-    icon: 'code',
+    initials: 'MT',
+    themeId: 'cbo',
   },
   {
-    id: 'zoho',
-    name: 'Zoho & ERP',
-    head: 'Zoho Practice Lead',
-    summary: 'End-to-end Zoho CRM, ERP, inventory, and workflow automation for SMEs and enterprises.',
-    responsibilities: ['Zoho CRM & ERP setup', 'Custom functions & Deluge', 'Third-party integrations', 'Training & go-live support'],
-    gradient: 'from-[#4F46E5] to-[#06B6D4]',
-    icon: 'erp',
-  },
-  {
-    id: 'design',
-    name: 'UI/UX Design',
-    head: 'Design Lead',
-    summary: 'User-centered interfaces, wireframes, prototypes, and brand-consistent digital experiences.',
-    responsibilities: ['Wireframes & prototypes', 'Design systems', 'Mobile & web UI', 'Usability testing'],
-    gradient: 'from-violet-500 to-purple-600',
-    icon: 'design',
-  },
-  {
-    id: 'qa',
-    name: 'Quality Assurance',
-    head: 'QA Manager',
-    summary: 'Manual and automated testing to ensure secure, reliable, and performance-ready releases.',
-    responsibilities: ['Functional & regression testing', 'Security checks', 'Performance testing', 'UAT coordination'],
-    gradient: 'from-emerald-500 to-teal-600',
-    icon: 'qa',
-  },
-  {
-    id: 'support',
-    name: 'Support & Maintenance',
-    head: 'Support Lead',
-    summary: 'Post-launch monitoring, bug fixes, updates, and long-term client success.',
-    responsibilities: ['24/7 ticket handling', 'SLA-based support', 'System monitoring', 'Feature enhancements'],
-    gradient: 'from-sky-500 to-[#4F46E5]',
-    icon: 'support',
-  },
-  {
-    id: 'consulting',
-    name: 'Sales & Consulting',
-    head: 'Business Consultant',
-    summary: 'Discovery, requirements analysis, proposals, and digital transformation advisory.',
-    responsibilities: ['Client discovery calls', 'Scope & estimation', 'Solution architecture', 'Account management'],
+    name: 'Zark Mahmood',
+    role: 'Head of Digital Marketing',
+    bio: 'Leads branding, SEO, social media marketing, content strategy, advertising campaigns, lead generation, and digital growth.',
+    focus: 'Marketing & Brand Growth',
     gradient: 'from-rose-500 to-orange-500',
-    icon: 'consulting',
+    initials: 'ZK',
+    themeId: 'marketing',
   },
 ]
 
-export const TEAM_PREVIEW = DEPARTMENTS.slice(0, 4)
+export const TEAM_MEMBERS = [
+  {
+    name: 'Syed Abdul Qayyum',
+    role: 'AI Engineer',
+    bio: 'Develops AI applications, intelligent automation, machine learning solutions, chatbot systems, and AI integrations.',
+    focus: 'AI & Intelligent Automation',
+    gradient: 'from-violet-500 to-purple-600',
+    initials: 'AQ',
+    themeId: 'ai',
+  },
+  {
+    name: 'Sammia',
+    role: 'UI/UX Designer',
+    bio: 'Designs user experiences, interfaces, wireframes, prototypes, design systems, and responsive web and mobile layouts.',
+    focus: 'Design & User Experience',
+    gradient: 'from-fuchsia-500 to-pink-600',
+    initials: 'SA',
+    themeId: 'design',
+  },
+  {
+    name: 'Ramsha',
+    role: 'Sales & Business Development Executive',
+    bio: 'Manages client acquisition, business development, sales consultations, partnership opportunities, and customer relationships.',
+    focus: 'Sales & Business Development',
+    gradient: 'from-emerald-500 to-teal-600',
+    initials: 'RA',
+    themeId: 'sales',
+  },
+]
 
-export function getDepartmentById(id) {
-  return DEPARTMENTS.find((dept) => dept.id === id)
-}
+/** Homepage leadership row */
+export const LEADERSHIP = LEADERSHIP_TEAM
+
+/** Homepage specialist preview */
+export const TEAM_PREVIEW = TEAM_MEMBERS
+
+/** Executive core — CEO, CTO, CBO only (detail page org chart) */
+export const CORE_LEADERSHIP = LEADERSHIP_TEAM.slice(0, 3).map(({ name, focus, themeId }) => ({
+  name,
+  focus,
+  themeId,
+}))
+
+export const ALL_TEAM = [...LEADERSHIP_TEAM, ...TEAM_MEMBERS]
+
+export const ORG_ROLES = ALL_TEAM.map(({ name, role }) => ({ name, role }))

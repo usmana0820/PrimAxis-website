@@ -18,7 +18,7 @@ const reasons = [
   },
   {
     title: 'Dedicated Support',
-    description: "Our relationship doesn't end after deployment — continuous maintenance and support when you need us.",
+    description: "Our relationship doesn't end after deployment. We provide continuous maintenance and support when you need us.",
     gradient: 'from-[#06B6D4] to-[#355C7D]',
     icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z" />,
   },
@@ -30,7 +30,7 @@ const reasons = [
   },
   {
     title: 'Scalable Solutions',
-    description: 'Architecture built to grow with your business — from startup to enterprise scale.',
+    description: 'Architecture built to grow with your business, from startup to enterprise scale.',
     gradient: 'from-[#4F46E5] to-[#355C7D]',
     icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" />,
   },

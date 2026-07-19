@@ -135,12 +135,13 @@ export default function PortfolioCard({ item, compact = false }) {
         <div className="portfolio-preview-overlay">
           <span className="portfolio-view-pill">View Case Study</span>
         </div>
-        {item.featured && (
+        {item.isSample ? (
+          <span className="portfolio-card-badge portfolio-card-badge-sample">Sample</span>
+        ) : item.featured ? (
           <span className="portfolio-card-badge portfolio-card-badge-featured">Featured</span>
-        )}
-        {!item.featured && item.fromCms && (
+        ) : item.fromCms ? (
           <span className="portfolio-card-badge">New</span>
-        )}
+        ) : null}
       </Link>
 
       <div className="portfolio-card-body flex flex-col flex-1">

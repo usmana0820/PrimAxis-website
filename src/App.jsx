@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { createPortal } from 'react-dom'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
+import TechStackStrip from './components/TechStackStrip'
 import About from './components/About'
 import OurTeam from './components/OurTeam'
 import Services from './components/Services'
@@ -41,6 +42,7 @@ function App() {
         <Navbar />
         <main>
           <Hero />
+          <TechStackStrip variant="dark" />
           <SectionDivider variant="navy-cyan" />
           <About />
           <SectionDivider variant="cyan-indigo" index={1} />

@@ -15,7 +15,7 @@ export default function PortfolioPage() {
     if (meta) {
       meta.setAttribute(
         'content',
-        'Browse PrimeAxis portfolio — web apps, mobile, Zoho ERP, CRM, and custom software projects with measurable results.'
+        'Browse PrimeAxis portfolio: web apps, mobile, Zoho ERP, CRM, and custom software projects with measurable results.'
       )
     }
   }, [])
@@ -49,7 +49,7 @@ export default function PortfolioPage() {
                 </div>
 
                 <p className="cs-preview-hero-lead">
-                  Browse all projects — filter by category or industry, explore featured work,
+                  Browse all projects. Filter by category or industry, explore featured work,
                   and open any case study for the full story, gallery, and measurable impact.
                 </p>
 

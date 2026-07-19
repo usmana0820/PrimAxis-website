@@ -10,24 +10,38 @@ import PreviewHeroAside from '../components/PreviewHeroAside'
 import PreviewFinalCTA from '../components/PreviewFinalCTA'
 import {
   COMPANY_STATS,
-  COMPANY_STORY,
+  OUR_STORY,
+  WHO_WE_ARE,
+  OUR_PURPOSE,
   CORE_VALUES,
-  MILESTONES,
   WHAT_WE_DO,
+  EXPERTISE_AREAS,
+  HOW_WE_WORK,
+  COMMITMENT,
+  WHY_CHOOSE,
+  OUR_JOURNEY,
+  IMPACT_DETAILS,
+  LOOKING_AHEAD,
   MISSION_VISION,
 } from '../constants/companyAbout'
 
-const VALUE_ICONS = ['🎯', '✨', '🤝', '🚀']
-const SERVICE_ICONS = ['📊', '💻', '📱', '🤖', '📣', '🛠️']
-const MILESTONE_ICONS = ['🏁', '📈', '🏗️', '✨']
-
-function SectionIntro({ label, title, subtitle }) {
+function SectionIntro({ label, title, subtitle, className = '' }) {
   return (
-    <header className="cs-preview-section-intro">
+    <header className={`cs-preview-section-intro about-section-intro ${className}`.trim()}>
       {label && <span className="cs-preview-label">{label}</span>}
       <h2 className="cs-preview-section-head">{title}</h2>
       {subtitle && <p className="cs-preview-section-sub">{subtitle}</p>}
     </header>
+  )
+}
+
+function ProseBlock({ paragraphs, className = 'about-prose' }) {
+  return (
+    <div className={className}>
+      {paragraphs.map((text) => (
+        <p key={text.slice(0, 48)}>{text}</p>
+      ))}
+    </div>
   )
 }
 
@@ -38,7 +52,7 @@ export default function AboutPage() {
     if (meta) {
       meta.setAttribute(
         'content',
-        'Learn how PrimeAxis Technologies helps businesses transform with Zoho, custom software, mobile apps, AI, and digital marketing.'
+        'Learn about PrimeAxis Technologies: our story, mission, values, expertise in Zoho ERP, custom software, AI automation, and digital transformation services.'
       )
     }
   }, [])
@@ -47,8 +61,7 @@ export default function AboutPage() {
     <div className="cs-preview-page cs-preview-page-about">
       <Navbar isSubpage />
 
-      {/* Hero */}
-      <section className="cs-preview-hero theme-dark bg-hero-premium">
+      <section className="cs-preview-hero theme-dark bg-hero-premium about-hero">
         <PreviewHeroBackground />
 
         <div className="cs-preview-hero-inner">
@@ -61,23 +74,23 @@ export default function AboutPage() {
               <div>
                 <div className="cs-preview-featured-badge">
                   <span className="cs-preview-featured-dot" aria-hidden="true" />
-                  ABOUT OUR COMPANY
+                  ABOUT US
                 </div>
 
                 <h1 className="cs-preview-hero-title">
-                  Empowering Businesses Through Smart Digital Solutions
+                  Empowering Organizations Through Smart Digital Solutions
                 </h1>
 
                 <div className="cs-preview-hero-tags">
-                  <span className="cs-preview-hero-tag">Lahore, Pakistan</span>
-                  <span className="cs-preview-hero-tag">Technology Partner</span>
-                  <span className="cs-preview-hero-tag cs-preview-hero-tag-status">Since 2019</span>
+                  <span className="cs-preview-hero-tag">Technology Consulting</span>
+                  <span className="cs-preview-hero-tag">Digital Transformation</span>
+                  <span className="cs-preview-hero-tag cs-preview-hero-tag-status">Pakistan</span>
                 </div>
 
                 <dl className="cs-preview-hero-meta">
                   <div>
                     <dt>Focus</dt>
-                    <dd>Zoho · Software · AI · Marketing</dd>
+                    <dd>Zoho · Software · AI · Automation</dd>
                   </div>
                   <div>
                     <dt>Clients</dt>
@@ -85,13 +98,13 @@ export default function AboutPage() {
                   </div>
                   <div>
                     <dt>Delivery</dt>
-                    <dd>End-to-End Digital Services</dd>
+                    <dd>End to End Digital Services</dd>
                   </div>
                 </dl>
 
                 <div className="cs-preview-hero-actions">
-                  <Link to="/#contact" className="cs-preview-btn-white">🚀 Start a Project</Link>
-                  <Link to="/team" className="cs-preview-btn-outline">👥 Meet Our Team</Link>
+                  <Link to="/#contact" className="cs-preview-btn-white">Start a Project</Link>
+                  <Link to="/team" className="cs-preview-btn-outline">Meet Our Team</Link>
                 </div>
               </div>
             </Reveal>
@@ -109,122 +122,98 @@ export default function AboutPage() {
         </div>
 
         <div className="cs-preview-tech-bar">
-          {['Zoho ERP', 'Custom Software', 'Mobile Apps', 'AI Automation', 'Digital Marketing'].map((tag) => (
+          {['Zoho ERP & CRM', 'Custom Software', 'Mobile Apps', 'AI Automation', 'Digital Marketing'].map((tag) => (
             <span key={tag} className="cs-preview-tech-chip">{tag}</span>
           ))}
         </div>
       </section>
 
-      {/* Our Story */}
-      <section className="cs-preview-section cs-preview-section-muted">
+      <section className="about-section about-section-story">
         <div className="cs-preview-container">
           <Reveal>
             <SectionIntro
               label="Our Story"
-              title="Who We Are"
-              subtitle="Building technology that moves businesses forward"
+              title="Building Technology That Drives Growth"
+              subtitle="Practical, scalable solutions for every stage of your digital journey"
             />
           </Reveal>
 
-          <div className="cs-preview-about-story">
+          <div className="about-story-layout">
             <Reveal variant="scale">
-              <div className="cs-preview-about-visual">
+              <div className="about-story-visual">
                 <img src={aboutImage} alt="PrimeAxis Technologies team" loading="lazy" />
+                <div className="about-story-visual-glow" aria-hidden="true" />
               </div>
             </Reveal>
 
-            <Reveal delay={80}>
-              <div className="cs-preview-cards-3 cs-preview-about-cards">
-                <article className="cs-preview-card">
-                  <div className="cs-preview-card-head">
-                    <span className="cs-preview-card-icon cs-preview-card-icon-primary" aria-hidden="true">📄</span>
-                    <h3 className="cs-preview-card-title">Our Beginning</h3>
-                  </div>
-                  <p className="cs-preview-card-text">{COMPANY_STORY.intro}</p>
+            <div className="about-story-content">
+              <Reveal delay={60}>
+                <ProseBlock paragraphs={OUR_STORY.paragraphs} />
+              </Reveal>
+              <Reveal delay={100}>
+                <article className="about-highlight-panel">
+                  <span className="about-highlight-label">Who We Are</span>
+                  <ProseBlock paragraphs={WHO_WE_ARE.paragraphs} className="about-prose about-prose-compact" />
                 </article>
-
-                <article className="cs-preview-card">
-                  <div className="cs-preview-card-head">
-                    <span className="cs-preview-card-icon cs-preview-card-icon-secondary" aria-hidden="true">🌍</span>
-                    <h3 className="cs-preview-card-title">What We Do</h3>
-                  </div>
-                  <p className="cs-preview-card-text">{COMPANY_STORY.paragraphs[0]}</p>
-                </article>
-
-                <article className="cs-preview-card">
-                  <div className="cs-preview-card-head">
-                    <span className="cs-preview-card-icon cs-preview-card-icon-accent" aria-hidden="true">🤝</span>
-                    <h3 className="cs-preview-card-title">How We Partner</h3>
-                  </div>
-                  <p className="cs-preview-card-text">{COMPANY_STORY.paragraphs[1]}</p>
-                </article>
-              </div>
-            </Reveal>
-          </div>
-
-          <Reveal delay={100}>
-            <div className="cs-preview-outcome-banner">
-              <h3>Our Commitment</h3>
-              <p>{COMPANY_STORY.paragraphs[2]}</p>
+              </Reveal>
             </div>
-          </Reveal>
+          </div>
         </div>
       </section>
 
-      {/* Mission & Vision */}
-      <section className="cs-preview-section">
+      <section className="about-section about-section-muted about-section-purpose">
         <div className="cs-preview-container">
           <Reveal>
             <SectionIntro
               label="Purpose"
-              title="Mission & Vision"
-              subtitle="What drives us every day"
+              title="Our Purpose, Mission & Vision"
+              subtitle="What guides us and where we are headed"
             />
           </Reveal>
 
-          <div className="cs-preview-cards-2">
-            <Reveal>
-              <article className="cs-preview-card cs-preview-mission-card">
-                <div className="cs-preview-card-head">
-                  <span className="cs-preview-card-icon cs-preview-card-icon-primary" aria-hidden="true">🎯</span>
-                  <h3 className="cs-preview-card-title">Our Mission</h3>
-                </div>
-                <p className="cs-preview-card-text">{MISSION_VISION.mission}</p>
+          <div className="about-purpose-bento">
+            <Reveal delay={40}>
+              <article className="about-purpose-card about-purpose-card-wide">
+                <span className="about-purpose-icon" aria-hidden="true">🌟</span>
+                <h3>Our Purpose</h3>
+                <ProseBlock paragraphs={OUR_PURPOSE.paragraphs} className="about-prose about-prose-compact" />
               </article>
             </Reveal>
-            <Reveal delay={60}>
-              <article className="cs-preview-card cs-preview-mission-card cs-preview-mission-card-accent">
-                <div className="cs-preview-card-head">
-                  <span className="cs-preview-card-icon cs-preview-card-icon-secondary" aria-hidden="true">🔭</span>
-                  <h3 className="cs-preview-card-title">Our Vision</h3>
-                </div>
-                <p className="cs-preview-card-text">{MISSION_VISION.vision}</p>
+            <Reveal delay={70}>
+              <article className="about-purpose-card">
+                <span className="about-purpose-icon" aria-hidden="true">🎯</span>
+                <h3>Our Mission</h3>
+                <p>{MISSION_VISION.mission}</p>
+              </article>
+            </Reveal>
+            <Reveal delay={100}>
+              <article className="about-purpose-card about-purpose-card-accent">
+                <span className="about-purpose-icon" aria-hidden="true">🔭</span>
+                <h3>Our Vision</h3>
+                <p>{MISSION_VISION.vision}</p>
               </article>
             </Reveal>
           </div>
         </div>
       </section>
 
-      {/* Core Values */}
-      <section className="cs-preview-section cs-preview-section-muted">
+      <section className="about-section about-section-values">
         <div className="cs-preview-container">
           <Reveal>
             <SectionIntro
               label="Values"
-              title="How We Work With Clients"
-              subtitle="Principles that guide every engagement"
+              title="Our Core Values"
+              subtitle="Principles that shape every project and partnership"
             />
           </Reveal>
 
-          <div className="cs-preview-features-grid">
+          <div className="about-values-grid">
             {CORE_VALUES.map((item, i) => (
-              <Reveal key={item.title} delay={(i % 4) * 40} variant="scale">
-                <article className="cs-preview-feature-card">
-                  <div className="cs-preview-feature-icon" aria-hidden="true">
-                    {VALUE_ICONS[i % VALUE_ICONS.length]}
-                  </div>
+              <Reveal key={item.title} delay={(i % 3) * 40} variant="scale">
+                <article className="about-value-card">
+                  <span className="about-value-icon" aria-hidden="true">{item.icon}</span>
                   <h4>{item.title}</h4>
-                  <p className="cs-preview-feature-desc">{item.desc}</p>
+                  <p>{item.desc}</p>
                 </article>
               </Reveal>
             ))}
@@ -232,28 +221,41 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* What We Do */}
-      <section className="cs-preview-section">
+      <section className="about-section about-section-muted about-section-capabilities">
         <div className="cs-preview-container">
           <Reveal>
             <SectionIntro
-              label="Services"
-              title="End-to-End Digital Services"
-              subtitle="From strategy to launch and long-term support"
+              label="Capabilities"
+              title="What We Do & Our Expertise"
+              subtitle="End to end digital services tailored to your business"
             />
           </Reveal>
 
-          <div className="cs-preview-services-grid">
-            {WHAT_WE_DO.map((item, i) => (
-              <Reveal key={item.title} delay={(i % 4) * 40}>
-                <article className="cs-preview-service-card cs-preview-service-card-tall">
-                  <span className="cs-preview-service-icon" aria-hidden="true">
-                    {SERVICE_ICONS[i % SERVICE_ICONS.length]}
-                  </span>
-                  <div>
-                    <strong className="cs-preview-service-title">{item.title}</strong>
-                    <p className="cs-preview-service-desc">{item.desc}</p>
+          <Reveal delay={40}>
+            <p className="about-lead">{WHAT_WE_DO.intro}</p>
+          </Reveal>
+
+          <Reveal delay={60}>
+            <div className="about-service-cloud">
+              {WHAT_WE_DO.services.map((service) => (
+                <span key={service} className="about-service-chip">{service}</span>
+              ))}
+            </div>
+          </Reveal>
+
+          <Reveal delay={80}>
+            <p className="about-closing-note">{WHAT_WE_DO.closing}</p>
+          </Reveal>
+
+          <div className="about-expertise-grid">
+            {EXPERTISE_AREAS.map((area, i) => (
+              <Reveal key={area.title} delay={90 + (i % 3) * 35}>
+                <article className="about-expertise-card">
+                  <div className="about-expertise-head">
+                    <span aria-hidden="true">{area.icon}</span>
+                    <h3>{area.title}</h3>
                   </div>
+                  <p>{area.desc}</p>
                 </article>
               </Reveal>
             ))}
@@ -261,46 +263,106 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Milestones */}
-      <section className="cs-preview-section cs-preview-section-muted">
+      <section className="about-section about-section-process">
+        <div className="cs-preview-container">
+          <Reveal>
+            <SectionIntro
+              label="Process"
+              title="How We Work"
+              subtitle="A structured, collaborative approach to successful delivery"
+            />
+          </Reveal>
+
+          <div className="about-process-track">
+            {HOW_WE_WORK.map((item, i) => (
+              <Reveal key={item.step} delay={i * 35}>
+                <article className="about-process-step">
+                  <span className="about-process-num">{item.step}</span>
+                  <h3>{item.title}</h3>
+                  <p>{item.desc}</p>
+                </article>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="about-section about-section-muted about-section-promise">
+        <div className="cs-preview-container">
+          <div className="about-promise-grid">
+            <div>
+              <Reveal>
+                <SectionIntro
+                  label="Commitment"
+                  title="Our Commitment to You"
+                  subtitle="Technology solutions built for lasting business value"
+                  className="about-section-intro-left"
+                />
+              </Reveal>
+              <Reveal delay={40}>
+                <div className="about-trait-cloud">
+                  {COMMITMENT.traits.map((trait) => (
+                    <span key={trait} className="about-trait-chip">{trait}</span>
+                  ))}
+                </div>
+                <p className="about-commitment-text">{COMMITMENT.text}</p>
+              </Reveal>
+            </div>
+
+            <div>
+              <Reveal delay={60}>
+                <SectionIntro
+                  title="Why Choose PrimeAxis?"
+                  subtitle="What sets us apart as your technology partner"
+                  className="about-section-intro-left"
+                />
+              </Reveal>
+              <Reveal delay={90}>
+                <ul className="about-why-list">
+                  {WHY_CHOOSE.map((item) => (
+                    <li key={item}>
+                      <span aria-hidden="true">✓</span>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </Reveal>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="about-section about-section-impact">
         <div className="cs-preview-container">
           <Reveal>
             <SectionIntro
               label="Journey"
-              title="Milestones Along the Way"
-              subtitle="How PrimeAxis has grown with our clients"
+              title="Our Journey & Impact"
+              subtitle="Growing alongside the businesses we serve"
             />
           </Reveal>
 
-          <div className="cs-preview-process-row">
-            {MILESTONES.map((item, i) => (
-              <Reveal key={item.year} delay={i * 35}>
-                <div className="cs-preview-process-item cs-preview-milestone-item">
-                  <div className="cs-preview-process-icon" aria-hidden="true">
-                    {MILESTONE_ICONS[i % MILESTONE_ICONS.length]}
-                  </div>
-                  <span className="cs-preview-milestone-year">{item.year}</span>
-                  <strong className="cs-preview-milestone-title">{item.title}</strong>
-                  <p className="cs-preview-milestone-desc">{item.desc}</p>
-                </div>
+          <Reveal delay={50}>
+            <ProseBlock paragraphs={OUR_JOURNEY.paragraphs} className="about-prose about-journey-prose" />
+          </Reveal>
+
+          <div className="about-impact-stats">
+            {COMPANY_STATS.map((stat, i) => (
+              <Reveal key={stat.label} delay={70 + i * 40} variant="scale">
+                <article className="about-impact-stat">
+                  <strong>{stat.value}</strong>
+                  <span>{stat.label}</span>
+                </article>
               </Reveal>
             ))}
           </div>
-        </div>
-      </section>
 
-      {/* Impact Stats */}
-      <section className="cs-preview-section">
-        <div className="cs-preview-container">
-          <Reveal>
-            <SectionIntro title="Our Impact in Numbers" />
-          </Reveal>
-          <div className="cs-preview-kpi-grid cs-preview-kpi-grid-4">
-            {COMPANY_STATS.map((stat, i) => (
-              <Reveal key={stat.label} delay={i * 60} variant="scale">
-                <article className={`cs-preview-kpi-card cs-preview-kpi-card-${i % 2 === 0 ? 'a' : 'b'}`}>
-                  <div className="cs-preview-kpi-value cs-preview-kpi-value-compact">{stat.value}</div>
-                  <div className="cs-preview-kpi-label">{stat.label}</div>
+          <div className="about-impact-details">
+            {IMPACT_DETAILS.map((item, i) => (
+              <Reveal key={item.stat} delay={100 + i * 35}>
+                <article className="about-impact-detail">
+                  <h3>{item.stat}</h3>
+                  <p>{item.desc}</p>
                 </article>
               </Reveal>
             ))}
@@ -308,7 +370,24 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <PreviewFinalCTA />
+      <section className="about-section about-section-muted about-section-future">
+        <div className="cs-preview-container">
+          <Reveal>
+            <SectionIntro label="Future" title="Looking Ahead" />
+          </Reveal>
+          <Reveal delay={60}>
+            <blockquote className="about-future-quote">
+              <p>{LOOKING_AHEAD}</p>
+            </blockquote>
+          </Reveal>
+        </div>
+      </section>
+
+      <PreviewFinalCTA
+        title="Ready to transform your business?"
+        secondaryLabel="Meet Our Team"
+        secondaryHref="/team"
+      />
 
       <Footer />
       <WhatsAppChat />

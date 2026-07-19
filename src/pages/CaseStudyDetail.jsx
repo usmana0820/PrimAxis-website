@@ -12,6 +12,8 @@ import { normalizeProject } from '../utils/projectAdapter'
 import PreviewHeroBackground from '../components/PreviewHeroBackground'
 import PreviewHeroAside from '../components/PreviewHeroAside'
 import PreviewFinalCTA from '../components/PreviewFinalCTA'
+import SolutionLivePreview from '../components/SolutionLivePreview'
+import { buildImpactKpis } from '../utils/impactMetrics'
 import { usePublishedProjects } from '../hooks/usePublishedProjects'
 
 const WORKFLOW_STEPS = [
@@ -105,36 +107,13 @@ function groupTechStack(techList) {
   ].filter((g) => g.items.length)
 }
 
-function parseImpactKpis(outcomes, result) {
-  const source = [...(outcomes || []), ...(result ? [result] : [])]
-  const items = []
-
-  source.forEach((text, i) => {
-    const pct = text.match(/(\d+)\s*%/)
-    if (pct) {
-      items.push({
-        variant: i % 2 === 0 ? 'a' : 'b',
-        value: pct[1],
-        suffix: '%',
-        label: text.replace(/\d+\s*%\s*/i, '').replace(/^increase in\s*/i, '').replace(/^reduction in\s*/i, '').trim() || text,
-      })
-      return
-    }
-    const mult = text.match(/([\d.]+)\s*[×x]/i)
-    if (mult) {
-      items.push({ variant: 'plain', value: `${mult[1]}x`, suffix: '', label: text.replace(/[\d.]+\s*[×x]\s*/i, '').trim() || text })
-      return
-    }
-    items.push({ variant: i % 2 === 0 ? 'a' : 'b', value: null, suffix: '', label: text })
+function getImpactKpis(study) {
+  if (!study) return []
+  if (study.impactKpis?.length) return study.impactKpis
+  return buildImpactKpis(study.impactMetrics, {
+    result: study.result,
+    outcomes: study.outcomes,
   })
-
-  if (items.length) return items.slice(0, 3)
-
-  return [
-    { variant: 'a', value: '35', suffix: '%', label: 'Increase in Lead Conversion' },
-    { variant: 'b', value: '60', suffix: '%', label: 'Reduction in Manual Work' },
-    { variant: 'plain', value: '2.4x', suffix: '', label: 'Faster Response Times' },
-  ]
 }
 
 function buildSolutionSteps(study) {
@@ -216,10 +195,7 @@ export default function CaseStudyDetail() {
   }, [study])
 
   const techGroups = useMemo(() => groupTechStack(study?.tech), [study])
-  const impactKpis = useMemo(
-    () => parseImpactKpis(study?.outcomes, study?.result),
-    [study]
-  )
+  const impactKpis = useMemo(() => getImpactKpis(study), [study])
   const solutionSteps = useMemo(
     () => (study ? buildSolutionSteps(study) : []),
     [study]
@@ -249,7 +225,7 @@ export default function CaseStudyDetail() {
     : executiveSummary
   const businessReq = study.challenge || study.fullDescription
   const functionalReq = study.solution
-  const expectedOutcome = study.result || study.outcomes?.[0] || study.businessImpact?.split('\n')[0] || ''
+  const expectedOutcome = study.result || study.businessImpact || study.outcomes?.[0] || ''
 
   return (
     <div className="cs-preview-page">
@@ -485,11 +461,14 @@ export default function CaseStudyDetail() {
         <section className="cs-preview-section cs-preview-section-muted">
           <div className="cs-preview-container">
             <div className="cs-preview-solution-grid">
-              {solutionImage && (
+              {(solutionImage || study.liveDemoUrl) && (
                 <Reveal variant="scale">
-                  <div className="cs-preview-solution-image">
-                    <img src={solutionImage} alt={`${study.title} solution preview`} />
-                  </div>
+                  <SolutionLivePreview
+                    title={study.title}
+                    image={solutionImage}
+                    liveDemoUrl={study.liveDemoUrl}
+                    isLive={isLive}
+                  />
                 </Reveal>
               )}
 
@@ -606,29 +585,36 @@ export default function CaseStudyDetail() {
         </div>
       </section>
 
-      {/* Business Impact */}
-      <section className="cs-preview-section">
-        <div className="cs-preview-container">
-          <Reveal>
-            <SectionIntro title="Business Impact" />
-          </Reveal>
-          <div className="cs-preview-kpi-grid">
-            {impactKpis.map((kpi, i) => (
-              <Reveal key={kpi.label} delay={i * 60} variant="scale">
-                <article className={`cs-preview-kpi-card cs-preview-kpi-card-${kpi.variant}`}>
-                  {kpi.value && (
-                    <>
-                      <div className="cs-preview-kpi-value">{kpi.value}</div>
-                      {kpi.suffix && <div className="cs-preview-kpi-suffix">{kpi.suffix}</div>}
-                    </>
-                  )}
-                  <div className="cs-preview-kpi-label">{kpi.label}</div>
-                </article>
-              </Reveal>
-            ))}
+      {/* Business Impact — one card per impact */}
+      {impactKpis.length > 0 && (
+        <section className="cs-preview-section">
+          <div className="cs-preview-container">
+            <Reveal>
+              <SectionIntro
+                title="Business Impact"
+                subtitle={study.businessImpact || undefined}
+              />
+            </Reveal>
+            <div className="cs-preview-kpi-grid">
+              {impactKpis.map((kpi, i) => (
+                <Reveal key={`${kpi.label}-${i}`} delay={i * 60} variant="scale">
+                  <article className={`cs-preview-kpi-card cs-preview-kpi-card-${kpi.variant}`}>
+                    {kpi.value ? (
+                      <>
+                        <div className="cs-preview-kpi-value">{kpi.value}</div>
+                        {kpi.suffix && <div className="cs-preview-kpi-suffix">{kpi.suffix}</div>}
+                        <div className="cs-preview-kpi-label">{kpi.label}</div>
+                      </>
+                    ) : (
+                      <div className="cs-preview-kpi-label cs-preview-kpi-label-only">{kpi.label}</div>
+                    )}
+                  </article>
+                </Reveal>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* Services Delivered */}
       {study.services?.length > 0 && (

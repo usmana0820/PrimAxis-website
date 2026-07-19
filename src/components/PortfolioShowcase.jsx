@@ -138,7 +138,7 @@ export default function PortfolioShowcase() {
             <SectionIntro
               label="Browse"
               title="All Projects"
-              subtitle="Filter by category, industry, or search — click any project for the full case study"
+              subtitle="Filter by category, industry, or search. Click any project for the full case study"
             />
           </Reveal>
 

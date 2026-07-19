@@ -87,6 +87,7 @@ export const EMPTY_PROJECT = {
   challenges: '',
   solution: '',
   businessImpact: '',
+  impactMetrics: [],
   result: '',
   technologies: [],
   features: [],

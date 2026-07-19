@@ -4,8 +4,6 @@ import { LOGO_SRC, BRAND_NAME, BRAND_SHORT } from '../constants/branding'
 import {
   getWhatsAppUrl,
   WHATSAPP_DISPLAY,
-  OFFICE_ADDRESS_SHORT,
-  OFFICE_MAP_URL,
 } from '../constants/contact'
 
 const quickLinks = [
@@ -26,8 +24,8 @@ const serviceLinks = [
 ]
 
 const resourceLinks = [
-  { label: 'Blog', to: '/blog' },
-  { label: 'Case Studies', to: '/case-studies' },
+  // { label: 'Blog', to: '/blog' },
+  // { label: 'Case Studies', to: '/case-studies' },
   { label: 'Our Team', to: '/team' },
 ]
 
@@ -154,12 +152,6 @@ export default function Footer() {
             <h4 className="footer-v2-heading">Contact</h4>
             <ul className="footer-v2-contact-list">
               <li>
-                <span className="footer-v2-contact-icon" aria-hidden="true">📍</span>
-                <a href={OFFICE_MAP_URL} target="_blank" rel="noopener noreferrer">
-                  {OFFICE_ADDRESS_SHORT}
-                </a>
-              </li>
-              <li>
                 <span className="footer-v2-contact-icon" aria-hidden="true">📞</span>
                 <a href={getWhatsAppUrl()} target="_blank" rel="noopener noreferrer">
                   {WHATSAPP_DISPLAY}
@@ -180,7 +172,7 @@ export default function Footer() {
           <div className="footer-v2-newsletter-text">
             <span className="footer-v2-newsletter-label">Newsletter</span>
             <h3>Stay ahead with tech insights</h3>
-            <p>Product updates, case studies, and digital transformation tips — no spam.</p>
+            <p>Product updates, case studies, and digital transformation tips. No spam.</p>
           </div>
           <form onSubmit={handleNewsletter} className="footer-v2-newsletter-form">
             <input
@@ -193,7 +185,7 @@ export default function Footer() {
             />
             <button type="submit">Subscribe</button>
             {subscribed && (
-              <p className="footer-v2-subscribed" role="status">Thanks — you&apos;re subscribed!</p>
+              <p className="footer-v2-subscribed" role="status">Thanks! You&apos;re subscribed!</p>
             )}
           </form>
         </div>

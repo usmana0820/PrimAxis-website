@@ -62,8 +62,8 @@ export default function About() {
               </div>
 
               <div className="about-visual-badge">
-                <span className="about-visual-badge-value">5+</span>
-                <span className="about-visual-badge-label">Years of Excellence</span>
+                <span className="about-visual-badge-value">2+</span>
+                <span className="about-visual-badge-label">Years of Experience</span>
               </div>
 
               <div className="about-visual-stats">
@@ -92,7 +92,7 @@ export default function About() {
                 mode="words"
                 delay={180}
                 className="mt-5 text-text-muted text-base lg:text-[17px] leading-relaxed"
-                text="PrimeAxis Technologies helps businesses embrace digital transformation through Zoho ERP, custom software, mobile apps, AI, and digital marketing — built around your goals, not generic templates."
+                text="PrimeAxis Technologies helps businesses embrace digital transformation through Zoho ERP, custom software, mobile apps, AI, and digital marketing, built around your goals, not generic templates."
               />
             </div>
 

@@ -7,7 +7,7 @@ import { getCardRevealVariant } from '../utils/revealVariants'
 const faqs = [
   {
     q: 'What services do you provide?',
-    a: 'We provide Zoho ERP & CRM implementation, website development, mobile app development, AI solutions, digital marketing, and business analysis & consulting — all tailored to your business needs.',
+    a: 'We provide Zoho ERP & CRM implementation, website development, mobile app development, AI solutions, digital marketing, and business analysis & consulting, all tailored to your business needs.',
   },
   {
     q: 'How long does a project take?',

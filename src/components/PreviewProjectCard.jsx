@@ -15,9 +15,11 @@ export default function PreviewProjectCard({ project, className = '' }) {
           ) : (
             <div className={`cs-preview-related-fallback bg-gradient-to-br ${project.gradient}`} />
           )}
-          {project.featured && (
+          {project.isSample ? (
+            <span className="cs-preview-portfolio-featured-badge cs-preview-portfolio-sample-badge">Sample</span>
+          ) : project.featured ? (
             <span className="cs-preview-portfolio-featured-badge">Featured</span>
-          )}
+          ) : null}
         </div>
         <div className="cs-preview-related-body">
           <span>{project.industry}</span>
@@ -34,16 +36,21 @@ export default function PreviewProjectCard({ project, className = '' }) {
         </div>
       </Link>
 
-      <ProjectLinkActions
-        liveDemoUrl={project.liveDemoUrl}
-        githubUrl={project.githubUrl}
-        variant="preview"
-        className="cs-preview-portfolio-links"
-      />
+      <div className="cs-preview-portfolio-card-footer">
+        <ProjectLinkActions
+          liveDemoUrl={project.liveDemoUrl}
+          githubUrl={project.githubUrl}
+          variant="preview"
+          className="cs-preview-portfolio-links"
+        />
 
-      <Link to={url} className="cs-preview-related-link">
-        View Case Study →
-      </Link>
+        <Link to={url} className="cs-preview-portfolio-cta">
+          View Case Study
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+          </svg>
+        </Link>
+      </div>
     </article>
   )
 }

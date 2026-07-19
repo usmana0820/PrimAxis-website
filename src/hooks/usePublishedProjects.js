@@ -2,10 +2,14 @@ import { useEffect, useState } from 'react'
 import { CASE_STUDIES } from '../constants/caseStudies'
 import { firebaseReady } from '../lib/firebase'
 import { fetchPublishedProjects } from '../services/projects'
-import { mergePublishedProjects, normalizeProject, sortProjectsFeaturedFirst } from '../utils/projectAdapter'
+import { mergePublishedProjects } from '../utils/projectAdapter'
+
+function getPortfolioProjects(cmsProjects = []) {
+  return mergePublishedProjects(cmsProjects, CASE_STUDIES)
+}
 
 export function usePublishedProjects() {
-  const [projects, setProjects] = useState(() => sortProjectsFeaturedFirst(CASE_STUDIES.map(normalizeProject)))
+  const [projects, setProjects] = useState(() => getPortfolioProjects())
   const [loading, setLoading] = useState(Boolean(firebaseReady))
 
   useEffect(() => {
@@ -16,10 +20,10 @@ export function usePublishedProjects() {
 
     fetchPublishedProjects()
       .then((data) => {
-        setProjects(mergePublishedProjects(data, CASE_STUDIES))
+        setProjects(getPortfolioProjects(data))
       })
       .catch(() => {
-        setProjects(sortProjectsFeaturedFirst(CASE_STUDIES.map(normalizeProject)))
+        setProjects(getPortfolioProjects())
       })
       .finally(() => setLoading(false))
   }, [])

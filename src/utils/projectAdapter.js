@@ -1,3 +1,10 @@
+import {
+  buildImpactKpis,
+  hydrateImpactFields,
+  impactMetricsToOutcomes,
+  normalizeImpactMetrics,
+} from './impactMetrics'
+
 const DEFAULT_GRADIENT = 'from-[#355C7D] to-[#4F46E5]'
 
 const PREVIEW_BY_CATEGORY = {
@@ -36,6 +43,8 @@ function formatPublishedAt(value) {
 
 function parseOutcomes(project) {
   if (Array.isArray(project.outcomes) && project.outcomes.length) return project.outcomes
+  const metrics = normalizeImpactMetrics(project.impactMetrics)
+  if (metrics.length) return impactMetricsToOutcomes(metrics)
   if (!project.businessImpact) return []
   return project.businessImpact
     .split('\n')
@@ -67,6 +76,8 @@ export function normalizeProject(project) {
   const preview = project.preview || PREVIEW_BY_CATEGORY[project.category] || 'web'
   const shortDescription = project.shortDescription || project.description || ''
   const fullDescription = project.fullDescription || project.summary || shortDescription
+  const impact = hydrateImpactFields(project)
+  const outcomes = parseOutcomes({ ...project, impactMetrics: impact.metrics })
 
   return {
     id: project.id,
@@ -86,8 +97,13 @@ export function normalizeProject(project) {
     readTime: project.readTime || '5 min read',
     challenge: project.problemStatement || project.challenges || project.challenge || '',
     solution: project.solution || '',
-    outcomes: parseOutcomes(project),
-    businessImpact: project.businessImpact || '',
+    outcomes,
+    businessImpact: impact.summary || project.businessImpact || '',
+    impactMetrics: impact.metrics,
+    impactKpis: buildImpactKpis(impact.metrics, {
+      result: project.result,
+      outcomes,
+    }),
     coverImage: project.coverImage || '',
     galleryImages: project.galleryImages || [],
     features: project.features || [],
@@ -101,6 +117,7 @@ export function normalizeProject(project) {
     githubUrl: project.githubUrl || '',
     featured: Boolean(project.featured),
     fromCms: Boolean(project.fromCms),
+    isSample: Boolean(project.isSample),
     seoTitle: project.seoTitle || project.title || '',
     seoDescription: project.seoDescription || shortDescription || '',
   }
@@ -114,7 +131,7 @@ export function mergePublishedProjects(firestoreProjects, staticProjects) {
   const slugs = new Set(normalizedFirestore.map((p) => p.slug))
   const staticOnly = staticProjects
     .filter((p) => !slugs.has(p.slug))
-    .map((p) => ({ ...normalizeProject(p), fromCms: false }))
+    .map((p) => ({ ...normalizeProject(p), fromCms: false, isSample: true }))
   return sortProjectsFeaturedFirst([...normalizedFirestore, ...staticOnly])
 }
 

@@ -25,7 +25,7 @@ export default function CaseStudiesPreview() {
           dark
           label="Case Studies"
           title="Real Projects. Measurable Results."
-          subtitle="Deep dives into how we solve business challenges — with technologies used and proven impact."
+          subtitle="Deep dives into how we solve business challenges, with technologies used and proven impact."
           titleClassName="mt-5 text-3xl sm:text-4xl lg:text-[2.75rem] font-bold text-white tracking-tight font-display"
           subtitleClassName="mt-5 text-white/70 text-lg leading-relaxed"
         />

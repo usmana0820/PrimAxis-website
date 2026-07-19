@@ -93,7 +93,7 @@ export default function PortfolioRingShowcase({ projects }) {
             <span className="cs-preview-label">Interactive Gallery</span>
             <h2 className="cs-preview-section-head">Explore Our Work</h2>
             <p className="cs-preview-section-sub">
-              Auto-rotating project ring — hover to pause, click any case to preview
+              Auto rotating project ring. Hover to pause, click any case to preview
             </p>
           </header>
         </Reveal>
