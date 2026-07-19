@@ -56,14 +56,14 @@ export function subscribeInquiries(onData, onError) {
   )
 }
 
-export async function updateInquiryStatus(id, status) {
-  await updateDoc(doc(db, COLLECTION, id), { status })
+export async function updateInquiryStatus(id, status, extra = {}) {
+  await updateDoc(doc(db, COLLECTION, id), { status, ...extra })
 }
 
 export async function markInquiryRead(id) {
-  return updateInquiryStatus(id, 'read')
+  return updateInquiryStatus(id, 'read', { readAt: serverTimestamp() })
 }
 
 export async function archiveInquiry(id) {
-  return updateInquiryStatus(id, 'archived')
+  return updateInquiryStatus(id, 'archived', { archivedAt: serverTimestamp() })
 }

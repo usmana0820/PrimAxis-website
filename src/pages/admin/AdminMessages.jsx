@@ -1,56 +1,39 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import {
   archiveInquiry,
   markInquiryRead,
-  subscribeInquiries,
 } from '../../services/inquiries'
-
-function formatWhen(timestamp) {
-  if (!timestamp) return 'Just now'
-  const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp)
-  return date.toLocaleString(undefined, {
-    dateStyle: 'medium',
-    timeStyle: 'short',
-  })
-}
+import { useInquiries } from '../../context/InquiriesContext'
+import {
+  formatInquiryDateParts,
+  formatInquiryDateTime,
+  getInquiryStatusLabel,
+  isInquiryUnread,
+} from '../../utils/inquiryDates'
+import { buildGmailReplyUrl } from '../../utils/gmailReply'
 
 export default function AdminMessages() {
-  const [inquiries, setInquiries] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState('')
+  const { inquiries, loading, error: loadError, unreadCount } = useInquiries()
   const [selectedId, setSelectedId] = useState(null)
   const [updatingId, setUpdatingId] = useState(null)
-
-  useEffect(() => {
-    const unsubscribe = subscribeInquiries(
-      (items) => {
-        setInquiries(items)
-        setLoading(false)
-        setError('')
-      },
-      (err) => {
-        setError(err.message || 'Could not load messages.')
-        setLoading(false)
-      }
-    )
-    return unsubscribe
-  }, [])
+  const [actionError, setActionError] = useState('')
 
   const selected = useMemo(
     () => inquiries.find((item) => item.id === selectedId) || null,
     [inquiries, selectedId]
   )
 
-  const newCount = inquiries.filter((item) => item.status === 'new').length
+  const error = actionError || loadError
 
   const handleSelect = async (item) => {
     setSelectedId(item.id)
-    if (item.status === 'new') {
+    setActionError('')
+    if (isInquiryUnread(item)) {
       setUpdatingId(item.id)
       try {
         await markInquiryRead(item.id)
       } catch (err) {
-        setError(err.message || 'Could not update message status.')
+        setActionError(err.message || 'Could not update message status.')
       } finally {
         setUpdatingId(null)
       }
@@ -59,11 +42,12 @@ export default function AdminMessages() {
 
   const handleArchive = async (id) => {
     setUpdatingId(id)
+    setActionError('')
     try {
       await archiveInquiry(id)
       if (selectedId === id) setSelectedId(null)
     } catch (err) {
-      setError(err.message || 'Could not archive message.')
+      setActionError(err.message || 'Could not archive message.')
     } finally {
       setUpdatingId(null)
     }
@@ -76,8 +60,8 @@ export default function AdminMessages() {
           <h1>Contact Messages</h1>
           <p>
             Real-time inquiries from the website contact form
-            {newCount > 0 && (
-              <span className="admin-messages-live-badge">{newCount} new</span>
+            {unreadCount > 0 && (
+              <span className="admin-messages-live-badge">{unreadCount} unread</span>
             )}
           </p>
         </div>
@@ -94,22 +78,38 @@ export default function AdminMessages() {
       ) : (
         <div className="admin-messages-layout">
           <div className="admin-messages-list admin-panel">
-            {inquiries.map((item) => (
-              <button
-                key={item.id}
-                type="button"
-                className={`admin-message-item${selectedId === item.id ? ' active' : ''}${item.status === 'new' ? ' is-new' : ''}`}
-                onClick={() => handleSelect(item)}
-              >
-                <div className="admin-message-item-head">
-                  <strong>{item.name}</strong>
-                  <span>{formatWhen(item.createdAt)}</span>
-                </div>
-                <p className="admin-message-item-email">{item.email}</p>
-                <p className="admin-message-item-preview">{item.message}</p>
-                <span className={`admin-status-pill admin-status-${item.status}`}>{item.status}</span>
-              </button>
-            ))}
+            {inquiries.map((item) => {
+              const received = formatInquiryDateParts(item.createdAt)
+              const unread = isInquiryUnread(item)
+
+              return (
+                <button
+                  key={item.id}
+                  type="button"
+                  className={`admin-message-item${selectedId === item.id ? ' active' : ''}${unread ? ' is-unread' : ''}`}
+                  onClick={() => handleSelect(item)}
+                >
+                  <div className="admin-message-item-head">
+                    <div className="admin-message-item-title">
+                      {unread && <span className="admin-message-unread-dot" aria-hidden="true" />}
+                      <strong>{item.name}</strong>
+                    </div>
+                    <span className={`admin-status-pill admin-status-${item.status}`}>
+                      {getInquiryStatusLabel(item.status)}
+                    </span>
+                  </div>
+
+                  <p className="admin-message-item-email">{item.email}</p>
+                  <p className="admin-message-item-preview">{item.message}</p>
+
+                  <div className="admin-message-item-datetime">
+                    <span>{received.date}</span>
+                    <span className="admin-message-item-datetime-sep" aria-hidden="true">·</span>
+                    <span>{received.time}</span>
+                  </div>
+                </button>
+              )
+            })}
           </div>
 
           <div className="admin-message-detail admin-panel">
@@ -121,8 +121,16 @@ export default function AdminMessages() {
                     <p>{selected.email}</p>
                   </div>
                   <div className="admin-message-detail-actions">
+                    <a
+                      href={buildGmailReplyUrl(selected)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="admin-btn admin-btn-primary admin-btn-gmail"
+                    >
+                      Reply in Gmail
+                    </a>
                     <a href={`mailto:${selected.email}`} className="admin-btn admin-btn-outline">
-                      Reply
+                      Email app
                     </a>
                     {selected.status !== 'archived' && (
                       <button
@@ -138,6 +146,30 @@ export default function AdminMessages() {
                 </div>
 
                 <dl className="admin-message-meta">
+                  <div>
+                    <dt>Status</dt>
+                    <dd>
+                      <span className={`admin-status-pill admin-status-${selected.status}`}>
+                        {getInquiryStatusLabel(selected.status)}
+                      </span>
+                    </dd>
+                  </div>
+                  <div>
+                    <dt>Received</dt>
+                    <dd>{formatInquiryDateTime(selected.createdAt)}</dd>
+                  </div>
+                  {selected.readAt && (
+                    <div>
+                      <dt>Read at</dt>
+                      <dd>{formatInquiryDateTime(selected.readAt)}</dd>
+                    </div>
+                  )}
+                  {selected.archivedAt && (
+                    <div>
+                      <dt>Archived at</dt>
+                      <dd>{formatInquiryDateTime(selected.archivedAt)}</dd>
+                    </div>
+                  )}
                   {selected.phone && (
                     <div>
                       <dt>Phone</dt>
@@ -162,10 +194,6 @@ export default function AdminMessages() {
                       <dd>{selected.budget}</dd>
                     </div>
                   )}
-                  <div>
-                    <dt>Received</dt>
-                    <dd>{formatWhen(selected.createdAt)}</dd>
-                  </div>
                 </dl>
 
                 <div className="admin-message-body">

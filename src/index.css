@@ -8585,16 +8585,19 @@ main .section-divider + section.page-section {
 .admin-status-new {
   background: #dbeafe;
   color: #1d4ed8;
+  text-transform: none;
 }
 
 .admin-status-read {
   background: #e2e8f0;
   color: #475569;
+  text-transform: none;
 }
 
 .admin-status-archived {
   background: #f1f5f9;
   color: #64748b;
+  text-transform: none;
 }
 
 .admin-messages-live-badge {
@@ -8641,17 +8644,43 @@ main .section-divider + section.page-section {
   box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
 }
 
-.admin-message-item.is-new {
-  background: rgba(59, 130, 246, 0.04);
-  border-color: rgba(59, 130, 246, 0.25);
+.admin-message-item.is-new,
+.admin-message-item.is-unread {
+  background: rgba(59, 130, 246, 0.05);
+  border-color: rgba(59, 130, 246, 0.28);
 }
 
-.admin-message-item-head {
+.admin-message-item-title {
   display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 0.75rem;
-  margin-bottom: 0.35rem;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+.admin-message-unread-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 999px;
+  background: #2563eb;
+  flex-shrink: 0;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.admin-message-item-head .admin-status-pill {
+  flex-shrink: 0;
+}
+
+.admin-message-item-datetime {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.75rem;
+  color: #64748b;
+  font-variant-numeric: tabular-nums;
+}
+
+.admin-message-item-datetime-sep {
+  color: #cbd5e1;
 }
 
 .admin-message-item-head strong {
@@ -8708,6 +8737,13 @@ main .section-divider + section.page-section {
   display: flex;
   gap: 0.5rem;
   flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.admin-btn-gmail {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
 }
 
 .admin-message-meta {

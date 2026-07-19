@@ -1,5 +1,6 @@
 import { NavLink, Outlet, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/useAuth'
+import { InquiriesProvider, useInquiries } from '../../context/InquiriesContext'
 import { LOGO_SRC, BRAND_NAME, BRAND_SHORT } from '../../constants/branding'
 import AdminHeader from '../../components/admin/AdminHeader'
 import {
@@ -35,6 +36,16 @@ export default function AdminLayout() {
   }
 
   return (
+    <InquiriesProvider>
+      <AdminLayoutShell onLogout={handleLogout} />
+    </InquiriesProvider>
+  )
+}
+
+function AdminLayoutShell({ onLogout }) {
+  const { newCount } = useInquiries()
+
+  return (
     <div className="admin-shell admin-shell-premium">
       <aside className="admin-sidebar admin-sidebar-light">
         <div className="admin-brand admin-brand-light">
@@ -48,6 +59,7 @@ export default function AdminLayout() {
         <nav className="admin-nav">
           {navItems.map((item) => {
             const Icon = item.icon
+            const showBadge = item.to === '/admin/messages' && newCount > 0
             return (
               <NavLink
                 key={item.to}
@@ -59,6 +71,11 @@ export default function AdminLayout() {
               >
                 <Icon />
                 {item.label}
+                {showBadge && (
+                  <span className="admin-nav-badge" aria-label={`${newCount} unread contact messages`}>
+                    {newCount}
+                  </span>
+                )}
               </NavLink>
             )
           })}
@@ -69,7 +86,7 @@ export default function AdminLayout() {
           <p>Digital transformation partner for Zoho, custom software, mobile apps, and AI solutions.</p>
         </div>
 
-        <button type="button" className="admin-logout-btn admin-logout-btn-light" onClick={handleLogout}>
+        <button type="button" className="admin-logout-btn admin-logout-btn-light" onClick={onLogout}>
           <IconLogout />
           Logout
         </button>

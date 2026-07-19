@@ -1,8 +1,11 @@
+import { Link } from 'react-router-dom'
 import { useAuth } from '../../context/useAuth'
+import { useInquiries } from '../../context/InquiriesContext'
 import { IconBell, IconSearch } from './AdminIcons'
 
 export default function AdminHeader({ title, subtitle }) {
   const { profile } = useAuth()
+  const { newCount } = useInquiries()
   const initials = (profile?.name || profile?.email || 'A')
     .split(' ')
     .map((part) => part[0])
@@ -27,10 +30,14 @@ export default function AdminHeader({ title, subtitle }) {
       </div>
 
       <div className="admin-topbar-right">
-        <button type="button" className="admin-icon-btn admin-notify-btn" aria-label="Notifications">
+        <Link
+          to="/admin/messages"
+          className="admin-icon-btn admin-notify-btn"
+          aria-label={newCount > 0 ? `${newCount} unread contact messages` : 'Contact messages'}
+        >
           <IconBell />
-          <span className="admin-notify-badge">3</span>
-        </button>
+          {newCount > 0 && <span className="admin-notify-badge">{newCount}</span>}
+        </Link>
 
         <div className="admin-theme-toggle">
           <span className="active">Light</span>
