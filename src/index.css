@@ -1686,6 +1686,11 @@ p.text-flow {
   overflow: hidden;
   vertical-align: top;
   padding-bottom: 0.06em;
+  margin-right: 0.28em;
+}
+
+.text-flow-word-wrap:last-child {
+  margin-right: 0;
 }
 
 .text-flow-word,

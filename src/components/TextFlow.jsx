@@ -97,7 +97,6 @@ export default function TextFlow({
           <motion.span className="text-flow-word" variants={itemVariants}>
             {word}
           </motion.span>
-          {index < words.length - 1 ? ' ' : null}
         </span>
       ))}
     </MotionTag>
