@@ -20,6 +20,12 @@ function projectsRef() {
   return collection(db, COLLECTION)
 }
 
+/** True when the signed-in admin owns this project document. */
+export function canManageProject(project, userId) {
+  if (!project || !userId) return false
+  return project.createdBy === userId
+}
+
 export async function fetchPublishedProjects() {
   try {
     const q = query(
@@ -42,10 +48,36 @@ export async function fetchPublishedProjects() {
   }
 }
 
+/** All projects — public site merge helpers only; not for admin dashboards. */
 export async function fetchAllProjects() {
   const q = query(projectsRef(), orderBy('updatedAt', 'desc'))
   const snap = await getDocs(q)
   return snap.docs.map((d) => ({ id: d.id, ...d.data() }))
+}
+
+/** Projects created by the signed-in admin only. */
+export async function fetchProjectsForAdmin(userId) {
+  if (!userId) return []
+
+  try {
+    const q = query(
+      projectsRef(),
+      where('createdBy', '==', userId),
+      orderBy('updatedAt', 'desc')
+    )
+    const snap = await getDocs(q)
+    return snap.docs.map((d) => ({ id: d.id, ...d.data() }))
+  } catch {
+    const q = query(projectsRef(), where('createdBy', '==', userId))
+    const snap = await getDocs(q)
+    return snap.docs
+      .map((d) => ({ id: d.id, ...d.data() }))
+      .sort((a, b) => {
+        const aTime = a.updatedAt?.toMillis?.() || a.createdAt?.toMillis?.() || 0
+        const bTime = b.updatedAt?.toMillis?.() || b.createdAt?.toMillis?.() || 0
+        return bTime - aTime
+      })
+  }
 }
 
 export async function fetchProjectById(id) {
@@ -68,8 +100,9 @@ export async function fetchPublishedProjectBySlug(slug) {
 }
 
 export async function createProject(data, userId) {
+  const { id, createdBy, createdAt, updatedAt, publishedAt, ...rest } = data
   const payload = {
-    ...data,
+    ...rest,
     createdBy: userId,
     createdAt: serverTimestamp(),
     updatedAt: serverTimestamp(),
@@ -81,8 +114,9 @@ export async function createProject(data, userId) {
 
 export async function updateProject(id, data) {
   const ref = doc(db, COLLECTION, id)
+  const { id: _id, createdBy, createdAt, ...rest } = data
   const payload = {
-    ...data,
+    ...rest,
     updatedAt: serverTimestamp(),
   }
   if (data.status === 'published') {
@@ -95,8 +129,8 @@ export async function deleteProject(id) {
   await deleteDoc(doc(db, COLLECTION, id))
 }
 
-export async function fetchProjectStats() {
-  const all = await fetchAllProjects()
+export async function fetchProjectStats(userId) {
+  const all = await fetchProjectsForAdmin(userId)
   return {
     total: all.length,
     published: all.filter((p) => p.status === 'published').length,

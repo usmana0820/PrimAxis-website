@@ -4,7 +4,7 @@ import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import WhatsAppChat from '../components/WhatsAppChat'
 import Reveal from '../components/Reveal'
-import aboutImage from '../assets/aboutsection.jpg'
+import AboutVideo from '../components/AboutVideo'
 import PreviewHeroBackground from '../components/PreviewHeroBackground'
 import PreviewHeroAside from '../components/PreviewHeroAside'
 import PreviewFinalCTA from '../components/PreviewFinalCTA'
@@ -130,26 +130,21 @@ export default function AboutPage() {
 
       <section className="about-section about-section-story">
         <div className="cs-preview-container">
-          <Reveal>
-            <SectionIntro
-              label="Our Story"
-              title="Building Technology That Drives Growth"
-              subtitle="Practical, scalable solutions for every stage of your digital journey"
-            />
-          </Reveal>
+          <div className="about-story-showcase">
+            <div className="about-story-copy">
+              <Reveal>
+                <SectionIntro
+                  label="Our Story"
+                  title="Building Technology That Drives Growth"
+                  subtitle="Practical, scalable solutions for every stage of your digital journey"
+                  className="about-section-intro-left"
+                />
+              </Reveal>
 
-          <div className="about-story-layout">
-            <Reveal variant="scale">
-              <div className="about-story-visual">
-                <img src={aboutImage} alt="PrimeAxis Technologies team" loading="lazy" />
-                <div className="about-story-visual-glow" aria-hidden="true" />
-              </div>
-            </Reveal>
-
-            <div className="about-story-content">
               <Reveal delay={60}>
                 <ProseBlock paragraphs={OUR_STORY.paragraphs} />
               </Reveal>
+
               <Reveal delay={100}>
                 <article className="about-highlight-panel">
                   <span className="about-highlight-label">Who We Are</span>
@@ -157,6 +152,23 @@ export default function AboutPage() {
                 </article>
               </Reveal>
             </div>
+
+            <Reveal variant="scale" delay={80}>
+              <div className="about-story-media">
+                <div className="about-story-media-frame">
+                  <AboutVideo
+                    aspect="16/9"
+                    label="PrimeAxis Technologies team"
+                    stats={COMPANY_STATS.slice(0, 3)}
+                  />
+                  <div className="about-story-media-glow" aria-hidden="true" />
+                </div>
+                <div className="about-story-media-caption">
+                  <span className="about-story-media-chip">Inside PrimeAxis</span>
+                  <p>Watch our team build real solutions — from Zoho ERP to custom software and AI automation.</p>
+                </div>
+              </div>
+            </Reveal>
           </div>
         </div>
       </section>

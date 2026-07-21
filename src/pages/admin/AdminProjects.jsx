@@ -1,17 +1,18 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { fetchAllProjects, deleteProject } from '../../services/projects'
+import { canManageProject, deleteProject, fetchProjectsForAdmin } from '../../services/projects'
 import { useAuth } from '../../context/useAuth'
 
 export default function AdminProjects() {
-  const { profile } = useAuth()
+  const { user } = useAuth()
   const [projects, setProjects] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
 
   const load = () => {
+    if (!user?.uid) return
     setLoading(true)
-    fetchAllProjects()
+    fetchProjectsForAdmin(user.uid)
       .then(setProjects)
       .catch((err) => setError(err.message))
       .finally(() => setLoading(false))
@@ -19,13 +20,9 @@ export default function AdminProjects() {
 
   useEffect(() => {
     load()
-  }, [])
+  }, [user?.uid])
 
   const handleDelete = async (id, title) => {
-    if (profile?.role === 'analyst' || profile?.role === 'marketing') {
-      alert('Your role cannot delete projects.')
-      return
-    }
     if (!window.confirm(`Delete "${title}"? This cannot be undone.`)) return
     try {
       await deleteProject(id)
@@ -39,8 +36,8 @@ export default function AdminProjects() {
     <div className="admin-page admin-page-wide">
       <header className="admin-page-header admin-page-header-row">
         <div>
-          <h1>All Projects</h1>
-          <p>Drafts and published items. Published projects appear on portfolio, case studies, and the home page.</p>
+          <h1>My Projects</h1>
+          <p>Your drafts and published work. Contact messages are shared with all admins; projects stay in your workspace only.</p>
         </div>
         <Link to="/admin/projects/new" className="admin-btn admin-btn-primary">Add Project</Link>
       </header>
@@ -51,7 +48,7 @@ export default function AdminProjects() {
         <p>Loading projects…</p>
       ) : projects.length === 0 ? (
         <div className="admin-empty">
-          <p>No projects yet.</p>
+          <p>You have not created any projects yet.</p>
           <Link to="/admin/projects/new" className="admin-btn admin-btn-primary">Create your first project</Link>
         </div>
       ) : (
@@ -86,7 +83,7 @@ export default function AdminProjects() {
                         <a href="/#portfolio" className="admin-link-btn" target="_blank" rel="noreferrer">Portfolio</a>
                       </>
                     )}
-                    {profile?.role === 'developer' && (
+                    {canManageProject(project, user?.uid) && (
                       <button type="button" className="admin-link-btn admin-link-danger" onClick={() => handleDelete(project.id, project.title)}>
                         Delete
                       </button>

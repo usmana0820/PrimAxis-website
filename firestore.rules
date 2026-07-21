@@ -9,6 +9,10 @@ service cloud.firestore {
         && get(/databases/$(database)/documents/admins/$(request.auth.uid)).data.active == true;
     }
 
+    function ownsProject() {
+      return resource.data.createdBy == request.auth.uid;
+    }
+
     // Admin profiles — sign-up creates own doc; developer activates in Console
     match /admins/{uid} {
       allow read: if request.auth != null && request.auth.uid == uid;
@@ -17,10 +21,14 @@ service cloud.firestore {
     }
 
     match /projects/{projectId} {
-      allow read: if resource.data.status == 'published' || isAdmin();
-      allow create, update: if isAdmin();
-      allow delete: if isAdmin()
-        && get(/databases/$(database)/documents/admins/$(request.auth.uid)).data.role == 'developer';
+      allow read: if resource.data.status == 'published'
+        || (isAdmin() && ownsProject());
+      allow create: if isAdmin()
+        && request.resource.data.createdBy == request.auth.uid;
+      allow update: if isAdmin()
+        && ownsProject()
+        && request.resource.data.createdBy == resource.data.createdBy;
+      allow delete: if isAdmin() && ownsProject();
     }
 
     match /inquiries/{inquiryId} {

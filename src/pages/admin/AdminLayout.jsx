@@ -1,4 +1,4 @@
-import { NavLink, Outlet, useNavigate } from 'react-router-dom'
+import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/useAuth'
 import { InquiriesProvider, useInquiries } from '../../context/InquiriesContext'
 import { LOGO_SRC, BRAND_NAME, BRAND_SHORT } from '../../constants/branding'
@@ -20,7 +20,7 @@ const navItems = [
   { to: '/admin/portfolio', label: 'Portfolio', icon: IconPortfolio },
   { to: '/admin/case-studies', label: 'Case Studies', icon: IconCaseStudy },
   { to: '/admin/blog', label: 'Blog', icon: IconBlog },
-  { to: '/admin/projects', label: 'All Projects', icon: IconProjects },
+  { to: '/admin/projects', label: 'My Projects', icon: IconProjects },
   { to: '/admin/projects/new', label: 'Add Project', icon: IconAdd },
   { to: '/admin/messages', label: 'Contact Messages', icon: IconMessages },
   { to: '/admin/settings', label: 'Settings', icon: IconSettings },
@@ -48,13 +48,13 @@ function AdminLayoutShell({ onLogout }) {
   return (
     <div className="admin-shell admin-shell-premium">
       <aside className="admin-sidebar admin-sidebar-light">
-        <div className="admin-brand admin-brand-light">
+        <Link to="/" className="admin-brand admin-brand-light admin-brand-link" aria-label={`${BRAND_NAME} — back to website`}>
           <img src={LOGO_SRC} alt={BRAND_NAME} className="admin-brand-logo" />
           <div>
             <span className="admin-brand-title">{BRAND_NAME}</span>
             <span className="admin-brand-sub">PrimeAxis CMS</span>
           </div>
-        </div>
+        </Link>
 
         <nav className="admin-nav">
           {navItems.map((item) => {

@@ -17,14 +17,12 @@ export const SAMPLE_PORTFOLIO_PROJECT = {
     'PrimeAxis Technologies designed and developed a centralized Real Estate CRM with automated lead assignment, property management, customer tracking, sales reporting, role-based access control, and real-time dashboards. The system significantly improved operational efficiency and customer engagement.',
   result: '35% increase in lead conversion',
   businessImpact:
-    'The CRM improved sales efficiency, reduced manual work, and gave leadership real-time visibility into performance.',
+    'The implementation significantly improved operational efficiency by automating repetitive tasks and providing management with real-time business insights for faster decision-making.',
   impactMetrics: [
-    { label: 'Increase in Lead Conversion', value: 35, suffix: '%' },
-    { label: 'Reduction in Manual Work', value: 60, suffix: '%' },
-    { label: 'Faster Lead Response Time', value: 2.4, suffix: 'x' },
-    { label: 'Sales Team Productivity', value: 45, suffix: '%' },
-    { label: 'Reporting Accuracy', value: 80, suffix: '%' },
-    { label: 'Customer Follow-up Rate', value: 50, suffix: '%' },
+    { value: 70, statement: 'Faster lead response' },
+    { value: 45, statement: 'Increase in follow-up completion' },
+    { value: 80, statement: 'Reduction in manual reporting' },
+    { value: 45, statement: 'Automation workflows adopted across teams' },
   ],
   features: [
     'Property Management',

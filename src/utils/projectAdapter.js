@@ -70,6 +70,21 @@ export function sortProjectsFeaturedFirst(projects) {
   })
 }
 
+function resolveImpactMetrics(project, hydratedMetrics) {
+  const raw = Array.isArray(project?.impactMetrics) ? project.impactMetrics : []
+  if (raw.length) {
+    const mapped = raw.map((metric) => ({
+      value: metric?.value ?? '',
+      statement: String(metric?.statement || metric?.label || '').trim(),
+    }))
+    const normalized = normalizeImpactMetrics(mapped)
+    if (normalized.length) {
+      return normalized.map(({ value, statement }) => ({ value, statement }))
+    }
+  }
+  return hydratedMetrics
+}
+
 export function normalizeProject(project) {
   if (!project) return null
 
@@ -77,7 +92,8 @@ export function normalizeProject(project) {
   const shortDescription = project.shortDescription || project.description || ''
   const fullDescription = project.fullDescription || project.summary || shortDescription
   const impact = hydrateImpactFields(project)
-  const outcomes = parseOutcomes({ ...project, impactMetrics: impact.metrics })
+  const impactMetrics = resolveImpactMetrics(project, impact.metrics)
+  const outcomes = parseOutcomes({ ...project, impactMetrics })
 
   return {
     id: project.id,
@@ -99,11 +115,8 @@ export function normalizeProject(project) {
     solution: project.solution || '',
     outcomes,
     businessImpact: impact.summary || project.businessImpact || '',
-    impactMetrics: impact.metrics,
-    impactKpis: buildImpactKpis(impact.metrics, {
-      result: project.result,
-      outcomes,
-    }),
+    impactMetrics,
+    impactKpis: buildImpactKpis(impactMetrics),
     coverImage: project.coverImage || '',
     galleryImages: project.galleryImages || [],
     features: project.features || [],

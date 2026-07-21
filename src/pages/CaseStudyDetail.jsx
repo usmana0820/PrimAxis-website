@@ -13,7 +13,11 @@ import PreviewHeroBackground from '../components/PreviewHeroBackground'
 import PreviewHeroAside from '../components/PreviewHeroAside'
 import PreviewFinalCTA from '../components/PreviewFinalCTA'
 import SolutionLivePreview from '../components/SolutionLivePreview'
+import SolutionImpactLive from '../components/SolutionImpactLive'
+import ProjectGalleryGrid from '../components/ProjectGalleryGrid'
+import BusinessImpactGallery from '../components/BusinessImpactGallery'
 import { buildImpactKpis } from '../utils/impactMetrics'
+import { getProjectCoverImage, getSolutionPreviewAspect } from '../utils/projectPreviewAspect'
 import { usePublishedProjects } from '../hooks/usePublishedProjects'
 
 const WORKFLOW_STEPS = [
@@ -109,11 +113,7 @@ function groupTechStack(techList) {
 
 function getImpactKpis(study) {
   if (!study) return []
-  if (study.impactKpis?.length) return study.impactKpis
-  return buildImpactKpis(study.impactMetrics, {
-    result: study.result,
-    outcomes: study.outcomes,
-  })
+  return buildImpactKpis(study.impactMetrics || [])
 }
 
 function buildSolutionSteps(study) {
@@ -150,23 +150,57 @@ function SectionIntro({ label, title, subtitle, center = true }) {
 export default function CaseStudyDetail() {
   const { slug } = useParams()
   const staticStudy = getCaseStudyBySlug(slug)
-  const [study, setStudy] = useState(() => (staticStudy ? normalizeProject(staticStudy) : null))
-  const [loading, setLoading] = useState(Boolean(firebaseReady && !staticStudy))
-  const { projects } = usePublishedProjects()
+  const [study, setStudy] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const { projects, loading: projectsLoading } = usePublishedProjects()
 
   useEffect(() => {
-    if (!slug || !firebaseReady) {
+    if (!slug) {
+      setStudy(null)
       setLoading(false)
       return
     }
+
+    const fromList = projects.find((project) => project.slug === slug)
+    if (fromList) {
+      setStudy(fromList)
+      setLoading(false)
+      return
+    }
+
+    if (projectsLoading) return
+
+    if (!firebaseReady) {
+      setStudy(staticStudy ? normalizeProject(staticStudy) : null)
+      setLoading(false)
+      return
+    }
+
+    let cancelled = false
+    setLoading(true)
+
     fetchPublishedProjectBySlug(slug)
       .then((data) => {
-        if (data) setStudy(normalizeProject(data))
-        else if (!staticStudy) setStudy(null)
+        if (cancelled) return
+        if (data) {
+          setStudy(normalizeProject({ ...data, fromCms: true }))
+          return
+        }
+        setStudy(staticStudy ? normalizeProject(staticStudy) : null)
       })
-      .catch(() => { if (!staticStudy) setStudy(null) })
-      .finally(() => setLoading(false))
-  }, [slug, staticStudy])
+      .catch(() => {
+        if (!cancelled) {
+          setStudy(staticStudy ? normalizeProject(staticStudy) : null)
+        }
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false)
+      })
+
+    return () => {
+      cancelled = true
+    }
+  }, [slug, projects, projectsLoading, staticStudy])
 
   useEffect(() => {
     if (!study) return
@@ -216,8 +250,9 @@ export default function CaseStudyDetail() {
   const features = study.features?.length ? study.features : study.outcomes?.slice(0, 8) || []
   const statusLabel = study.projectStatus === 'ongoing' ? 'Ongoing' : 'Completed'
   const isLive = study.projectStatus !== 'ongoing' && (study.liveDemoUrl || study.projectStatus === 'completed')
-  const heroImage = study.coverImage || study.galleryImages?.[0] || ''
-  const solutionImage = study.galleryImages?.[0] || study.coverImage || heroImage
+  const heroImage = getProjectCoverImage(study) || study.galleryImages?.[0] || ''
+  const coverImage = study.coverImage || study.galleryImages?.[0] || heroImage
+  const previewAspect = getSolutionPreviewAspect(study)
   const teamSize = study.teamMembers?.length || 'PrimeAxis'
   const executiveSummary = study.fullDescription || study.summary || study.description
   const clientGoals = study.challenge
@@ -456,42 +491,53 @@ export default function CaseStudyDetail() {
         </section>
       )}
 
+      {/* Live Impact — cover preview + animated solution pillars */}
+      {study.solution && solutionSteps.length > 0 && coverImage && (
+        <SolutionImpactLive
+          title={study.title}
+          coverImage={coverImage}
+          steps={solutionSteps}
+          aspect={previewAspect}
+          liveDemoUrl={study.liveDemoUrl}
+          isLive={isLive}
+        />
+      )}
+
       {/* Our Solution */}
       {study.solution && (
         <section className="cs-preview-section cs-preview-section-muted">
           <div className="cs-preview-container">
-            <div className="cs-preview-solution-grid">
-              {(solutionImage || study.liveDemoUrl) && (
-                <Reveal variant="scale">
+            <Reveal>
+              <span className="cs-preview-pill">Our Approach</span>
+              <h2 className="cs-preview-section-head cs-preview-solution-title">How we solved it</h2>
+              <p className="cs-preview-solution-lead">{study.solution}</p>
+            </Reveal>
+
+            <div className={`cs-preview-solution-body cs-preview-solution-body--${previewAspect}`}>
+              {(coverImage || study.liveDemoUrl) && (
+                <Reveal variant="scale" className={`cs-preview-solution-preview-wrap cs-preview-solution-preview-wrap--${previewAspect}`}>
                   <SolutionLivePreview
                     title={study.title}
-                    image={solutionImage}
+                    image={coverImage}
                     liveDemoUrl={study.liveDemoUrl}
                     isLive={isLive}
+                    aspect={previewAspect}
                   />
                 </Reveal>
               )}
 
-              <div>
-                <Reveal>
-                  <span className="cs-preview-pill">Our Approach</span>
-                  <h2 className="cs-preview-section-head cs-preview-solution-title">How we solved it</h2>
-                  <p className="cs-preview-solution-lead">{study.solution}</p>
-                </Reveal>
-
-                <div className="cs-preview-solution-steps">
-                  {solutionSteps.map((step, i) => (
-                    <Reveal key={step.title} delay={i * 60}>
-                      <div className="cs-preview-solution-step">
-                        <span className="cs-preview-step-num">{i + 1}</span>
-                        <div>
-                          <h4>{step.title}</h4>
-                          {step.desc && <p>{step.desc}</p>}
-                        </div>
+              <div className="cs-preview-solution-steps">
+                {solutionSteps.map((step, i) => (
+                  <Reveal key={step.title} delay={i * 60}>
+                    <div className="cs-preview-solution-step">
+                      <span className="cs-preview-step-num">{i + 1}</span>
+                      <div>
+                        <h4>{step.title}</h4>
+                        {step.desc && <p>{step.desc}</p>}
                       </div>
-                    </Reveal>
-                  ))}
-                </div>
+                    </div>
+                  </Reveal>
+                ))}
               </div>
             </div>
           </div>
@@ -555,13 +601,9 @@ export default function CaseStudyDetail() {
             <Reveal>
               <SectionIntro title="Project Gallery" />
             </Reveal>
-            <div className="cs-preview-gallery-grid">
-              {study.galleryImages.map((img, i) => (
-                <Reveal key={img} delay={i * 50} variant="scale">
-                  <img src={img} alt={`${study.title} screenshot ${i + 1}`} loading="lazy" />
-                </Reveal>
-              ))}
-            </div>
+            <Reveal delay={60}>
+              <ProjectGalleryGrid images={study.galleryImages} title={study.title} />
+            </Reveal>
           </div>
         </section>
       )}
@@ -585,8 +627,8 @@ export default function CaseStudyDetail() {
         </div>
       </section>
 
-      {/* Business Impact — one card per impact */}
-      {impactKpis.length > 0 && (
+      {/* Business Impact */}
+      {(study.businessImpact?.trim() || impactKpis.length > 0) && (
         <section className="cs-preview-section">
           <div className="cs-preview-container">
             <Reveal>
@@ -595,23 +637,11 @@ export default function CaseStudyDetail() {
                 subtitle={study.businessImpact || undefined}
               />
             </Reveal>
-            <div className="cs-preview-kpi-grid">
-              {impactKpis.map((kpi, i) => (
-                <Reveal key={`${kpi.label}-${i}`} delay={i * 60} variant="scale">
-                  <article className={`cs-preview-kpi-card cs-preview-kpi-card-${kpi.variant}`}>
-                    {kpi.value ? (
-                      <>
-                        <div className="cs-preview-kpi-value">{kpi.value}</div>
-                        {kpi.suffix && <div className="cs-preview-kpi-suffix">{kpi.suffix}</div>}
-                        <div className="cs-preview-kpi-label">{kpi.label}</div>
-                      </>
-                    ) : (
-                      <div className="cs-preview-kpi-label cs-preview-kpi-label-only">{kpi.label}</div>
-                    )}
-                  </article>
-                </Reveal>
-              ))}
-            </div>
+            {impactKpis.length > 0 && (
+              <Reveal delay={60}>
+                <BusinessImpactGallery metrics={study.impactMetrics} kpis={impactKpis} />
+              </Reveal>
+            )}
           </div>
         </section>
       )}

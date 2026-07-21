@@ -1,19 +1,22 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import AdminPublishedGrid from '../../components/admin/AdminPublishedGrid'
-import { fetchAllProjects } from '../../services/projects'
+import { fetchProjectsForAdmin } from '../../services/projects'
+import { useAuth } from '../../context/useAuth'
 
 export default function AdminPortfolio() {
+  const { user } = useAuth()
   const [projects, setProjects] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
 
   useEffect(() => {
-    fetchAllProjects()
+    if (!user?.uid) return
+    fetchProjectsForAdmin(user.uid)
       .then(setProjects)
       .catch((err) => setError(err.message))
       .finally(() => setLoading(false))
-  }, [])
+  }, [user?.uid])
 
   const published = useMemo(
     () => projects.filter((p) => p.status === 'published'),
@@ -24,14 +27,14 @@ export default function AdminPortfolio() {
     <div className="admin-page admin-page-wide">
       <header className="admin-page-header admin-page-header-row">
         <div>
-          <h1>Portfolio</h1>
+          <h1>My Portfolio</h1>
           <p>
-            Published projects appear on the <a href="/#portfolio" target="_blank" rel="noreferrer">home page portfolio</a>
+            Your published projects appear on the <a href="/#portfolio" target="_blank" rel="noreferrer">home page portfolio</a>
             {' '}and <a href="/portfolio" target="_blank" rel="noreferrer">/portfolio</a>.
           </p>
         </div>
         <div className="admin-page-header-actions">
-          <Link to="/admin/projects" className="admin-btn admin-btn-outline">All projects</Link>
+          <Link to="/admin/projects" className="admin-btn admin-btn-outline">My projects</Link>
           <Link to="/admin/projects/new" className="admin-btn admin-btn-primary">Add project</Link>
         </div>
       </header>
@@ -40,7 +43,7 @@ export default function AdminPortfolio() {
 
       <div className="admin-panel admin-panel-flush">
         <div className="admin-panel-head">
-          <h2>Live on website ({published.length})</h2>
+          <h2>Your live items ({published.length})</h2>
           <a href="/portfolio" target="_blank" rel="noreferrer" className="admin-link-btn">Open portfolio page →</a>
         </div>
 

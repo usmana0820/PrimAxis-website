@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { fetchAllProjects, fetchProjectStats } from '../../services/projects'
+import { fetchProjectsForAdmin, fetchProjectStats } from '../../services/projects'
+import { useAuth } from '../../context/useAuth'
 import { useInquiries } from '../../context/InquiriesContext'
 import {
   formatInquiryDateTime,
@@ -9,6 +10,7 @@ import {
 } from '../../utils/inquiryDates'
 
 export default function AdminDashboard() {
+  const { user, profile } = useAuth()
   const { recent: recentMessages, unreadCount, loading: messagesLoading } = useInquiries()
   const [stats, setStats] = useState({ total: 0, published: 0, draft: 0 })
   const [recent, setRecent] = useState([])
@@ -16,21 +18,25 @@ export default function AdminDashboard() {
   const [error, setError] = useState('')
 
   useEffect(() => {
-    Promise.all([fetchProjectStats(), fetchAllProjects()])
+    if (!user?.uid) return
+
+    Promise.all([fetchProjectStats(user.uid), fetchProjectsForAdmin(user.uid)])
       .then(([statsData, projects]) => {
         setStats(statsData)
         setRecent(projects.slice(0, 5))
       })
       .catch((err) => setError(err.message))
       .finally(() => setLoading(false))
-  }, [])
+  }, [user?.uid])
+
+  const displayName = profile?.name || profile?.email?.split('@')[0] || 'Admin'
 
   return (
     <div className="admin-page admin-page-wide">
       <header className="admin-page-hero">
         <div>
-          <h1>Dashboard Overview</h1>
-          <p>Welcome back — manage your portfolio and case studies from one place.</p>
+          <h1>{displayName}&apos;s Dashboard</h1>
+          <p>Manage your projects and portfolio. Contact messages are shared with every admin.</p>
         </div>
         <Link to="/admin/projects/new" className="admin-btn admin-btn-primary">
           + Add New Project
@@ -52,9 +58,9 @@ export default function AdminDashboard() {
 
       <div className="admin-stat-grid admin-stat-grid-premium">
         {[
-          { label: 'Total Projects', value: stats.total, tone: 'blue' },
-          { label: 'Published', value: stats.published, tone: 'green' },
-          { label: 'Drafts', value: stats.draft, tone: 'amber' },
+          { label: 'My Projects', value: stats.total, tone: 'blue' },
+          { label: 'My Published', value: stats.published, tone: 'green' },
+          { label: 'My Drafts', value: stats.draft, tone: 'amber' },
           {
             label: 'Unread Messages',
             value: messagesLoading ? '—' : unreadCount,
@@ -84,14 +90,14 @@ export default function AdminDashboard() {
       <div className="admin-dash-grid">
         <section className="admin-panel">
           <div className="admin-panel-head">
-            <h2>Recent Projects</h2>
+            <h2>My Recent Projects</h2>
             <Link to="/admin/projects" className="admin-link-btn">View all →</Link>
           </div>
           {loading ? (
             <p className="admin-muted">Loading…</p>
           ) : recent.length === 0 ? (
             <div className="admin-empty admin-empty-sm">
-              <p>No projects yet.</p>
+              <p>You have not created any projects yet.</p>
               <Link to="/admin/projects/new" className="admin-btn admin-btn-outline">Create first project</Link>
             </div>
           ) : (
@@ -122,7 +128,7 @@ export default function AdminDashboard() {
           ) : recentMessages.length === 0 ? (
             <div className="admin-empty admin-empty-sm">
               <p>No contact messages yet.</p>
-              <p className="admin-muted">Submissions from the homepage contact form appear here in real time.</p>
+              <p className="admin-muted">Submissions from the homepage contact form appear here for all admins.</p>
             </div>
           ) : (
             <div className="admin-recent-list">
@@ -155,35 +161,35 @@ export default function AdminDashboard() {
             <Link to="/admin/projects/new" className="admin-quick-card">
               <span className="admin-quick-icon">+</span>
               <strong>Add Project</strong>
-              <span>Create &amp; publish portfolio item</span>
+              <span>Create &amp; publish your portfolio item</span>
             </Link>
             <Link to="/admin/messages" className="admin-quick-card">
               <span className="admin-quick-icon">✉️</span>
               <strong>Contact Messages</strong>
               <span>
-                {unreadCount > 0 ? `${unreadCount} unread` : 'Website form submissions'}
+                {unreadCount > 0 ? `${unreadCount} unread · shared inbox` : 'Shared with all admins'}
               </span>
             </Link>
             <Link to="/admin/portfolio" className="admin-quick-card">
               <span className="admin-quick-icon">🌐</span>
-              <strong>Portfolio</strong>
-              <span>Live on home &amp; /portfolio</span>
+              <strong>My Portfolio</strong>
+              <span>Your published home &amp; /portfolio items</span>
             </Link>
             <Link to="/admin/case-studies" className="admin-quick-card">
               <span className="admin-quick-icon">📊</span>
-              <strong>Case Studies</strong>
-              <span>Manage published showcases</span>
+              <strong>My Case Studies</strong>
+              <span>Your published showcases</span>
             </Link>
           </div>
         </section>
 
         <section className="admin-panel">
           <div className="admin-info-card admin-info-card-inline">
-            <h3>Free stack active</h3>
+            <h3>Your workspace</h3>
             <ul>
-              <li>Firebase Auth + Firestore</li>
-              <li>Cloudinary for images</li>
-              <li>Real-time contact form inbox</li>
+              <li>Projects you create stay in your dashboard</li>
+              <li>Published work appears on the public site</li>
+              <li>Contact messages are visible to all admins</li>
             </ul>
           </div>
         </section>

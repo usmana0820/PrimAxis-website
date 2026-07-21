@@ -7,17 +7,15 @@ export const COMPANY_STATS = [
 
 export const OUR_STORY = {
   paragraphs: [
-    'PrimeAxis Technologies was founded with a vision to help businesses embrace digital transformation through practical, scalable, and innovative technology solutions. We believe technology should simplify business operations, improve productivity, and create opportunities for sustainable growth, not add complexity.',
-    'From our beginning, we have focused on understanding each client\'s unique challenges and delivering solutions that align with their goals. Rather than offering one size fits all products, we combine business analysis, technical expertise, and modern technologies to build solutions that solve real business problems.',
-    'Today, PrimeAxis Technologies partners with startups, small and medium sized businesses, and growing enterprises across various industries, providing end to end digital services that support every stage of their digital journey.',
+    'PrimeAxis Technologies was founded to help businesses embrace digital transformation through practical, scalable technology — simplifying operations and unlocking sustainable growth.',
+    'We partner with startups, SMEs, and growing enterprises across industries, combining business analysis, engineering, and modern tools to deliver end-to-end digital services tailored to each client.',
   ],
 }
 
 export const WHO_WE_ARE = {
   paragraphs: [
-    'PrimeAxis Technologies is a technology consulting and software development company specializing in business automation, enterprise software, and digital transformation.',
-    'Our team brings together expertise in business analysis, software engineering, project management, artificial intelligence, and digital marketing to deliver solutions that are both technically robust and business focused.',
-    'We believe successful projects are built through collaboration, transparency, and continuous innovation. Every solution we develop is designed to be scalable, secure, and aligned with our clients\' long term objectives.',
+    'We are a technology consulting and software development company specializing in Zoho ERP, custom software, mobile apps, AI automation, and digital marketing.',
+    'Our multidisciplinary team delivers solutions that are secure, scalable, and aligned with your long-term goals — built through collaboration, transparency, and continuous innovation.',
   ],
 }
 

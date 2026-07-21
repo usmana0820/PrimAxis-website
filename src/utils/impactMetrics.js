@@ -2,21 +2,23 @@ const MAX_IMPACT_METRICS = 6
 
 export { MAX_IMPACT_METRICS }
 
+/** @returns {{ value: number, suffix: '%', statement: string, label: string } | null} */
 export function normalizeImpactMetric(metric) {
   if (!metric) return null
-  const label = String(metric.label || '').trim()
-  if (!label) return null
+
+  const statement = String(metric.statement || metric.label || '').trim()
+  if (!statement) return null
 
   const rawValue = metric.value
-  const value =
-    rawValue === '' || rawValue == null || Number.isNaN(Number(rawValue))
-      ? null
-      : Math.min(999, Math.max(0, Number(rawValue)))
+  if (rawValue === '' || rawValue == null || Number.isNaN(Number(rawValue))) return null
+
+  const value = Math.min(100, Math.max(0, Number(rawValue)))
 
   return {
-    label,
     value,
-    suffix: String(metric.suffix || '%').trim() || '%',
+    suffix: '%',
+    statement,
+    label: statement,
   }
 }
 
@@ -28,8 +30,7 @@ export function normalizeImpactMetrics(metrics) {
 }
 
 function metricToOutcomeLine(metric) {
-  if (metric.value == null) return metric.label
-  return `${metric.value}${metric.suffix} ${metric.label}`.trim()
+  return `${metric.value}% ${metric.statement}`.trim()
 }
 
 export function impactMetricsToOutcomes(metrics) {
@@ -46,26 +47,19 @@ export function parseLegacyImpactMetrics(text) {
     .map((line) => {
       const pct = line.match(/(\d+(?:\.\d+)?)\s*%/)
       if (pct) {
-        return normalizeImpactMetric({
-          value: pct[1],
-          suffix: '%',
-          label: line
+        const statement =
+          line
             .replace(/\d+(?:\.\d+)?\s*%\s*/i, '')
             .replace(/^(increase in|reduction in|decrease in|improved|reduced)\s+/i, '')
-            .trim() || line,
-        })
-      }
+            .trim() || line
 
-      const mult = line.match(/([\d.]+)\s*[×x]/i)
-      if (mult) {
         return normalizeImpactMetric({
-          value: mult[1],
-          suffix: 'x',
-          label: line.replace(/[\d.]+\s*[×x]\s*/i, '').trim() || line,
+          value: pct[1],
+          statement,
         })
       }
 
-      return normalizeImpactMetric({ label: line, value: null, suffix: '%' })
+      return null
     })
     .filter(Boolean)
     .slice(0, MAX_IMPACT_METRICS)
@@ -85,7 +79,7 @@ export function parseLegacyBusinessImpact(text, result = '') {
   }
 
   const metricsFromLines = parseLegacyImpactMetrics(lines.join('\n'))
-  const summaryCandidates = lines.filter((line) => !/\d/.test(line))
+  const summaryCandidates = lines.filter((line) => !/\d+\s*%/.test(line))
 
   return {
     summary:
@@ -96,69 +90,45 @@ export function parseLegacyBusinessImpact(text, result = '') {
   }
 }
 
-export function buildImpactKpis(metrics, { result, outcomes } = {}) {
-  const normalized = normalizeImpactMetrics(metrics)
-  if (normalized.length) {
-    return normalized.map((metric, index) => ({
-      variant: metric.suffix === 'x' ? 'plain' : index % 2 === 0 ? 'a' : 'b',
-      value: metric.value != null ? String(metric.value) : null,
-      suffix: metric.value != null ? metric.suffix : '',
-      label: metric.label,
-    }))
-  }
-
-  const source = [...(outcomes || []), ...(result ? [result] : [])]
-  const items = []
-
-  source.forEach((text, index) => {
-    const pct = text.match(/(\d+(?:\.\d+)?)\s*%/)
-    if (pct) {
-      items.push({
-        variant: index % 2 === 0 ? 'a' : 'b',
-        value: pct[1],
-        suffix: '%',
-        label: text
-          .replace(/\d+(?:\.\d+)?\s*%\s*/i, '')
-          .replace(/^(increase in|reduction in|decrease in)\s+/i, '')
-          .trim() || text,
-      })
-      return
-    }
-
-    const mult = text.match(/([\d.]+)\s*[×x]/i)
-    if (mult) {
-      items.push({
-        variant: 'plain',
-        value: mult[1],
-        suffix: 'x',
-        label: text.replace(/[\d.]+\s*[×x]\s*/i, '').trim() || text,
-      })
-      return
-    }
-
-    items.push({
-      variant: index % 2 === 0 ? 'a' : 'b',
-      value: null,
-      suffix: '',
-      label: text,
-    })
-  })
-
-  return items.slice(0, MAX_IMPACT_METRICS)
+export function buildImpactKpis(metrics) {
+  return normalizeImpactMetrics(metrics).map((metric, index) => ({
+    variant: index % 2 === 0 ? 'a' : 'b',
+    value: String(metric.value),
+    suffix: '%',
+    label: metric.statement,
+    statement: metric.statement,
+  }))
 }
 
 export function hydrateImpactFields(project) {
-  const existingMetrics = normalizeImpactMetrics(project?.impactMetrics)
-  if (existingMetrics.length) {
+  const rawMetrics = Array.isArray(project?.impactMetrics) ? project.impactMetrics : []
+  const mappedMetrics = rawMetrics.map((metric) => ({
+    value: metric?.value ?? '',
+    statement: String(metric?.statement || metric?.label || '').trim(),
+  }))
+
+  const existingMetrics = normalizeImpactMetrics(mappedMetrics)
+  if (existingMetrics.length || mappedMetrics.some((m) => m.statement || m.value !== '')) {
     return {
       businessImpact: String(project?.businessImpact || '').trim(),
-      impactMetrics: existingMetrics,
+      impactMetrics: mappedMetrics,
     }
   }
 
   const legacy = parseLegacyBusinessImpact(project?.businessImpact, project?.result)
   return {
     businessImpact: legacy.summary,
-    impactMetrics: legacy.metrics,
+    impactMetrics: legacy.metrics.map((metric) => ({
+      value: metric.value,
+      statement: metric.statement,
+    })),
   }
+}
+
+export function getImpactGridCount(count) {
+  if (count <= 1) return 1
+  if (count === 2) return 2
+  if (count === 3) return 3
+  if (count === 4) return 4
+  return 3
 }

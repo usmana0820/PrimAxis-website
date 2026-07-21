@@ -1,6 +1,7 @@
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { getCaseStudyUrl } from '../constants/caseStudies'
 import { Link } from 'react-router-dom'
+import ImageLightbox from './ImageLightbox'
 
 function RingThumb({ item, angle, active, onSelect }) {
   const visual = item.coverImage
@@ -29,6 +30,8 @@ function RingThumb({ item, angle, active, onSelect }) {
 export default function PortfolioRingGallery({ projects, activeSlug, onSelect }) {
   const ringItems = useMemo(() => projects.slice(0, 10), [projects])
   const activeProject = ringItems.find((p) => p.slug === activeSlug) || ringItems[0]
+  const gallerySlides = activeProject?.galleryImages?.filter(Boolean) || []
+  const [lightboxIndex, setLightboxIndex] = useState(null)
 
   if (ringItems.length === 0) return null
 
@@ -59,22 +62,29 @@ export default function PortfolioRingGallery({ projects, activeSlug, onSelect })
         </div>
       </div>
 
-      {activeProject?.galleryImages?.length > 0 && (
+      {gallerySlides.length > 0 && (
         <div className="portfolio-ring-gallery-row">
           <p className="portfolio-ring-gallery-label">Project gallery</p>
           <div className="portfolio-ring-gallery">
-            {activeProject.galleryImages.filter(Boolean).map((img, i) => (
-              <a
+            {gallerySlides.map((img, i) => (
+              <button
                 key={`${activeProject.slug}-gallery-${i}`}
-                href={img}
-                target="_blank"
-                rel="noreferrer"
-                className="portfolio-ring-gallery-thumb"
+                type="button"
+                className="portfolio-ring-gallery-thumb project-gallery-thumb"
+                onClick={() => setLightboxIndex(i)}
+                aria-label={`View ${activeProject.title} screenshot ${i + 1} full size`}
               >
                 <img src={img} alt={`${activeProject.title} screenshot ${i + 1}`} />
-              </a>
+              </button>
             ))}
           </div>
+          <ImageLightbox
+            images={gallerySlides}
+            index={lightboxIndex}
+            title={activeProject.title}
+            onClose={() => setLightboxIndex(null)}
+            onChangeIndex={setLightboxIndex}
+          />
         </div>
       )}
     </div>

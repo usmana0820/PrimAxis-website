@@ -3,7 +3,8 @@ import Reveal from './Reveal'
 import TextFlow from './TextFlow'
 import TiltCard from './TiltCard'
 import { getCardRevealVariant } from '../utils/revealVariants'
-import aboutImage from '../assets/aboutsection.jpg'
+import AboutVideo from './AboutVideo'
+import { COMPANY_STATS } from '../constants/companyAbout'
 
 const highlights = [
   {
@@ -37,9 +38,9 @@ const highlights = [
 ]
 
 const stats = [
-  { value: '50+', label: 'Projects' },
-  { value: '25+', label: 'Clients' },
-  { value: '10+', label: 'Industries' },
+  { value: COMPANY_STATS[1].value, label: 'Projects' },
+  { value: COMPANY_STATS[2].value, label: 'Clients' },
+  { value: COMPANY_STATS[3].value, label: 'Industries' },
 ]
 
 export default function About() {
@@ -48,15 +49,14 @@ export default function About() {
       <div className="section-light-mesh" aria-hidden="true" />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-          <Reveal variant="slide-right" className="order-2 lg:order-1">
-            <div className="about-visual-wrap">
-              <div className="about-visual-frame">
-                <img
-                  src={aboutImage}
-                  alt="PrimeAxis Technologies team at work"
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-14 items-stretch">
+          <Reveal variant="slide-right" className="order-2 lg:order-1 h-full">
+            <div className="about-visual-wrap about-visual-wrap-extended about-visual-wrap--stretch">
+              <div className="about-visual-frame about-visual-frame-wide about-visual-frame--stretch">
+                <AboutVideo
+                  aspect="16/9"
                   className="about-visual-img"
-                  loading="lazy"
+                  label="PrimeAxis Technologies team at work"
                 />
                 <div className="about-visual-overlay" aria-hidden="true" />
               </div>
@@ -77,7 +77,7 @@ export default function About() {
             </div>
           </Reveal>
 
-          <Reveal delay={100} variant="slide-left" className="order-1 lg:order-2 space-y-8">
+          <Reveal delay={100} variant="slide-left" className="order-1 lg:order-2 h-full space-y-6 lg:space-y-7">
             <div>
               <TextFlow as="span" mode="chars" className="section-label block" text="About Us" />
               <TextFlow
@@ -115,29 +115,29 @@ export default function About() {
                 </Reveal>
               ))}
             </div>
+          </Reveal>
+        </div>
 
-            <div className="grid sm:grid-cols-2 gap-4">
-              <Reveal delay={80} variant="slide-left" className="h-full">
-                <TiltCard className="h-full" intensity={10}>
-                  <div className="about-mission-card tilt-card-surface h-full">
-                  <p className="about-mission-label">Our Mission</p>
-                  <p className="about-mission-text">
-                    Empower businesses with reliable, scalable technology that simplifies operations and drives growth.
-                  </p>
-                  </div>
-                </TiltCard>
-              </Reveal>
-              <Reveal delay={140} variant="slide-right" className="h-full">
-                <TiltCard className="h-full" intensity={10}>
-                  <div className="about-mission-card about-mission-card-accent tilt-card-surface h-full">
-                  <p className="about-mission-label">Our Vision</p>
-                  <p className="about-mission-text">
-                    Become the trusted digital partner for SMEs and enterprises across Pakistan and beyond.
-                  </p>
-                  </div>
-                </TiltCard>
-              </Reveal>
-            </div>
+        <div className="about-mission-row grid sm:grid-cols-2 gap-4">
+          <Reveal delay={80} variant="slide-left" className="h-full">
+            <TiltCard className="h-full" intensity={10}>
+              <div className="about-mission-card tilt-card-surface h-full">
+                <p className="about-mission-label">Our Mission</p>
+                <p className="about-mission-text">
+                  Empower businesses with reliable, scalable technology that simplifies operations and drives growth.
+                </p>
+              </div>
+            </TiltCard>
+          </Reveal>
+          <Reveal delay={140} variant="slide-right" className="h-full">
+            <TiltCard className="h-full" intensity={10}>
+              <div className="about-mission-card about-mission-card-accent tilt-card-surface h-full">
+                <p className="about-mission-label">Our Vision</p>
+                <p className="about-mission-text">
+                  Become the trusted digital partner for SMEs and enterprises across Pakistan and beyond.
+                </p>
+              </div>
+            </TiltCard>
           </Reveal>
         </div>
 

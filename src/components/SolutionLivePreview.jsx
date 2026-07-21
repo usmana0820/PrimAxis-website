@@ -1,8 +1,15 @@
 import { normalizeExternalUrl } from '../utils/url'
 
-export default function SolutionLivePreview({ title, image, liveDemoUrl, isLive = false }) {
+export default function SolutionLivePreview({
+  title,
+  image,
+  liveDemoUrl,
+  isLive = false,
+  aspect = 'landscape',
+}) {
   const liveUrl = normalizeExternalUrl(liveDemoUrl)
   const showLive = Boolean(liveUrl || isLive)
+  const aspectClass = aspect === 'portrait' ? 'portrait' : 'landscape'
 
   const displayUrl = liveUrl
     ? liveUrl.replace(/^https?:\/\//, '').replace(/\/$/, '')
@@ -11,7 +18,7 @@ export default function SolutionLivePreview({ title, image, liveDemoUrl, isLive 
   if (!image && !liveUrl) return null
 
   return (
-    <div className="cs-solution-live">
+    <div className={`cs-solution-live cs-solution-live--${aspectClass}`}>
       <div className="cs-solution-live-frame">
         <div className="cs-solution-live-chrome">
           <div className="cs-solution-live-dots" aria-hidden="true">
@@ -26,7 +33,7 @@ export default function SolutionLivePreview({ title, image, liveDemoUrl, isLive 
           )}
         </div>
 
-        <div className="cs-solution-live-viewport">
+        <div className={`cs-solution-live-viewport cs-solution-live-viewport--${aspectClass}`}>
           {image && (
             <div className="cs-solution-live-media">
               <img src={image} alt={`${title} live preview`} loading="lazy" />

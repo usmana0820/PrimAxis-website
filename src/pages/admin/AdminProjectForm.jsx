@@ -2,13 +2,14 @@ import { useEffect, useState, useMemo } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import ImageUpload from '../../components/admin/ImageUpload'
 import ProjectGalleryPicker from '../../components/admin/ProjectGalleryPicker'
-import ImpactMetricsEditor from '../../components/admin/ImpactMetricsEditor'
+import BusinessImpactEditor from '../../components/admin/BusinessImpactEditor'
 import PortfolioCard from '../../components/PortfolioCard'
 import { normalizeProject } from '../../utils/projectAdapter'
 import { estimateImagePayloadBytes, getImageStorageMode } from '../../lib/projectImages'
 import { formatMultilineList, mergeMultilineList, parseMultilineList } from '../../utils/multilineList'
 import { normalizeExternalUrl } from '../../utils/url'
-import { hydrateImpactFields, normalizeImpactMetrics } from '../../utils/impactMetrics'
+import { MAX_IMPACT_METRICS } from '../../utils/impactMetrics'
+import { sanitizeAdminProjectForm } from '../../utils/projectForm'
 import {
   EMPTY_PROJECT,
   PROJECT_CATEGORIES,
@@ -16,10 +17,9 @@ import {
   DELIVERY_STATUSES,
   TECH_ADMIN_GROUPS,
   TEAM_ROLES,
-  USER_ROLES,
   slugify,
 } from '../../constants/cmsOptions'
-import { createProject, fetchProjectById, updateProject, deleteProject } from '../../services/projects'
+import { canManageProject, createProject, fetchProjectById, updateProject, deleteProject } from '../../services/projects'
 import { useAuth } from '../../context/useAuth'
 
 function FormSection({ number, title, children, className = '' }) {
@@ -38,7 +38,7 @@ export default function AdminProjectForm() {
   const { id } = useParams()
   const isEdit = Boolean(id)
   const navigate = useNavigate()
-  const { user, profile } = useAuth()
+  const { user, loading: authLoading } = useAuth()
   const [form, setForm] = useState({ ...EMPTY_PROJECT, featured: false })
   const [featureBulkInput, setFeatureBulkInput] = useState('')
   const [teamRole, setTeamRole] = useState(TEAM_ROLES[0])
@@ -48,24 +48,30 @@ export default function AdminProjectForm() {
   const [deleting, setDeleting] = useState(false)
   const [error, setError] = useState('')
 
-  const canDelete = Boolean(USER_ROLES[profile?.role]?.canDelete)
+  const canDelete = isEdit && canManageProject(form, user?.uid)
 
   useEffect(() => {
     if (!isEdit) return
+
+    if (!user?.uid) {
+      if (!authLoading) setLoading(false)
+      return
+    }
+
+    setLoading(true)
+    setError('')
+
     fetchProjectById(id)
       .then((data) => {
         if (!data) throw new Error('Project not found')
-        setForm({
-          ...EMPTY_PROJECT,
-          featured: false,
-          ...data,
-          ...hydrateImpactFields(data),
-          galleryImages: data.galleryImages?.length ? data.galleryImages : ['', '', ''],
-        })
+        if (data.createdBy && data.createdBy !== user.uid) {
+          throw new Error('You can only edit projects you created.')
+        }
+        setForm(sanitizeAdminProjectForm(data))
       })
       .catch((err) => setError(err.message))
       .finally(() => setLoading(false))
-  }, [id, isEdit])
+  }, [id, isEdit, user?.uid, authLoading])
 
   const update = (field, value) => setForm((prev) => ({ ...prev, [field]: value }))
 
@@ -136,11 +142,32 @@ export default function AdminProjectForm() {
       seoTitle: form.seoTitle || form.title,
       seoDescription: form.seoDescription || form.shortDescription,
       businessImpact: String(form.businessImpact || '').trim(),
-      impactMetrics: normalizeImpactMetrics(form.impactMetrics),
+      impactMetrics: (form.impactMetrics || [])
+        .slice(0, MAX_IMPACT_METRICS)
+        .map((metric) => ({
+          value: metric.value === '' || metric.value == null ? '' : Number(metric.value),
+          statement: String(metric.statement ?? metric.label ?? '').trim(),
+        }))
+        .filter(
+          (metric) =>
+            metric.statement &&
+            metric.value !== '' &&
+            metric.value != null &&
+            !Number.isNaN(Number(metric.value))
+        ),
     }
+
+    delete payload.id
+    delete payload.createdBy
+    delete payload.createdAt
+    delete payload.updatedAt
+    delete payload.publishedAt
 
     try {
       if (isEdit) {
+        if (form.createdBy && form.createdBy !== user.uid) {
+          throw new Error('You can only edit projects you created.')
+        }
         await updateProject(id, payload)
       } else {
         await createProject(payload, user.uid)
@@ -188,6 +215,20 @@ export default function AdminProjectForm() {
 
   if (loading) {
     return <div className="admin-page admin-page-wide"><p>Loading project…</p></div>
+  }
+
+  if (isEdit && error && !form.title) {
+    return (
+      <div className="admin-page admin-page-wide">
+        <header className="admin-page-hero">
+          <div>
+            <h1>Edit Project</h1>
+            <p className="admin-form-error">{error}</p>
+          </div>
+          <Link to="/admin/projects" className="admin-btn admin-btn-outline">← All Projects</Link>
+        </header>
+      </div>
+    )
   }
 
   return (
@@ -318,20 +359,9 @@ export default function AdminProjectForm() {
               <span className="admin-field-hint">One headline outcome, e.g. 35% increase in lead conversion.</span>
               <input className="admin-input" value={form.result} onChange={(e) => update('result', e.target.value)} placeholder="e.g. 35% increase in lead conversion" />
             </label>
-            <label className="admin-label">
-              Business Impact Summary
-              <span className="admin-field-hint">One short statement shown below the impact metrics on the case study.</span>
-              <textarea
-                className="admin-input admin-textarea"
-                rows={2}
-                maxLength={280}
-                value={form.businessImpact}
-                onChange={(e) => update('businessImpact', e.target.value)}
-                placeholder="e.g. The platform improved sales efficiency, reduced manual work, and gave leadership real-time visibility."
-              />
-            </label>
-
-            <ImpactMetricsEditor
+            <BusinessImpactEditor
+              summary={form.businessImpact}
+              onSummaryChange={(value) => update('businessImpact', value)}
               metrics={form.impactMetrics || []}
               onChange={(impactMetrics) => update('impactMetrics', impactMetrics)}
             />
