@@ -6,10 +6,10 @@ import WhatsAppChat from '../components/WhatsAppChat'
 import Reveal from '../components/Reveal'
 import AboutVideo from '../components/AboutVideo'
 import PreviewHeroBackground from '../components/PreviewHeroBackground'
+import PreviewHeroAside from '../components/PreviewHeroAside'
 import PreviewFinalCTA from '../components/PreviewFinalCTA'
 import {
   COMPANY_STATS,
-  ABOUT_PAGE_HERO_STATS,
   OUR_STORY,
   WHO_WE_ARE,
   OUR_PURPOSE,
@@ -69,7 +69,7 @@ export default function AboutPage() {
             <Link to="/" className="cs-preview-back">← Back to Home</Link>
           </Reveal>
 
-          <div className="cs-preview-hero-grid cs-preview-hero-grid-single">
+          <div className="cs-preview-hero-grid">
             <Reveal variant="slide-top" eager>
               <div>
                 <div className="cs-preview-featured-badge">
@@ -108,6 +108,16 @@ export default function AboutPage() {
                 </div>
               </div>
             </Reveal>
+
+            <Reveal delay={80} variant="scale" eager>
+              <PreviewHeroAside
+                stats={COMPANY_STATS.map((stat) => ({
+                  value: stat.value,
+                  label: stat.label.split(' ')[0],
+                  sub: stat.label,
+                }))}
+              />
+            </Reveal>
           </div>
         </div>
 
@@ -115,21 +125,6 @@ export default function AboutPage() {
           {['Zoho ERP & CRM', 'Custom Software', 'Mobile Apps', 'AI Automation', 'Digital Marketing'].map((tag) => (
             <span key={tag} className="cs-preview-tech-chip">{tag}</span>
           ))}
-        </div>
-      </section>
-
-      <section className="about-page-stats-band" aria-label="Company statistics">
-        <div className="cs-preview-container">
-          <div className="about-page-stats-grid">
-            {ABOUT_PAGE_HERO_STATS.map((stat, i) => (
-              <Reveal key={stat.label} delay={60 + i * 70} variant="scale">
-                <article className="about-page-stat-card">
-                  <strong>{stat.value}</strong>
-                  <span>{stat.label}</span>
-                </article>
-              </Reveal>
-            ))}
-          </div>
         </div>
       </section>
 
@@ -164,7 +159,7 @@ export default function AboutPage() {
                   <AboutVideo
                     aspect="16/9"
                     label="PrimeAxis Technologies team"
-                    stats={ABOUT_PAGE_HERO_STATS}
+                    stats={COMPANY_STATS.slice(0, 3)}
                   />
                   <div className="about-story-media-glow" aria-hidden="true" />
                 </div>
@@ -362,6 +357,17 @@ export default function AboutPage() {
           <Reveal delay={50}>
             <ProseBlock paragraphs={OUR_JOURNEY.paragraphs} className="about-prose about-journey-prose" />
           </Reveal>
+
+          <div className="about-impact-stats">
+            {COMPANY_STATS.map((stat, i) => (
+              <Reveal key={stat.label} delay={70 + i * 40} variant="scale">
+                <article className="about-impact-stat">
+                  <strong>{stat.value}</strong>
+                  <span>{stat.label}</span>
+                </article>
+              </Reveal>
+            ))}
+          </div>
 
           <div className="about-impact-details">
             {IMPACT_DETAILS.map((item, i) => (

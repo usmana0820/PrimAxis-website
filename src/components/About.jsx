@@ -49,9 +49,9 @@ export default function About() {
       <div className="section-light-mesh" aria-hidden="true" />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid lg:grid-cols-[1.42fr_0.58fr] gap-10 lg:gap-12 items-stretch">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-14 items-stretch">
           <Reveal variant="slide-right" className="order-2 lg:order-1 h-full">
-            <div className="about-visual-wrap about-visual-wrap-extended about-visual-wrap--stretch about-visual-wrap--wide">
+            <div className="about-visual-wrap about-visual-wrap-extended about-visual-wrap--stretch">
               <div className="about-visual-frame about-visual-frame-wide about-visual-frame--stretch">
                 <AboutVideo
                   aspect="16/9"
@@ -62,7 +62,7 @@ export default function About() {
               </div>
 
               <div className="about-visual-badge">
-                <span className="about-visual-badge-value">{COMPANY_STATS[0].value}</span>
+                <span className="about-visual-badge-value">2+</span>
                 <span className="about-visual-badge-label">Years of Experience</span>
               </div>
 

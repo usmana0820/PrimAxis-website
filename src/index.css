@@ -2649,25 +2649,32 @@ main .section-divider + section.page-section {
   box-shadow: 0 12px 32px -6px rgba(6, 182, 212, 0.35);
 }
 
-.service-feature-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.25rem 0.75rem;
+.service-feature-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: 0.75rem;
 }
 
-.service-feature-list li::before {
-  content: '•';
-  margin-right: 0.35rem;
-  color: #06b6d4;
+.service-feature-tag {
+  display: inline-block;
+  padding: 0.2rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.625rem;
+  font-weight: 600;
+  line-height: 1.3;
+  color: #475569;
+  background: rgba(6, 182, 212, 0.08);
+  border: 1px solid rgba(6, 182, 212, 0.18);
 }
 
-@media (min-width: 1024px) {
-  .about-visual-wrap--wide .about-visual-frame--stretch {
-    min-height: 26rem;
-  }
+.service-card-detail {
+  opacity: 0.92;
+}
+
+.service-luxury-card-compact .service-icon-wrap {
+  width: 3rem;
+  height: 3rem;
 }
 
 /* Why Choose feature cards */
@@ -2738,6 +2745,100 @@ main .section-divider + section.page-section {
   background: #ffffff;
   border-color: rgba(6, 182, 212, 0.2);
   box-shadow: 0 16px 32px -8px rgba(53, 92, 125, 0.1);
+}
+
+/* Industries — 3-row auto slider */
+.industries-slider {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+  margin-top: 0.5rem;
+}
+
+.industries-marquee-row {
+  overflow: hidden;
+}
+
+.industries-marquee-viewport {
+  overflow: hidden;
+  mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+}
+
+.industries-marquee-track {
+  display: flex;
+  width: max-content;
+  gap: 0.875rem;
+  will-change: transform;
+  animation: industries-marquee-ltr 48s linear infinite;
+}
+
+.industries-marquee-track-reverse {
+  animation-name: industries-marquee-rtl;
+}
+
+.industries-slider:hover .industries-marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes industries-marquee-ltr {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes industries-marquee-rtl {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
+
+.industry-slide-card {
+  width: 10.75rem;
+  flex-shrink: 0;
+}
+
+.industry-slide-card-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 1rem 0.875rem;
+  gap: 0.75rem;
+}
+
+.industry-slide-icon {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 0.875rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  box-shadow: 0 8px 20px -8px rgba(53, 92, 125, 0.35);
+  transition: transform 0.3s ease;
+}
+
+.industry-slide-card:hover .industry-slide-icon {
+  transform: scale(1.08);
+}
+
+.industry-slide-label {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 1.35;
+  color: #0f172a;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .industries-marquee-track-static {
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .industries-marquee-viewport-static {
+    mask-image: none;
+    -webkit-mask-image: none;
+  }
 }
 
 /* Portfolio premium cards */

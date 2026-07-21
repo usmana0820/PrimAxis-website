@@ -1,11 +1,53 @@
+import { useReducedMotion } from 'framer-motion'
 import Reveal from './Reveal'
 import SectionHead from './SectionHead'
-import TiltCard from './TiltCard'
 import IndustryIcon from './IndustryIcon'
-import { getCardRevealVariant } from '../utils/revealVariants'
 import { getIndustryDisplayCards } from '../constants/industries'
 
 const industries = getIndustryDisplayCards()
+const ROW_SPEEDS = [46, 54, 50]
+
+function chunkIntoRows(items, rowCount = 3) {
+  const size = Math.ceil(items.length / rowCount)
+  return Array.from({ length: rowCount }, (_, index) =>
+    items.slice(index * size, (index + 1) * size)
+  ).filter((row) => row.length > 0)
+}
+
+const industryRows = chunkIntoRows(industries, 3)
+
+function IndustrySlideCard({ industry }) {
+  return (
+    <article className="industry-slide-card industry-premium-card">
+      <div className="industry-slide-card-inner">
+        <div className={`industry-slide-icon bg-gradient-to-br ${industry.gradient}`}>
+          <IndustryIcon type={industry.icon} className="w-6 h-6" />
+        </div>
+        <span className="industry-slide-label">{industry.name}</span>
+      </div>
+    </article>
+  )
+}
+
+function IndustryMarqueeRow({ items, reverse = false, duration = 48 }) {
+  const reduceMotion = useReducedMotion()
+  const track = reduceMotion ? items : [...items, ...items]
+
+  return (
+    <div className="industries-marquee-row">
+      <div className={`industries-marquee-viewport${reduceMotion ? ' industries-marquee-viewport-static' : ''}`}>
+        <div
+          className={`industries-marquee-track${reverse && !reduceMotion ? ' industries-marquee-track-reverse' : ''}${reduceMotion ? ' industries-marquee-track-static' : ''}`}
+          style={reduceMotion ? undefined : { animationDuration: `${duration}s` }}
+        >
+          {track.map((industry, index) => (
+            <IndustrySlideCard key={`${industry.name}-${index}`} industry={industry} />
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
 
 export default function Industries() {
   return (
@@ -20,24 +62,18 @@ export default function Industries() {
           subtitleClassName="mt-4 text-text-muted text-lg max-w-3xl mx-auto"
         />
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 lg:gap-5">
-          {industries.map((industry, i) => (
-            <Reveal key={industry.name} delay={i * 40} variant={getCardRevealVariant(i, 5)} className="h-full">
-              <TiltCard className="h-full" intensity={12}>
-                <div className="industry-premium-card tilt-card-surface group h-full">
-                  <div className="p-5 sm:p-6 text-center flex flex-col items-center">
-                    <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${industry.gradient} flex items-center justify-center text-white shadow-lg mb-4 transition-all duration-400 group-hover:scale-110 group-hover:shadow-xl`}>
-                      <IndustryIcon type={industry.icon} />
-                    </div>
-                    <span className="text-sm font-semibold text-text group-hover:text-[#355C7D] transition-colors leading-snug">
-                      {industry.name}
-                    </span>
-                  </div>
-                </div>
-              </TiltCard>
-            </Reveal>
-          ))}
-        </div>
+        <Reveal delay={80}>
+          <div className="industries-slider" aria-label="Industries we serve">
+            {industryRows.map((row, index) => (
+              <IndustryMarqueeRow
+                key={`industry-row-${index}`}
+                items={row}
+                reverse={index % 2 === 1}
+                duration={ROW_SPEEDS[index] ?? 48}
+              />
+            ))}
+          </div>
+        </Reveal>
       </div>
     </section>
   )
