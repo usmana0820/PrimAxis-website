@@ -48,11 +48,21 @@ const services = [
     ),
   },
   {
-    title: 'Business Analysis',
-    description: 'Expert analysts who understand your challenges and design technology solutions aligned with your operational goals.',
+    title: 'UI/UX Design',
+    description: 'Human-centered product design for web and mobile — from research and wireframes to polished, responsive interfaces.',
+    features: [
+      'User Interface Design',
+      'User Experience Design',
+      'Wireframing',
+      'Prototyping',
+      'Design Systems',
+      'Responsive Design',
+      'Mobile App Design',
+      'Web Application Design',
+    ],
     gradient: 'from-[#06B6D4] to-[#4F46E5]',
     icon: (
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />
     ),
   },
 ]
@@ -85,6 +95,13 @@ export default function Services() {
                     {service.title}
                   </h3>
                   <p className="text-text-muted text-sm leading-relaxed flex-1">{service.description}</p>
+                  {service.features?.length > 0 && (
+                    <ul className="service-feature-list mt-4 space-y-1">
+                      {service.features.map((feature) => (
+                        <li key={feature} className="text-xs text-text-muted">{feature}</li>
+                      ))}
+                    </ul>
+                  )}
                   <div className="service-card-more mt-6 flex items-center text-sm font-semibold text-[#06B6D4] opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300">
                     Learn more
                     <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">

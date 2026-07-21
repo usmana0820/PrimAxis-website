@@ -141,11 +141,18 @@ export function mergePublishedProjects(firestoreProjects, staticProjects) {
     ...normalizeProject(p),
     fromCms: true,
   }))
-  const slugs = new Set(normalizedFirestore.map((p) => p.slug))
-  const staticOnly = staticProjects
-    .filter((p) => !slugs.has(p.slug))
-    .map((p) => ({ ...normalizeProject(p), fromCms: false, isSample: true }))
-  return sortProjectsFeaturedFirst([...normalizedFirestore, ...staticOnly])
+
+  if (normalizedFirestore.length > 0) {
+    return sortProjectsFeaturedFirst(normalizedFirestore)
+  }
+
+  return sortProjectsFeaturedFirst(
+    staticProjects.map((p) => ({
+      ...normalizeProject(p),
+      fromCms: false,
+      isSample: true,
+    }))
+  )
 }
 
 export function getProjectFilterOptions(projects) {

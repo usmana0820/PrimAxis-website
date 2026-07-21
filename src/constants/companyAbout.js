@@ -1,9 +1,12 @@
 export const COMPANY_STATS = [
-  { value: '2+', label: 'Years in Business' },
+  { value: '1+', label: 'Years in Business' },
   { value: '50+', label: 'Projects Delivered' },
   { value: '25+', label: 'Happy Clients' },
   { value: '10+', label: 'Industries Served' },
 ]
+
+/** Top-of-page stats on the About details page */
+export const ABOUT_PAGE_HERO_STATS = COMPANY_STATS.slice(0, 3)
 
 export const OUR_STORY = {
   paragraphs: [

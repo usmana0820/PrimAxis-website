@@ -8,20 +8,7 @@ export const PROJECT_CATEGORIES = [
   'UI/UX',
 ]
 
-export const PROJECT_INDUSTRIES = [
-  'Healthcare',
-  'Construction',
-  'Real Estate',
-  'Restaurant',
-  'Education',
-  'Retail',
-  'Manufacturing',
-  'Finance',
-  'Travel',
-  'Startups',
-  'Trading',
-  'Other',
-]
+export { PROJECT_INDUSTRIES } from './industries'
 
 export const PROJECT_STATUSES = [
   { value: 'draft', label: 'Draft' },
@@ -35,12 +22,28 @@ export const DELIVERY_STATUSES = [
 
 export { TECH_STACK_OPTIONS, TECH_ADMIN_GROUPS } from './techStack'
 
+export const TEAM_ROLE_CUSTOM = '__custom__'
+
 export const TEAM_ROLES = [
-  'Developer',
-  'Business Analyst',
-  'Marketing',
-  'Designer',
   'Project Manager',
+  'Software Developer',
+  'Frontend Developer',
+  'Backend Developer',
+  'Full Stack Developer',
+  'Mobile App Developer',
+  'Business Analyst',
+  'UI/UX Designer',
+  'AI Engineer',
+  'QA Engineer',
+  'Software Tester',
+  'DevOps Engineer',
+  'Digital Marketing Manager',
+  'SEO Specialist',
+  'Graphic Designer',
+  'Sales Executive',
+  'Business Development Executive',
+  'Product Manager',
+  'Technical Consultant',
 ]
 
 export const USER_ROLES = {

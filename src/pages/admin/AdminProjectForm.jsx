@@ -17,6 +17,7 @@ import {
   DELIVERY_STATUSES,
   TECH_ADMIN_GROUPS,
   TEAM_ROLES,
+  TEAM_ROLE_CUSTOM,
   slugify,
 } from '../../constants/cmsOptions'
 import { canManageProject, createProject, fetchProjectById, updateProject, deleteProject } from '../../services/projects'
@@ -42,6 +43,7 @@ export default function AdminProjectForm() {
   const [form, setForm] = useState({ ...EMPTY_PROJECT, featured: false })
   const [featureBulkInput, setFeatureBulkInput] = useState('')
   const [teamRole, setTeamRole] = useState(TEAM_ROLES[0])
+  const [teamCustomRole, setTeamCustomRole] = useState('')
   const [teamName, setTeamName] = useState('')
   const [loading, setLoading] = useState(isEdit)
   const [saving, setSaving] = useState(false)
@@ -99,12 +101,14 @@ export default function AdminProjectForm() {
   }
 
   const addTeamMember = () => {
-    if (!teamName.trim()) return
+    const role = teamRole === TEAM_ROLE_CUSTOM ? teamCustomRole.trim() : teamRole
+    if (!teamName.trim() || !role) return
     setForm((prev) => ({
       ...prev,
-      teamMembers: [...prev.teamMembers, { role: teamRole, name: teamName.trim() }],
+      teamMembers: [...prev.teamMembers, { role, name: teamName.trim() }],
     }))
     setTeamName('')
+    if (teamRole === TEAM_ROLE_CUSTOM) setTeamCustomRole('')
   }
 
   const removeTeamMember = (index) => {
@@ -462,10 +466,20 @@ export default function AdminProjectForm() {
 
             <div className="admin-subsection">
               <h3>Team Members</h3>
-              <div className="admin-inline-add">
+              <p className="admin-field-hint">Select a designation from the list or choose Custom to enter your own.</p>
+              <div className="admin-inline-add admin-team-add">
                 <select className="admin-input" value={teamRole} onChange={(e) => setTeamRole(e.target.value)}>
                   {TEAM_ROLES.map((role) => <option key={role} value={role}>{role}</option>)}
+                  <option value={TEAM_ROLE_CUSTOM}>Custom designation…</option>
                 </select>
+                {teamRole === TEAM_ROLE_CUSTOM && (
+                  <input
+                    className="admin-input"
+                    value={teamCustomRole}
+                    onChange={(e) => setTeamCustomRole(e.target.value)}
+                    placeholder="Enter custom role"
+                  />
+                )}
                 <input className="admin-input" value={teamName} onChange={(e) => setTeamName(e.target.value)} placeholder="Name" />
                 <button type="button" className="admin-btn admin-btn-outline" onClick={addTeamMember}>Add</button>
               </div>

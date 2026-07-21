@@ -2649,6 +2649,27 @@ main .section-divider + section.page-section {
   box-shadow: 0 12px 32px -6px rgba(6, 182, 212, 0.35);
 }
 
+.service-feature-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.25rem 0.75rem;
+}
+
+.service-feature-list li::before {
+  content: '•';
+  margin-right: 0.35rem;
+  color: #06b6d4;
+}
+
+@media (min-width: 1024px) {
+  .about-visual-wrap--wide .about-visual-frame--stretch {
+    min-height: 26rem;
+  }
+}
+
 /* Why Choose feature cards */
 .why-feature-card {
   background: #ffffff;

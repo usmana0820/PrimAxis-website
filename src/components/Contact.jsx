@@ -21,7 +21,7 @@ const INITIAL_FORM = {
 
 const serviceOptions = [
   'Zoho ERP & CRM', 'Website Development', 'Mobile App Development',
-  'AI Solutions', 'Digital Marketing', 'Business Consulting', 'Other',
+  'AI Solutions', 'Digital Marketing', 'UI/UX Design', 'Other',
 ]
 
 const budgetOptions = ['Under $1,000', '$1,000 to $5,000', '$5,000 to $10,000', '$10,000+', 'Not sure yet']
