@@ -159,13 +159,12 @@ export default function AboutPage() {
                   <AboutVideo
                     aspect="16/9"
                     label="PrimeAxis Technologies team"
-                    stats={COMPANY_STATS.slice(0, 3)}
                   />
                   <div className="about-story-media-glow" aria-hidden="true" />
                 </div>
                 <div className="about-story-media-caption">
                   <span className="about-story-media-chip">Inside PrimeAxis</span>
-                  <p>Watch our team build real solutions — from Zoho ERP to custom software and AI automation.</p>
+                  <p>Watch our team build real solutions from Zoho ERP to custom software and AI automation.</p>
                 </div>
               </div>
             </Reveal>

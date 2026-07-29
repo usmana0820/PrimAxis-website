@@ -2221,6 +2221,8 @@
 .about-story-media-frame {
   position: relative;
   overflow: hidden;
+  aspect-ratio: 16 / 9;
+  width: 100%;
   border-radius: 1.25rem;
   border: 1px solid rgba(255, 255, 255, 0.85);
   background: #0f232c;
@@ -2232,9 +2234,21 @@
 .about-story-media-frame .about-video-wrap {
   position: relative;
   z-index: 0;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: unset;
 }
 
-.about-story-media-frame .about-video {
+.about-story-media-frame .about-video-wrap--16-9 {
+  aspect-ratio: unset;
+  height: 100%;
+}
+
+.about-story-media-frame .about-video,
+.about-story-media-frame .about-video-poster {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: unset;
   object-fit: cover;
 }
 

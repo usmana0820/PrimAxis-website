@@ -2181,7 +2181,6 @@ main .section-divider + section.page-section {
 }
 
 .about-visual-wrap-extended {
-  padding-bottom: 0.5rem;
   overflow: visible;
 }
 
@@ -2195,6 +2194,30 @@ main .section-divider + section.page-section {
 
 .about-visual-frame-wide {
   box-shadow: 0 28px 64px -22px rgba(53, 92, 125, 0.28);
+}
+
+.about-visual-frame--16-9 {
+  aspect-ratio: 16 / 9;
+  width: 100%;
+}
+
+.about-visual-frame--16-9 .about-video-wrap {
+  width: 100%;
+  height: 100%;
+}
+
+.about-visual-frame--16-9 .about-video-wrap--16-9 {
+  aspect-ratio: unset;
+  height: 100%;
+}
+
+.about-visual-frame--16-9 .about-video,
+.about-visual-frame--16-9 .about-video-poster,
+.about-visual-frame--16-9 img.about-visual-img {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: unset;
+  object-fit: cover;
 }
 
 @media (min-width: 1024px) {
@@ -2236,8 +2259,17 @@ main .section-divider + section.page-section {
   aspect-ratio: 4 / 3;
 }
 
-.about-video-wrap--16-9 .about-video {
+.about-video-wrap--16-9 {
   aspect-ratio: 16 / 9;
+  overflow: hidden;
+}
+
+.about-video-wrap--16-9 .about-video,
+.about-video-wrap--16-9 .about-video-poster {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: unset;
+  object-fit: cover;
 }
 
 .about-video-poster {
@@ -2429,6 +2461,12 @@ main .section-divider + section.page-section {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 0.5rem;
+}
+
+.about-visual-stats--below {
+  position: static;
+  margin-top: 1rem;
+  width: 100%;
 }
 
 .about-visual-stat {

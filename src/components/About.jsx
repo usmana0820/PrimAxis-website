@@ -49,10 +49,10 @@ export default function About() {
       <div className="section-light-mesh" aria-hidden="true" />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-14 items-stretch">
-          <Reveal variant="slide-right" className="order-2 lg:order-1 h-full">
-            <div className="about-visual-wrap about-visual-wrap-extended about-visual-wrap--stretch">
-              <div className="about-visual-frame about-visual-frame-wide about-visual-frame--stretch">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-14 items-center">
+          <Reveal variant="slide-right" className="order-2 lg:order-1">
+            <div className="about-visual-wrap about-visual-wrap-extended">
+              <div className="about-visual-frame about-visual-frame-wide about-visual-frame--16-9">
                 <AboutVideo
                   aspect="16/9"
                   className="about-visual-img"
@@ -61,12 +61,7 @@ export default function About() {
                 <div className="about-visual-overlay" aria-hidden="true" />
               </div>
 
-              <div className="about-visual-badge">
-                <span className="about-visual-badge-value">2+</span>
-                <span className="about-visual-badge-label">Years of Experience</span>
-              </div>
-
-              <div className="about-visual-stats">
+              <div className="about-visual-stats about-visual-stats--below">
                 {stats.map((stat) => (
                   <div key={stat.label} className="about-visual-stat">
                     <span className="about-visual-stat-value">{stat.value}</span>
@@ -77,7 +72,7 @@ export default function About() {
             </div>
           </Reveal>
 
-          <Reveal delay={100} variant="slide-left" className="order-1 lg:order-2 h-full space-y-6 lg:space-y-7">
+          <Reveal delay={100} variant="slide-left" className="order-1 lg:order-2 space-y-6 lg:space-y-7">
             <div>
               <TextFlow as="span" mode="chars" className="section-label block" text="About Us" />
               <TextFlow

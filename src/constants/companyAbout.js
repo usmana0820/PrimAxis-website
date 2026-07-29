@@ -7,7 +7,7 @@ export const COMPANY_STATS = [
 
 export const OUR_STORY = {
   paragraphs: [
-    'PrimeAxis Technologies was founded to help businesses embrace digital transformation through practical, scalable technology — simplifying operations and unlocking sustainable growth.',
+    'PrimeAxis Technologies was founded to help businesses embrace digital transformation through practical, scalable technology simplifying operations and unlocking sustainable growth.',
     'We partner with startups, SMEs, and growing enterprises across industries, combining business analysis, engineering, and modern tools to deliver end-to-end digital services tailored to each client.',
   ],
 }
@@ -15,7 +15,7 @@ export const OUR_STORY = {
 export const WHO_WE_ARE = {
   paragraphs: [
     'We are a technology consulting and software development company specializing in Zoho ERP, custom software, mobile apps, AI automation, and digital marketing.',
-    'Our multidisciplinary team delivers solutions that are secure, scalable, and aligned with your long-term goals — built through collaboration, transparency, and continuous innovation.',
+    'Our multidisciplinary team delivers solutions that are secure, scalable, and aligned with your long-term goals built through collaboration, transparency, and continuous innovation.',
   ],
 }
 

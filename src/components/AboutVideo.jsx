@@ -115,10 +115,22 @@ export default function AboutVideo({
       setBuffering(false)
     }
 
+    const onVisibilityChange = () => {
+      if (document.hidden) {
+        video.pause()
+        return
+      }
+
+      if (video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) {
+        tryPlay()
+      }
+    }
+
     video.addEventListener('canplay', onCanPlay)
     video.addEventListener('waiting', onWaiting)
     video.addEventListener('playing', onPlaying)
     video.addEventListener('error', onError)
+    document.addEventListener('visibilitychange', onVisibilityChange)
 
     if (video.readyState >= HTMLMediaElement.HAVE_FUTURE_DATA) {
       onCanPlay()
@@ -129,6 +141,7 @@ export default function AboutVideo({
       video.removeEventListener('waiting', onWaiting)
       video.removeEventListener('playing', onPlaying)
       video.removeEventListener('error', onError)
+      document.removeEventListener('visibilitychange', onVisibilityChange)
     }
   }, [tryPlay, videoSrc])
 
@@ -159,7 +172,13 @@ export default function AboutVideo({
   return (
     <div ref={wrapRef} className={wrapClasses}>
       {showPoster ? (
-        <img src={aboutPoster} alt={label} className={`${mediaClassName} about-video-poster`} />
+        <img
+          src={aboutPoster}
+          alt={label}
+          className={`${mediaClassName} about-video-poster`}
+          loading="lazy"
+          decoding="async"
+        />
       ) : (
         <video
           ref={videoRef}
@@ -170,6 +189,7 @@ export default function AboutVideo({
           loop
           playsInline
           preload="metadata"
+          disablePictureInPicture
           aria-label={label}
         />
       )}

@@ -50,7 +50,7 @@ const services = [
   {
     title: 'UI/UX Design',
     description:
-      'Human-centered UI/UX for web and mobile — interface design, wireframing, prototyping, design systems, and responsive layouts that improve usability and conversion.',
+      'Human-centered UI/UX for web and mobile interface design, wireframing, prototyping, design systems, and responsive layouts that improve usability and conversion.',
     gradient: 'from-[#06B6D4] to-[#4F46E5]',
     icon: (
       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />

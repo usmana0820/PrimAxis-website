@@ -33,7 +33,7 @@ export default function CTA() {
           mode="words"
           delay={120}
           className="home-cta-lead"
-          text="Whether you need a modern website, custom mobile application, Zoho ERP & CRM implementation, AI-powered automation, or a complete digital transformation strategy, PrimeAxis Technologies is here to help."
+          text="Need a website, mobile app, Zoho ERP/CRM, AI automation, or digital solutions? PrimeAxis Technologies helps your business grow."
         />
         <TextFlow
           as="p"
