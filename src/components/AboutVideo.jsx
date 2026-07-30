@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import aboutVideo from '../assets/primeaxis_about_video.mp4'
+import { ABOUT_VIDEO_URL, prefetchAboutVideo } from '../constants/aboutVideo'
 import aboutPoster from '../assets/aboutsection.jpg'
 
 function MuteIcon() {
@@ -47,11 +47,12 @@ export default function AboutVideo({
   showMute = true,
   stats = [],
   label = 'PrimeAxis Technologies team at work',
+  loadEager = false,
 }) {
   const wrapRef = useRef(null)
   const videoRef = useRef(null)
   const [muted, setMuted] = useState(true)
-  const [inView, setInView] = useState(false)
+  const [shouldLoad, setShouldLoad] = useState(loadEager)
   const [videoSrc, setVideoSrc] = useState(null)
   const [posterOnly, setPosterOnly] = useState(false)
   const [buffering, setBuffering] = useState(false)
@@ -62,28 +63,37 @@ export default function AboutVideo({
   const showPlayPrompt = posterOnly && !failed
 
   useEffect(() => {
+    prefetchAboutVideo()
+  }, [])
+
+  useEffect(() => {
     setPosterOnly(isSlowConnection())
   }, [])
 
   useEffect(() => {
+    if (loadEager) {
+      setShouldLoad(true)
+      return undefined
+    }
+
     const node = wrapRef.current
     if (!node) return undefined
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) setInView(true)
+        if (entry.isIntersecting) setShouldLoad(true)
       },
-      { rootMargin: '160px', threshold: 0.12 },
+      { rootMargin: '320px', threshold: 0.01 },
     )
 
     observer.observe(node)
     return () => observer.disconnect()
-  }, [])
+  }, [loadEager])
 
   useEffect(() => {
-    if (!inView || posterOnly || failed) return
-    setVideoSrc(aboutVideo)
-  }, [inView, posterOnly, failed])
+    if (!shouldLoad || posterOnly || failed) return
+    setVideoSrc(ABOUT_VIDEO_URL)
+  }, [shouldLoad, posterOnly, failed])
 
   const tryPlay = useCallback(async () => {
     const video = videoRef.current
@@ -132,6 +142,8 @@ export default function AboutVideo({
     video.addEventListener('error', onError)
     document.addEventListener('visibilitychange', onVisibilityChange)
 
+    video.load()
+
     if (video.readyState >= HTMLMediaElement.HAVE_FUTURE_DATA) {
       onCanPlay()
     }
@@ -154,8 +166,8 @@ export default function AboutVideo({
   const startVideo = () => {
     setPosterOnly(false)
     setFailed(false)
-    setInView(true)
-    setVideoSrc(aboutVideo)
+    setShouldLoad(true)
+    setVideoSrc(ABOUT_VIDEO_URL)
   }
 
   const wrapClasses = [
@@ -188,7 +200,8 @@ export default function AboutVideo({
           muted
           loop
           playsInline
-          preload="metadata"
+          autoPlay
+          preload="auto"
           disablePictureInPicture
           aria-label={label}
         />

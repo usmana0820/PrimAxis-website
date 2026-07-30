@@ -57,6 +57,7 @@ export default function About() {
                   aspect="16/9"
                   className="about-visual-img"
                   label="PrimeAxis Technologies team at work"
+                  loadEager
                 />
                 <div className="about-visual-overlay" aria-hidden="true" />
               </div>

@@ -155,23 +155,9 @@ export default function Hero() {
             </div>
 
             <h1 className="mt-8 text-4xl sm:text-5xl lg:text-[3.25rem] font-extrabold text-white leading-[1.08] tracking-tight font-display">
-              <TextFlow
-                as="span"
-                mode="words"
-                eager
-                delay={80}
-                className="block sm:inline"
-                text="Empowering Businesses Through"
-              />
+              <span className="block sm:inline">Empowering Businesses Through</span>
               {' '}
-              <TextFlow
-                as="span"
-                mode="words"
-                eager
-                delay={420}
-                className="hero-gradient-text block sm:inline"
-                text="Smart Digital Solutions"
-              />
+              <span className="hero-gradient-text block sm:inline">Smart Digital Solutions</span>
             </h1>
 
             <TextFlow

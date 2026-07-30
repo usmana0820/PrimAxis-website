@@ -5,6 +5,7 @@ import Footer from '../components/Footer'
 import WhatsAppChat from '../components/WhatsAppChat'
 import Reveal from '../components/Reveal'
 import AboutVideo from '../components/AboutVideo'
+import { prefetchAboutVideo } from '../constants/aboutVideo'
 import PreviewHeroBackground from '../components/PreviewHeroBackground'
 import PreviewHeroAside from '../components/PreviewHeroAside'
 import PreviewFinalCTA from '../components/PreviewFinalCTA'
@@ -55,6 +56,7 @@ export default function AboutPage() {
         'Learn about PrimeAxis Technologies: our story, mission, values, expertise in Zoho ERP, custom software, AI automation, and digital transformation services.'
       )
     }
+    prefetchAboutVideo()
   }, [])
 
   return (
@@ -159,6 +161,7 @@ export default function AboutPage() {
                   <AboutVideo
                     aspect="16/9"
                     label="PrimeAxis Technologies team"
+                    loadEager
                   />
                   <div className="about-story-media-glow" aria-hidden="true" />
                 </div>

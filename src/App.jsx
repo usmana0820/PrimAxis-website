@@ -20,6 +20,7 @@ import LoadingScreen from './components/LoadingScreen'
 import SectionDivider from './components/SectionDivider'
 import WhatsAppChat from './components/WhatsAppChat'
 import { PageReadyProvider } from './context/PageReadyContext'
+import { prefetchAboutVideo } from './constants/aboutVideo'
 
 function App() {
   const [loading, setLoading] = useState(true)
@@ -33,6 +34,13 @@ function App() {
       clearTimeout(hideTimer)
     }
   }, [])
+
+  useEffect(() => {
+    if (loading) return undefined
+
+    const timer = setTimeout(() => prefetchAboutVideo(), 400)
+    return () => clearTimeout(timer)
+  }, [loading])
 
   return (
     <PageReadyProvider ready={!loading}>
