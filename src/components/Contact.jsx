@@ -3,7 +3,8 @@ import Reveal from './Reveal'
 import SectionHead from './SectionHead'
 import TiltCard from './TiltCard'
 import { getCardRevealVariant } from '../utils/revealVariants'
-import { CONTACT_EMAIL, WHATSAPP_DISPLAY } from '../constants/contact'
+import { CONTACT_EMAIL, getWhatsAppUrl, WHATSAPP_DISPLAY, WHATSAPP_TEL } from '../constants/contact'
+import { SOCIAL_ICONS, SOCIAL_LINKS } from '../constants/social'
 import { firebaseReady } from '../lib/firebase'
 import { submitInquiry } from '../services/inquiries'
 import { emailNotificationsReady, sendContactEmail } from '../services/contactEmail'
@@ -26,11 +27,17 @@ const serviceOptions = [
 
 const budgetOptions = ['Under $1,000', '$1,000 to $5,000', '$5,000 to $10,000', '$10,000+', 'Not sure yet']
 
+const SOCIAL_GRADIENTS = {
+  Instagram: 'from-pink-500 to-purple-600',
+  Facebook: 'from-blue-600 to-blue-800',
+  LinkedIn: 'from-sky-500 to-[#355C7D]',
+}
+
 const contactLinks = [
   {
     label: 'Phone',
     value: WHATSAPP_DISPLAY,
-    href: 'tel:+923717461694',
+    href: WHATSAPP_TEL,
     icon: (
       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
     ),
@@ -48,30 +55,20 @@ const contactLinks = [
   {
     label: 'WhatsApp',
     value: WHATSAPP_DISPLAY,
-    href: 'https://wa.me/923717461694',
+    href: getWhatsAppUrl(),
     icon: (
       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
     ),
     gradient: 'from-emerald-500 to-teal-600',
   },
-  {
-    label: 'LinkedIn',
-    value: 'PrimeAxis Technologies',
-    href: 'https://linkedin.com',
-    icon: (
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2V9zm2-6a2 2 0 110 4 2 2 0 010-4z" />
-    ),
-    gradient: 'from-sky-500 to-[#355C7D]',
-  },
-  {
-    label: 'GitHub',
-    value: 'primeaxis-technologies',
-    href: 'https://github.com',
-    icon: (
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-    ),
-    gradient: 'from-slate-600 to-slate-800',
-  },
+  ...SOCIAL_LINKS.map((social) => ({
+    label: social.label,
+    value: social.handle,
+    href: social.href,
+    icon: SOCIAL_ICONS[social.label],
+    gradient: SOCIAL_GRADIENTS[social.label],
+    filled: true,
+  })),
 ]
 
 function openMailtoFallback(form) {
@@ -185,7 +182,12 @@ export default function Contact() {
                     className="contact-info-card tilt-card-surface group block"
                   >
                     <div className={`contact-info-icon bg-gradient-to-br ${item.gradient}`}>
-                      <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg
+                        className="w-5 h-5 text-white"
+                        fill={item.filled ? 'currentColor' : 'none'}
+                        stroke={item.filled ? 'none' : 'currentColor'}
+                        viewBox="0 0 24 24"
+                      >
                         {item.icon}
                       </svg>
                     </div>
