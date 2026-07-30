@@ -2253,6 +2253,13 @@ main .section-divider + section.page-section {
   width: 100%;
   display: block;
   object-fit: cover;
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+.about-video-wrap--mobile .about-video {
+  -webkit-transform: translate3d(0, 0, 0);
 }
 
 .about-video-wrap--4-3 .about-video {
@@ -2277,22 +2284,16 @@ main .section-divider + section.page-section {
 }
 
 .about-video-wrap--buffering .about-video {
-  visibility: hidden;
+  opacity: 0.98;
 }
 
 .about-video-buffer {
   position: absolute;
   inset: 0;
   z-index: 1;
-  overflow: hidden;
   pointer-events: none;
-}
-
-.about-video-buffer-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
+  background: rgba(15, 23, 42, 0.08);
+  transition: opacity 0.25s ease;
 }
 
 .about-video-play-btn {

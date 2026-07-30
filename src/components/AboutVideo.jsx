@@ -1,5 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { ABOUT_VIDEO_URL, prefetchAboutVideo } from '../constants/aboutVideo'
+import {
+  getAboutVideoUrl,
+  isMobileVideoPreferred,
+  prefetchAboutVideo,
+} from '../constants/aboutVideo'
 import aboutPoster from '../assets/aboutsection.jpg'
 
 function MuteIcon() {
@@ -37,7 +41,7 @@ function isSlowConnection() {
   if (!connection) return false
   if (connection.saveData) return true
 
-  return ['slow-2g', '2g'].includes(connection.effectiveType)
+  return ['slow-2g', '2g', '3g'].includes(connection.effectiveType)
 }
 
 export default function AboutVideo({
@@ -51,27 +55,29 @@ export default function AboutVideo({
 }) {
   const wrapRef = useRef(null)
   const videoRef = useRef(null)
+  const playAttemptedRef = useRef(false)
+  const bufferingTimerRef = useRef(null)
+  const [isMobile] = useState(() => isMobileVideoPreferred())
   const [muted, setMuted] = useState(true)
-  const [shouldLoad, setShouldLoad] = useState(loadEager)
+  const [shouldLoad, setShouldLoad] = useState(loadEager && !isMobileVideoPreferred())
   const [videoSrc, setVideoSrc] = useState(null)
   const [posterOnly, setPosterOnly] = useState(false)
   const [buffering, setBuffering] = useState(false)
   const [failed, setFailed] = useState(false)
   const aspectClass = aspect === '16/9' ? 'about-video-wrap--16-9' : 'about-video-wrap--4-3'
   const visibleStats = stats.slice(0, 3)
-  const showPoster = !videoSrc || failed || (posterOnly && !videoSrc)
-  const showPlayPrompt = posterOnly && !failed
+  const showPlayPrompt = posterOnly && !failed && !videoSrc
 
   useEffect(() => {
-    prefetchAboutVideo()
-  }, [])
+    if (!isMobile) prefetchAboutVideo()
+  }, [isMobile])
 
   useEffect(() => {
     setPosterOnly(isSlowConnection())
   }, [])
 
   useEffect(() => {
-    if (loadEager) {
+    if (loadEager && !isMobile) {
       setShouldLoad(true)
       return undefined
     }
@@ -83,43 +89,65 @@ export default function AboutVideo({
       ([entry]) => {
         if (entry.isIntersecting) setShouldLoad(true)
       },
-      { rootMargin: '320px', threshold: 0.01 },
+      { rootMargin: isMobile ? '120px' : '320px', threshold: 0.08 },
     )
 
     observer.observe(node)
     return () => observer.disconnect()
-  }, [loadEager])
+  }, [isMobile, loadEager])
 
   useEffect(() => {
     if (!shouldLoad || posterOnly || failed) return
-    setVideoSrc(ABOUT_VIDEO_URL)
+    setVideoSrc(getAboutVideoUrl())
   }, [shouldLoad, posterOnly, failed])
 
   const tryPlay = useCallback(async () => {
     const video = videoRef.current
-    if (!video || !videoSrc) return
+    if (!video || !videoSrc || playAttemptedRef.current) return
+
+    playAttemptedRef.current = true
 
     try {
       video.muted = muted
       await video.play()
     } catch {
-      // Autoplay may be blocked until user interaction.
+      playAttemptedRef.current = false
     }
   }, [muted, videoSrc])
+
+  useEffect(() => {
+    playAttemptedRef.current = false
+  }, [videoSrc])
 
   useEffect(() => {
     const video = videoRef.current
     if (!video || !videoSrc) return undefined
 
-    const onCanPlay = () => {
+    const clearBufferingTimer = () => {
+      if (bufferingTimerRef.current) {
+        clearTimeout(bufferingTimerRef.current)
+        bufferingTimerRef.current = null
+      }
+    }
+
+    const onCanPlayThrough = () => {
+      clearBufferingTimer()
       setBuffering(false)
       tryPlay()
     }
 
-    const onWaiting = () => setBuffering(true)
-    const onPlaying = () => setBuffering(false)
+    const onWaiting = () => {
+      clearBufferingTimer()
+      bufferingTimerRef.current = setTimeout(() => setBuffering(true), 500)
+    }
+
+    const onPlaying = () => {
+      clearBufferingTimer()
+      setBuffering(false)
+    }
 
     const onError = () => {
+      clearBufferingTimer()
       setFailed(true)
       setVideoSrc(null)
       setBuffering(false)
@@ -131,25 +159,27 @@ export default function AboutVideo({
         return
       }
 
-      if (video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) {
+      if (!video.paused) return
+
+      if (video.readyState >= HTMLMediaElement.HAVE_ENOUGH_DATA) {
+        playAttemptedRef.current = false
         tryPlay()
       }
     }
 
-    video.addEventListener('canplay', onCanPlay)
+    video.addEventListener('canplaythrough', onCanPlayThrough)
     video.addEventListener('waiting', onWaiting)
     video.addEventListener('playing', onPlaying)
     video.addEventListener('error', onError)
     document.addEventListener('visibilitychange', onVisibilityChange)
 
-    video.load()
-
-    if (video.readyState >= HTMLMediaElement.HAVE_FUTURE_DATA) {
-      onCanPlay()
+    if (video.readyState >= HTMLMediaElement.HAVE_ENOUGH_DATA) {
+      onCanPlayThrough()
     }
 
     return () => {
-      video.removeEventListener('canplay', onCanPlay)
+      clearBufferingTimer()
+      video.removeEventListener('canplaythrough', onCanPlayThrough)
       video.removeEventListener('waiting', onWaiting)
       video.removeEventListener('playing', onPlaying)
       video.removeEventListener('error', onError)
@@ -167,12 +197,13 @@ export default function AboutVideo({
     setPosterOnly(false)
     setFailed(false)
     setShouldLoad(true)
-    setVideoSrc(ABOUT_VIDEO_URL)
+    setVideoSrc(getAboutVideoUrl())
   }
 
   const wrapClasses = [
     'about-video-wrap',
     aspectClass,
+    isMobile ? 'about-video-wrap--mobile' : '',
     buffering ? 'about-video-wrap--buffering' : '',
     wrapperClassName,
   ]
@@ -183,34 +214,21 @@ export default function AboutVideo({
 
   return (
     <div ref={wrapRef} className={wrapClasses}>
-      {showPoster ? (
-        <img
-          src={aboutPoster}
-          alt={label}
-          className={`${mediaClassName} about-video-poster`}
-          loading="lazy"
-          decoding="async"
-        />
-      ) : (
-        <video
-          ref={videoRef}
-          src={videoSrc}
-          poster={aboutPoster}
-          className={mediaClassName}
-          muted
-          loop
-          playsInline
-          autoPlay
-          preload="auto"
-          disablePictureInPicture
-          aria-label={label}
-        />
-      )}
+      <video
+        ref={videoRef}
+        src={videoSrc ?? undefined}
+        poster={aboutPoster}
+        className={mediaClassName}
+        muted
+        loop
+        playsInline
+        preload={videoSrc ? (isMobile ? 'metadata' : 'auto') : 'none'}
+        disablePictureInPicture
+        aria-label={label}
+      />
 
-      {buffering && !showPoster && (
-        <div className="about-video-buffer" aria-hidden="true">
-          <img src={aboutPoster} alt="" className="about-video-buffer-img" />
-        </div>
+      {buffering && videoSrc && (
+        <div className="about-video-buffer" aria-hidden="true" />
       )}
 
       {showPlayPrompt && (
