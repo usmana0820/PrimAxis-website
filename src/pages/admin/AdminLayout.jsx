@@ -1,6 +1,7 @@
 import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/useAuth'
 import { InquiriesProvider, useInquiries } from '../../context/InquiriesContext'
+import { SubscribersProvider, useSubscribers } from '../../context/SubscribersContext'
 import { LOGO_SRC, BRAND_NAME, BRAND_SHORT } from '../../constants/branding'
 import AdminHeader from '../../components/admin/AdminHeader'
 import {
@@ -10,6 +11,7 @@ import {
   IconDashboard,
   IconLogout,
   IconMessages,
+  IconNewsletter,
   IconPortfolio,
   IconProjects,
   IconSettings,
@@ -23,6 +25,7 @@ const navItems = [
   { to: '/admin/projects', label: 'My Projects', icon: IconProjects },
   { to: '/admin/projects/new', label: 'Add Project', icon: IconAdd },
   { to: '/admin/messages', label: 'Contact Messages', icon: IconMessages },
+  { to: '/admin/subscribers', label: 'Newsletter Subscribers', icon: IconNewsletter },
   { to: '/admin/settings', label: 'Settings', icon: IconSettings },
 ]
 
@@ -37,13 +40,16 @@ export default function AdminLayout() {
 
   return (
     <InquiriesProvider>
-      <AdminLayoutShell onLogout={handleLogout} />
+      <SubscribersProvider>
+        <AdminLayoutShell onLogout={handleLogout} />
+      </SubscribersProvider>
     </InquiriesProvider>
   )
 }
 
 function AdminLayoutShell({ onLogout }) {
   const { newCount } = useInquiries()
+  const { pendingCount } = useSubscribers()
 
   return (
     <div className="admin-shell admin-shell-premium">
@@ -59,7 +65,10 @@ function AdminLayoutShell({ onLogout }) {
         <nav className="admin-nav">
           {navItems.map((item) => {
             const Icon = item.icon
-            const showBadge = item.to === '/admin/messages' && newCount > 0
+            const showBadge =
+              (item.to === '/admin/messages' && newCount > 0)
+              || (item.to === '/admin/subscribers' && pendingCount > 0)
+            const badgeCount = item.to === '/admin/subscribers' ? pendingCount : newCount
             return (
               <NavLink
                 key={item.to}
@@ -72,8 +81,8 @@ function AdminLayoutShell({ onLogout }) {
                 <Icon />
                 {item.label}
                 {showBadge && (
-                  <span className="admin-nav-badge" aria-label={`${newCount} unread contact messages`}>
-                    {newCount}
+                  <span className="admin-nav-badge" aria-label={`${badgeCount} pending`}>
+                    {badgeCount}
                   </span>
                 )}
               </NavLink>

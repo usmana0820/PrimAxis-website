@@ -2,10 +2,14 @@ import { lazy, Suspense, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { LOGO_SRC, BRAND_NAME, BRAND_SHORT } from '../constants/branding'
 import {
+  CONTACT_EMAIL,
   getWhatsAppUrl,
   WHATSAPP_DISPLAY,
 } from '../constants/contact'
 import { SOCIAL_ICONS, SOCIAL_LINKS } from '../constants/social'
+import { firebaseReady } from '../lib/firebase'
+import { emailNotificationsReady, sendNewsletterEmail } from '../services/contactEmail'
+import { submitNewsletterSubscription, validateNewsletterEmail } from '../services/newsletter'
 
 const quickLinks = [
   { label: 'Home', href: '/#home' },
@@ -34,13 +38,67 @@ const LiveBackground = lazy(() => import('./LiveBackground'))
 
 export default function Footer() {
   const [email, setEmail] = useState('')
-  const [subscribed, setSubscribed] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
+  const [status, setStatus] = useState({ type: '', message: '' })
 
-  const handleNewsletter = (e) => {
+  const openNewsletterMailto = (subscriberEmail) => {
+    const subject = encodeURIComponent('Newsletter subscription')
+    const body = encodeURIComponent(`Please add me to the PrimeAxis newsletter: ${subscriberEmail}`)
+    window.location.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`
+  }
+
+  const handleNewsletter = async (e) => {
     e.preventDefault()
-    if (!email.trim()) return
-    setSubscribed(true)
-    setEmail('')
+    setStatus({ type: '', message: '' })
+
+    const validation = validateNewsletterEmail(email)
+    if (!validation.valid) {
+      setStatus({ type: 'error', message: validation.error })
+      return
+    }
+
+    if (!firebaseReady && !emailNotificationsReady) {
+      openNewsletterMailto(validation.value)
+      setEmail('')
+      setStatus({
+        type: 'success',
+        message: 'Your email app is opening so you can complete the subscription.',
+      })
+      return
+    }
+
+    setSubmitting(true)
+    try {
+      const tasks = []
+
+      if (firebaseReady) {
+        tasks.push(submitNewsletterSubscription(validation.value).then(() => 'firestore'))
+      }
+      if (emailNotificationsReady) {
+        tasks.push(sendNewsletterEmail(validation.value).then(() => 'email'))
+      }
+
+      const results = await Promise.allSettled(tasks)
+      const succeeded = results.filter((result) => result.status === 'fulfilled')
+
+      if (!succeeded.length) {
+        const reason = results.find((result) => result.status === 'rejected')
+        throw reason?.reason || new Error('Could not complete your subscription.')
+      }
+
+      setEmail('')
+      setStatus({
+        type: 'success',
+        message: 'Thanks! You\'re subscribed.',
+      })
+    } catch (err) {
+      setStatus({
+        type: 'error',
+        message: err.message || 'Could not subscribe right now. Please try again or email us directly.',
+      })
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   return (
@@ -129,15 +187,15 @@ export default function Footer() {
             <h4 className="footer-v2-heading">Contact</h4>
             <ul className="footer-v2-contact-list">
               <li>
-                <span className="footer-v2-contact-icon" aria-hidden="true">📞</span>
+                <span className="footer-v2-contact-icon" aria-hidden="true">💬</span>
                 <a href={getWhatsAppUrl()} target="_blank" rel="noopener noreferrer">
-                  {WHATSAPP_DISPLAY}
+                  WhatsApp · {WHATSAPP_DISPLAY}
                 </a>
               </li>
               <li>
                 <span className="footer-v2-contact-icon" aria-hidden="true">✉️</span>
-                <a href="mailto:primeaxis.technologies19@gmail.com">
-                  primeaxis.technologies19@gmail.com
+                <a href={`mailto:${CONTACT_EMAIL}`}>
+                  {CONTACT_EMAIL}
                 </a>
               </li>
             </ul>
@@ -155,14 +213,26 @@ export default function Footer() {
             <input
               type="email"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => {
+                setEmail(e.target.value)
+                if (status.message) setStatus({ type: '', message: '' })
+              }}
               placeholder="Your email address"
               required
+              disabled={submitting}
               aria-label="Email address"
+              aria-invalid={status.type === 'error' ? 'true' : undefined}
             />
-            <button type="submit">Subscribe</button>
-            {subscribed && (
-              <p className="footer-v2-subscribed" role="status">Thanks! You&apos;re subscribed!</p>
+            <button type="submit" disabled={submitting}>
+              {submitting ? 'Subscribing…' : 'Subscribe'}
+            </button>
+            {status.message && (
+              <p
+                className={status.type === 'error' ? 'footer-v2-newsletter-error' : 'footer-v2-subscribed'}
+                role="status"
+              >
+                {status.message}
+              </p>
             )}
           </form>
         </div>

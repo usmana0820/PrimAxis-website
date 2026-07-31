@@ -34,3 +34,30 @@ export async function sendContactEmail(data) {
 
   return true
 }
+
+export async function sendNewsletterEmail(email) {
+  if (!ACCESS_KEY) {
+    throw new Error('Email notifications are not configured.')
+  }
+
+  const response = await fetch('https://api.web3forms.com/submit', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+    body: JSON.stringify({
+      access_key: ACCESS_KEY,
+      subject: 'New newsletter subscription',
+      from_name: 'PrimeAxis Website',
+      email,
+      message: `A visitor subscribed to the newsletter.\n\nEmail: ${email}\nSource: Footer`,
+      replyto: email,
+      to: CONTACT_EMAIL,
+    }),
+  })
+
+  const result = await response.json()
+  if (!response.ok || !result.success) {
+    throw new Error(result.message || 'Could not send newsletter notification.')
+  }
+
+  return true
+}

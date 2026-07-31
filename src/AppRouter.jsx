@@ -21,6 +21,7 @@ import AdminDashboard from './pages/admin/AdminDashboard.jsx'
 import AdminProjects from './pages/admin/AdminProjects.jsx'
 import AdminProjectForm from './pages/admin/AdminProjectForm.jsx'
 import AdminMessages from './pages/admin/AdminMessages.jsx'
+import AdminSubscribers from './pages/admin/AdminSubscribers.jsx'
 import AdminPortfolio from './pages/admin/AdminPortfolio.jsx'
 import AdminCaseStudies from './pages/admin/AdminCaseStudies.jsx'
 import AdminBlog from './pages/admin/AdminBlog.jsx'
@@ -66,6 +67,7 @@ export default function AppRouter() {
               <Route path="case-studies" element={<AdminCaseStudies />} />
               <Route path="blog" element={<AdminBlog />} />
               <Route path="messages" element={<AdminMessages />} />
+              <Route path="subscribers" element={<AdminSubscribers />} />
               <Route path="settings" element={<AdminSettings />} />
             </Route>
           </Routes>

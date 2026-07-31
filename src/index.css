@@ -9167,6 +9167,41 @@ main .section-divider + section.page-section {
   color: #334155;
 }
 
+.admin-subscriber-purpose {
+  margin-bottom: 1.25rem;
+  padding: 1rem 1.125rem;
+  border-radius: 0.875rem;
+  border: 1px solid rgba(53, 92, 125, 0.12);
+  background: rgba(53, 92, 125, 0.04);
+}
+
+.admin-subscriber-purpose h3 {
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 0.5rem;
+}
+
+.admin-subscriber-purpose p {
+  font-size: 0.875rem;
+  line-height: 1.65;
+  color: #475569;
+  margin-bottom: 0.75rem;
+}
+
+.admin-subscriber-purpose ul {
+  margin: 0;
+  padding-left: 1.1rem;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.admin-subscriber-purpose li {
+  font-size: 0.8125rem;
+  line-height: 1.55;
+  color: #64748b;
+}
+
 @media (max-width: 960px) {
   .admin-messages-layout {
     grid-template-columns: 1fr;
@@ -10438,6 +10473,20 @@ main .section-divider + section.page-section {
   font-size: 0.8125rem;
   color: #4ade80;
   margin-top: 0.25rem;
+}
+
+.footer-v2-newsletter-error {
+  width: 100%;
+  font-size: 0.8125rem;
+  color: #f87171;
+  margin-top: 0.25rem;
+}
+
+.footer-v2-newsletter-form button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
 }
 
 .footer-v2-bottom {

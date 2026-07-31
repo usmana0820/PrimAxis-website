@@ -9,11 +9,6 @@ service cloud.firestore {
         && get(/databases/$(database)/documents/admins/$(request.auth.uid)).data.active == true;
     }
 
-    function ownsProject() {
-      return resource.data.createdBy == request.auth.uid;
-    }
-
-    // Admin profiles — sign-up creates own doc; developer activates in Console
     match /admins/{uid} {
       allow read: if request.auth != null && request.auth.uid == uid;
       allow create: if request.auth != null && request.auth.uid == uid;
@@ -21,28 +16,23 @@ service cloud.firestore {
     }
 
     match /projects/{projectId} {
-      allow read: if resource.data.status == 'published'
-        || (isAdmin() && ownsProject());
-      allow create: if isAdmin()
-        && request.resource.data.createdBy == request.auth.uid;
-      allow update: if isAdmin()
-        && ownsProject()
-        && request.resource.data.createdBy == resource.data.createdBy;
-      allow delete: if isAdmin() && ownsProject();
+      allow read: if resource.data.status == 'published' || isAdmin();
+      allow create, update: if isAdmin();
+      allow delete: if isAdmin()
+        && get(/databases/$(database)/documents/admins/$(request.auth.uid)).data.role == 'developer';
     }
 
     match /inquiries/{inquiryId} {
-      allow create: if request.resource.data.name is string
-        && request.resource.data.name.size() >= 1
-        && request.resource.data.name.size() <= 120
-        && request.resource.data.email is string
+      allow create: if true;
+      allow read, update, delete: if isAdmin();
+    }
+
+    match /newsletter_subscribers/{subscriberId} {
+      allow create: if request.resource.data.email is string
         && request.resource.data.email.size() >= 5
         && request.resource.data.email.size() <= 254
-        && request.resource.data.message is string
-        && request.resource.data.message.size() >= 5
-        && request.resource.data.message.size() <= 5000
-        && request.resource.data.status == 'new'
-        && request.resource.data.source == 'website';
+        && request.resource.data.source == 'footer'
+        && request.resource.data.status == 'active';
       allow read, update, delete: if isAdmin();
     }
   }
