@@ -19,7 +19,6 @@ export default function AdminSubscribers() {
   const [selectedId, setSelectedId] = useState(null)
   const [updatingId, setUpdatingId] = useState(null)
   const [actionError, setActionError] = useState('')
-  const [copied, setCopied] = useState(false)
 
   const selected = useMemo(
     () => activeSubscribers.find((item) => item.id === selectedId) || null,
@@ -31,7 +30,6 @@ export default function AdminSubscribers() {
   const handleSelect = (item) => {
     setSelectedId(item.id)
     setActionError('')
-    setCopied(false)
   }
 
   const handleMarkContacted = async (id) => {
@@ -59,12 +57,10 @@ export default function AdminSubscribers() {
     }
   }
 
-  const handleCopyEmail = async (email) => {
-    try {
-      await navigator.clipboard.writeText(email)
-      setCopied(true)
-    } catch {
-      setActionError('Could not copy email to clipboard.')
+  const handleGmailContact = (subscriber) => {
+    window.open(buildNewsletterGmailUrl(subscriber), '_blank', 'noopener,noreferrer')
+    if (subscriber.status === 'active') {
+      handleMarkContacted(subscriber.id)
     }
   }
 
@@ -137,34 +133,13 @@ export default function AdminSubscribers() {
                     <p>{getSubscriberStatusLabel(selected.status)}</p>
                   </div>
                   <div className="admin-message-detail-actions">
-                    <a
-                      href={buildNewsletterGmailUrl(selected)}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="admin-btn admin-btn-primary admin-btn-gmail"
-                    >
-                      Contact in Gmail
-                    </a>
-                    <a href={`mailto:${selected.email}`} className="admin-btn admin-btn-outline">
-                      Email app
-                    </a>
                     <button
                       type="button"
-                      className="admin-btn admin-btn-outline"
-                      onClick={() => handleCopyEmail(selected.email)}
+                      className="admin-btn admin-btn-primary admin-btn-gmail"
+                      onClick={() => handleGmailContact(selected)}
                     >
-                      {copied ? 'Copied' : 'Copy email'}
+                      Contact in Gmail
                     </button>
-                    {selected.status === 'active' && (
-                      <button
-                        type="button"
-                        className="admin-btn admin-btn-outline"
-                        disabled={updatingId === selected.id}
-                        onClick={() => handleMarkContacted(selected.id)}
-                      >
-                        Mark contacted
-                      </button>
-                    )}
                     {selected.status !== 'archived' && (
                       <button
                         type="button"

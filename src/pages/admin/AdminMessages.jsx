@@ -127,10 +127,7 @@ export default function AdminMessages() {
                       rel="noopener noreferrer"
                       className="admin-btn admin-btn-primary admin-btn-gmail"
                     >
-                      Reply in Gmail
-                    </a>
-                    <a href={`mailto:${selected.email}`} className="admin-btn admin-btn-outline">
-                      Email app
+                      Contact in Gmail
                     </a>
                     {selected.status !== 'archived' && (
                       <button
